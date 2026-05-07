@@ -1,0 +1,23 @@
+# Framework principal
+Django==5.1.4
+
+# API REST
+djangorestframework==3.15.2
+
+# Autenticación JWT
+djangorestframework-simplejwt==5.3.1
+
+# CORS (para que Vue pueda hablar con el backend)
+django-cors-headers==4.6.0
+
+# Filtros en la API
+django-filter==24.3
+
+# PostgreSQL
+psycopg2-binary==2.9.10
+
+# Imágenes de portada
+Pillow==11.1.0
+
+# Variables de entorno (.env)
+python-dotenv==1.0.1
