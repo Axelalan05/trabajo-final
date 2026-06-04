@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',
     'apps.users',
+    'rest_framework_simplejwt.token_blacklist'
 ]
 
 MIDDLEWARE = [

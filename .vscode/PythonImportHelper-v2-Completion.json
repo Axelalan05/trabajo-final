@@ -144,6 +144,30 @@
         "documentation": {}
     },
     {
+        "label": "IsAuthenticated",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "RefreshToken",
+        "importPath": "rest_framework_simplejwt.tokens",
+        "description": "rest_framework_simplejwt.tokens",
+        "isExtraImport": true,
+        "detail": "rest_framework_simplejwt.tokens",
+        "documentation": {}
+    },
+    {
+        "label": "APIView",
+        "importPath": "rest_framework.views",
+        "description": "rest_framework.views",
+        "isExtraImport": true,
+        "detail": "rest_framework.views",
+        "documentation": {}
+    },
+    {
         "label": "RegisterSerializer",
         "importPath": "apps.users.serializers",
         "description": "apps.users.serializers",
@@ -241,7 +265,7 @@
         "kind": 5,
         "importPath": "backend.apps.users.urls",
         "description": "backend.apps.users.urls",
-        "peekOfCode": "urlpatterns = [\n    path('register/', views.RegisterView.as_view()),\n    path('login/', TokenObtainPairView.as_view()),\n    path('token/refresh/', TokenRefreshView.as_view()),\n]",
+        "peekOfCode": "urlpatterns = [\n    path('register/', views.RegisterView.as_view()),\n    path('login/', TokenObtainPairView.as_view()),\n    path('token/refresh/', TokenRefreshView.as_view()),\n    path('logout/', views.LogoutView.as_view()),\n]",
         "detail": "backend.apps.users.urls",
         "documentation": {}
     },
@@ -250,7 +274,16 @@
         "kind": 6,
         "importPath": "backend.apps.users.views",
         "description": "backend.apps.users.views",
-        "peekOfCode": "class RegisterView(generics.CreateAPIView):\n    serializer_class = RegisterSerializer\n    permission_classes = [AllowAny]\n    def create(self, request, *args, **kwargs):\n        serializer = RegisterSerializer(data=request.data)\n        if serializer.is_valid():\n            user = serializer.save()\n            return Response(UserSerializer(user).data, status=201)\n        return Response(serializer.errors, status=400)",
+        "peekOfCode": "class RegisterView(generics.CreateAPIView):\n    serializer_class = RegisterSerializer\n    permission_classes = [AllowAny]\n    def create(self, request, *args, **kwargs):\n        serializer = RegisterSerializer(data=request.data)\n        if serializer.is_valid():\n            user = serializer.save()\n            return Response(UserSerializer(user).data, status=201)\n        return Response(serializer.errors, status=400)\nclass LogoutView(APIView):",
+        "detail": "backend.apps.users.views",
+        "documentation": {}
+    },
+    {
+        "label": "LogoutView",
+        "kind": 6,
+        "importPath": "backend.apps.users.views",
+        "description": "backend.apps.users.views",
+        "peekOfCode": "class LogoutView(APIView):\n    permission_classes = [IsAuthenticated]\n    def post(self, request):\n        try:\n            refresh_token = request.data['refresh']\n            token = RefreshToken(refresh_token)\n            token.blacklist()\n            return Response(status=204)\n        except Exception:\n            return Response(status=400)",
         "detail": "backend.apps.users.views",
         "documentation": {}
     },
