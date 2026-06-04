@@ -1,11 +1,13 @@
 services:
   db:
-    image: postgres:16
+    image: postgres:16-bullseye  # Esta sí tiene tzdata completo
     container_name: gamevault_db
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+      TZ: America/Buenos_Aires
+      PGTZ: America/Buenos_Aires
     ports:
       - "5432:5432"
     volumes:
