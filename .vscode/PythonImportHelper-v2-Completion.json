@@ -112,6 +112,22 @@
         "documentation": {}
     },
     {
+        "label": "TokenObtainPairView",
+        "importPath": "rest_framework_simplejwt.views",
+        "description": "rest_framework_simplejwt.views",
+        "isExtraImport": true,
+        "detail": "rest_framework_simplejwt.views",
+        "documentation": {}
+    },
+    {
+        "label": "TokenRefreshView",
+        "importPath": "rest_framework_simplejwt.views",
+        "description": "rest_framework_simplejwt.views",
+        "isExtraImport": true,
+        "detail": "rest_framework_simplejwt.views",
+        "documentation": {}
+    },
+    {
         "label": "Response",
         "importPath": "rest_framework.response",
         "description": "rest_framework.response",
@@ -225,7 +241,7 @@
         "kind": 5,
         "importPath": "backend.apps.users.urls",
         "description": "backend.apps.users.urls",
-        "peekOfCode": "urlpatterns = [\n    path('register/', views.RegisterView.as_view()),\n]",
+        "peekOfCode": "urlpatterns = [\n    path('register/', views.RegisterView.as_view()),\n    path('login/', TokenObtainPairView.as_view()),\n    path('token/refresh/', TokenRefreshView.as_view()),\n]",
         "detail": "backend.apps.users.urls",
         "documentation": {}
     },
