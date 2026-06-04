@@ -1,9 +1,8 @@
 from django.db import models
 
-
-class User(models.Model):
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    username = models.CharField(max_length=30)
-    password = models.CharField(max_length=8)
-    email = models.CharField(max_length=30)
+# Usamos el User built-in de Django (django.contrib.auth.models.User).
+# Sus campos son: id, username, email, password, first_name, last_name,
+#                 is_active, is_staff, date_joined, last_login.
+#
+# Si en el futuro necesitás campos extra (avatar, bio, etc.), el patrón
+# recomendado es agregar un modelo Profile con OneToOneField(User, ...).

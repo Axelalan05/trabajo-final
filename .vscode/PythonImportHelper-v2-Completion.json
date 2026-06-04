@@ -1,29 +1,5 @@
 [
     {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
         "label": "admin",
         "importPath": "django.contrib",
         "description": "django.contrib",
@@ -45,6 +21,54 @@
         "description": "django.apps",
         "isExtraImport": true,
         "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "validate_password",
+        "importPath": "django.contrib.auth.password_validation",
+        "description": "django.contrib.auth.password_validation",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.password_validation",
+        "documentation": {}
+    },
+    {
+        "label": "ValidationError",
+        "importPath": "django.core.exceptions",
+        "description": "django.core.exceptions",
+        "isExtraImport": true,
+        "detail": "django.core.exceptions",
+        "documentation": {}
+    },
+    {
+        "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "generics",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
         "documentation": {}
     },
     {
@@ -80,11 +104,11 @@
         "documentation": {}
     },
     {
-        "label": "generics",
-        "importPath": "rest_framework",
-        "description": "rest_framework",
+        "label": "RegisterView",
+        "importPath": "apps.users.views",
+        "description": "apps.users.views",
         "isExtraImport": true,
-        "detail": "rest_framework",
+        "detail": "apps.users.views",
         "documentation": {}
     },
     {
@@ -101,6 +125,22 @@
         "description": "rest_framework.permissions",
         "isExtraImport": true,
         "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "RegisterSerializer",
+        "importPath": "apps.users.serializers",
+        "description": "apps.users.serializers",
+        "isExtraImport": true,
+        "detail": "apps.users.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "UserSerializer",
+        "importPath": "apps.users.serializers",
+        "description": "apps.users.serializers",
+        "isExtraImport": true,
+        "detail": "apps.users.serializers",
         "documentation": {}
     },
     {
@@ -154,15 +194,6 @@
         "documentation": {}
     },
     {
-        "label": "Migration",
-        "kind": 6,
-        "importPath": "backend.apps.users.migrations.0001_initial",
-        "description": "backend.apps.users.migrations.0001_initial",
-        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='User',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),\n                ('first_name', models.CharField(max_length=30)),",
-        "detail": "backend.apps.users.migrations.0001_initial",
-        "documentation": {}
-    },
-    {
         "label": "UsersConfig",
         "kind": 6,
         "importPath": "backend.apps.users.apps",
@@ -172,12 +203,21 @@
         "documentation": {}
     },
     {
-        "label": "User",
+        "label": "RegisterSerializer",
         "kind": 6,
-        "importPath": "backend.apps.users.models",
-        "description": "backend.apps.users.models",
-        "peekOfCode": "class User(models.Model):\n    first_name = models.CharField(max_length=30)\n    last_name = models.CharField(max_length=30)\n    username = models.CharField(max_length=30)\n    password = models.CharField(max_length=8)\n    email = models.CharField(max_length=30)",
-        "detail": "backend.apps.users.models",
+        "importPath": "backend.apps.users.serializers",
+        "description": "backend.apps.users.serializers",
+        "peekOfCode": "class RegisterSerializer(serializers.ModelSerializer):\n    \"\"\"\n    Serializer para el registro de nuevos usuarios.\n    Puntos clave:\n    - password y password_confirm son write_only: nunca aparecen en las respuestas.\n    - validate_<field>() valida un campo individual antes de validate().\n    - validate() valida relaciones entre campos (aquí: que las passwords coincidan).\n    - create() llama a create_user() que hashea la password correctamente.\n      Nunca guardar la password en texto plano con User(password=...).\n    \"\"\"",
+        "detail": "backend.apps.users.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "UserSerializer",
+        "kind": 6,
+        "importPath": "backend.apps.users.serializers",
+        "description": "backend.apps.users.serializers",
+        "peekOfCode": "class UserSerializer(serializers.ModelSerializer):\n    \"\"\"Serializer de solo lectura para exponer datos del usuario autenticado.\"\"\"\n    class Meta:\n        model = User\n        fields = ('id', 'username', 'email', 'date_joined')\n        read_only_fields = ('id', 'date_joined')",
+        "detail": "backend.apps.users.serializers",
         "documentation": {}
     },
     {
@@ -185,7 +225,7 @@
         "kind": 5,
         "importPath": "backend.apps.users.urls",
         "description": "backend.apps.users.urls",
-        "peekOfCode": "urlpatterns = [\n    path('create/', views.RegisterView.as_view()),\n]",
+        "peekOfCode": "urlpatterns = [\n    path('register/', views.RegisterView.as_view()),\n]",
         "detail": "backend.apps.users.urls",
         "documentation": {}
     },
@@ -194,7 +234,7 @@
         "kind": 6,
         "importPath": "backend.apps.users.views",
         "description": "backend.apps.users.views",
-        "peekOfCode": "class RegisterView(generics.CreateAPIView):\n    permission_classes = [AllowAny]\n    def create(self, request, *args, **kwargs):\n        print(request.data)\n        return Response({'message': 'ok'})",
+        "peekOfCode": "class RegisterView(generics.CreateAPIView):\n    serializer_class = RegisterSerializer\n    permission_classes = [AllowAny]\n    def create(self, request, *args, **kwargs):\n        serializer = RegisterSerializer(data=request.data)\n        if serializer.is_valid():\n            user = serializer.save()\n            return Response(UserSerializer(user).data, status=201)\n        return Response(serializer.errors, status=400)",
         "detail": "backend.apps.users.views",
         "documentation": {}
     },
@@ -401,7 +441,7 @@
         "kind": 5,
         "importPath": "backend.config.urls",
         "description": "backend.config.urls",
-        "peekOfCode": "urlpatterns = [\n    path('users/', include('apps.users.urls')),\n]",
+        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('api/auth/', include('apps.users.urls')),\n]",
         "detail": "backend.config.urls",
         "documentation": {}
     },
