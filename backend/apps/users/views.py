@@ -5,6 +5,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from apps.users.serializers import RegisterSerializer, UserSerializer
+from core.response import ApiResponse
 
 
 class RegisterView(generics.CreateAPIView):
@@ -15,8 +16,16 @@ class RegisterView(generics.CreateAPIView):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            return Response(UserSerializer(user).data, status=201)
-        return Response(serializer.errors, status=400)
+            return ApiResponse.success(
+                data=UserSerializer(user).data,
+                status=201
+            )
+        return ApiResponse.error(
+            code="validation_error",
+            message="Invalidad data",
+            details=serializer.erros,
+            status=400
+        )
 
 
 class LogoutView(APIView):
@@ -27,6 +36,10 @@ class LogoutView(APIView):
             refresh_token = request.data['refresh']
             token = RefreshToken(refresh_token)
             token.blacklist()
-            return Response(status=204)
+            return ApiResponse.success(status=204)
         except Exception:
-            return Response(status=400)
+            return ApiResponse.error(
+                code='invalid_token',
+                message='Invalid or expired token',
+                status=400
+            )
