@@ -173,3 +173,5 @@ Es un proyecto bien completo pero realista. Tiene:
 - Frontend moderno
 - Base de datos
 - Docker
+- Postman
+- JWT
