@@ -17,6 +17,30 @@
         "documentation": {}
     },
     {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
         "label": "migrations",
         "importPath": "django.db",
         "description": "django.db",
@@ -33,7 +57,7 @@
         "documentation": {}
     },
     {
-        "label": "migrations",
+        "label": "models",
         "importPath": "django.db",
         "description": "django.db",
         "isExtraImport": true,
@@ -41,7 +65,7 @@
         "documentation": {}
     },
     {
-        "label": "models",
+        "label": "migrations",
         "importPath": "django.db",
         "description": "django.db",
         "isExtraImport": true,
@@ -102,6 +126,14 @@
         "description": "django.apps",
         "isExtraImport": true,
         "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
         "documentation": {}
     },
     {
@@ -345,6 +377,22 @@
         "documentation": {}
     },
     {
+        "label": "Profile",
+        "importPath": "apps.users.models",
+        "description": "apps.users.models",
+        "isExtraImport": true,
+        "detail": "apps.users.models",
+        "documentation": {}
+    },
+    {
+        "label": "Profile",
+        "importPath": "apps.users.models",
+        "description": "apps.users.models",
+        "isExtraImport": true,
+        "detail": "apps.users.models",
+        "documentation": {}
+    },
+    {
         "label": "RegisterView",
         "importPath": "apps.users.views",
         "description": "apps.users.views",
@@ -418,6 +466,14 @@
     },
     {
         "label": "UserSerializer",
+        "importPath": "apps.users.serializers",
+        "description": "apps.users.serializers",
+        "isExtraImport": true,
+        "detail": "apps.users.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "ProfileSerializer",
         "importPath": "apps.users.serializers",
         "description": "apps.users.serializers",
         "isExtraImport": true,
@@ -628,12 +684,30 @@
         "documentation": {}
     },
     {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.apps.users.migrations.0001_initial",
+        "description": "backend.apps.users.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n        migrations.swappable_dependency(settings.AUTH_USER_MODEL),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='Profile',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),",
+        "detail": "backend.apps.users.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
         "label": "UsersConfig",
         "kind": 6,
         "importPath": "backend.apps.users.apps",
         "description": "backend.apps.users.apps",
         "peekOfCode": "class UsersConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'apps.users'",
         "detail": "backend.apps.users.apps",
+        "documentation": {}
+    },
+    {
+        "label": "Profile",
+        "kind": 6,
+        "importPath": "backend.apps.users.models",
+        "description": "backend.apps.users.models",
+        "peekOfCode": "class Profile(models.Model):\n    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')\n    bio = models.TextField(blank=True)\n    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)\n    def __str__(self):\n        return f'Perfil de {self.user.username}'",
+        "detail": "backend.apps.users.models",
         "documentation": {}
     },
     {
@@ -650,7 +724,16 @@
         "kind": 6,
         "importPath": "backend.apps.users.serializers",
         "description": "backend.apps.users.serializers",
-        "peekOfCode": "class UserSerializer(serializers.ModelSerializer):\n    \"\"\"Serializer de solo lectura para exponer datos del usuario autenticado.\"\"\"\n    class Meta:\n        model = User\n        fields = ('id', 'username', 'email', 'date_joined')\n        read_only_fields = ('id', 'date_joined')",
+        "peekOfCode": "class UserSerializer(serializers.ModelSerializer):\n    \"\"\"Serializer de solo lectura para exponer datos del usuario autenticado.\"\"\"\n    class Meta:\n        model = User\n        fields = ('id', 'username', 'email', 'date_joined')\n        read_only_fields = ('id', 'date_joined')\nclass ProfileSerializer(serializers.ModelSerializer):\n    username = serializers.CharField(source='user.username', read_only=True)\n    email = serializers.CharField(source='user.email', read_only=True)\n    class Meta:",
+        "detail": "backend.apps.users.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "ProfileSerializer",
+        "kind": 6,
+        "importPath": "backend.apps.users.serializers",
+        "description": "backend.apps.users.serializers",
+        "peekOfCode": "class ProfileSerializer(serializers.ModelSerializer):\n    username = serializers.CharField(source='user.username', read_only=True)\n    email = serializers.CharField(source='user.email', read_only=True)\n    class Meta:\n        model = Profile\n        fields = ('username', 'email', 'bio', 'avatar')",
         "detail": "backend.apps.users.serializers",
         "documentation": {}
     },
@@ -659,7 +742,7 @@
         "kind": 5,
         "importPath": "backend.apps.users.urls",
         "description": "backend.apps.users.urls",
-        "peekOfCode": "urlpatterns = [\n    path('register/', views.RegisterView.as_view()),\n    path('login/', TokenObtainPairView.as_view()),\n    path('token/refresh/', TokenRefreshView.as_view()),\n    path('logout/', views.LogoutView.as_view()),\n]",
+        "peekOfCode": "urlpatterns = [\n    path('register/', views.RegisterView.as_view()),\n    path('login/', TokenObtainPairView.as_view()),\n    path('token/refresh/', TokenRefreshView.as_view()),\n    path('logout/', views.LogoutView.as_view()),\n    path('profile/', views.ProfileView.as_view()),\n]",
         "detail": "backend.apps.users.urls",
         "documentation": {}
     },
@@ -678,6 +761,15 @@
         "importPath": "backend.apps.users.views",
         "description": "backend.apps.users.views",
         "peekOfCode": "class LogoutView(APIView):\n    permission_classes = [IsAuthenticated]\n    def post(self, request):\n        try:\n            refresh_token = request.data['refresh']\n            token = RefreshToken(refresh_token)\n            token.blacklist()\n            return ApiResponse.success(status=204)\n        except Exception:\n            return ApiResponse.error(",
+        "detail": "backend.apps.users.views",
+        "documentation": {}
+    },
+    {
+        "label": "ProfileView",
+        "kind": 6,
+        "importPath": "backend.apps.users.views",
+        "description": "backend.apps.users.views",
+        "peekOfCode": "class ProfileView(generics.RetrieveUpdateAPIView):\n    serializer_class = ProfileSerializer\n    permission_classes = [IsAuthenticated]\n    def get_object(self):\n        profile, created = Profile.objects.get_or_create(user=self.request.user)\n        return profile\n    def retrieve(self, request, *args, **kwargs):\n        serializer = self.get_serializer(self.get_object())\n        return ApiResponse.success(data=serializer.data)\n    def update(self, request, *args, **kwargs):",
         "detail": "backend.apps.users.views",
         "documentation": {}
     },

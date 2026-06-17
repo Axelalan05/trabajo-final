@@ -4,7 +4,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from apps.users.serializers import RegisterSerializer, UserSerializer
+from apps.users.serializers import RegisterSerializer, UserSerializer, ProfileSerializer
+from apps.users.models import Profile
 from core.response import ApiResponse
 
 
@@ -43,3 +44,28 @@ class LogoutView(APIView):
                 message='Invalid or expired token',
                 status=400
             )
+
+class ProfileView(generics.RetrieveUpdateAPIView):
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_object(self):
+        profile, created = Profile.objects.get_or_create(user=self.request.user)
+        return profile
+    
+    def retrieve(self, request, *args, **kwargs):
+        serializer = self.get_serializer(self.get_object())
+        return ApiResponse.success(data=serializer.data)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        serializer = self.get_serializer(self.get_object(), data=request.data, partial=partial)
+        if serializer.is_valid():
+            serializer.save()
+            return ApiResponse.success(data=serializer.data)
+        return ApiResponse.error(
+            code='validation_error',
+            message='Invalid data',
+            details=serializer.errors,
+            status=400
+        )

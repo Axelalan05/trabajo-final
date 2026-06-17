@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password as dj_validate_password
 from django.core.exceptions import ValidationError as DjangoValidationError
 from rest_framework import serializers
+from apps.users.models import Profile
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -68,3 +69,11 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'email', 'date_joined')
         read_only_fields = ('id', 'date_joined')
+
+class ProfileSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
+    email = serializers.CharField(source='user.email', read_only=True)
+    
+    class Meta:
+        model = Profile
+        fields = ('username', 'email', 'bio', 'avatar')
