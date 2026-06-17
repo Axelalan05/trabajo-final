@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
+from datetime import timedelta
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',
     'apps.users',
+    'apps.juegos',
     'rest_framework_simplejwt.token_blacklist'
 ]
 
@@ -161,3 +163,9 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
 ]
+
+# JWT - Tiempo de expiracion
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+}

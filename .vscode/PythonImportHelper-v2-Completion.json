@@ -1,5 +1,78 @@
 [
     {
+        "label": "django.db.models.deletion",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.db.models.deletion",
+        "description": "django.db.models.deletion",
+        "detail": "django.db.models.deletion",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
         "label": "admin",
         "importPath": "django.contrib",
         "description": "django.contrib",
@@ -24,11 +97,11 @@
         "documentation": {}
     },
     {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
         "isExtraImport": true,
-        "detail": "django.db",
+        "detail": "django.apps",
         "documentation": {}
     },
     {
@@ -40,19 +113,35 @@
         "documentation": {}
     },
     {
-        "label": "validate_password",
-        "importPath": "django.contrib.auth.password_validation",
-        "description": "django.contrib.auth.password_validation",
+        "label": "User",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
         "isExtraImport": true,
-        "detail": "django.contrib.auth.password_validation",
+        "detail": "django.contrib.auth.models",
         "documentation": {}
     },
     {
-        "label": "ValidationError",
-        "importPath": "django.core.exceptions",
-        "description": "django.core.exceptions",
+        "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
         "isExtraImport": true,
-        "detail": "django.core.exceptions",
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "viewsets",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "status",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
         "documentation": {}
     },
     {
@@ -72,11 +161,51 @@
         "documentation": {}
     },
     {
+        "label": "Juego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "Juego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
         "label": "TestCase",
         "importPath": "django.test",
         "description": "django.test",
         "isExtraImport": true,
         "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "include",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
         "documentation": {}
     },
     {
@@ -101,6 +230,86 @@
         "description": "django.urls",
         "isExtraImport": true,
         "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "DefaultRouter",
+        "importPath": "rest_framework.routers",
+        "description": "rest_framework.routers",
+        "isExtraImport": true,
+        "detail": "rest_framework.routers",
+        "documentation": {}
+    },
+    {
+        "label": "views",
+        "importPath": "apps.juegos",
+        "description": "apps.juegos",
+        "isExtraImport": true,
+        "detail": "apps.juegos",
+        "documentation": {}
+    },
+    {
+        "label": "IsAuthenticated",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "AllowAny",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "IsAuthenticated",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "JuegoSerializer",
+        "importPath": "apps.juegos.serializers",
+        "description": "apps.juegos.serializers",
+        "isExtraImport": true,
+        "detail": "apps.juegos.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "ApiResponse",
+        "importPath": "core.response",
+        "description": "core.response",
+        "isExtraImport": true,
+        "detail": "core.response",
+        "documentation": {}
+    },
+    {
+        "label": "ApiResponse",
+        "importPath": "core.response",
+        "description": "core.response",
+        "isExtraImport": true,
+        "detail": "core.response",
+        "documentation": {}
+    },
+    {
+        "label": "validate_password",
+        "importPath": "django.contrib.auth.password_validation",
+        "description": "django.contrib.auth.password_validation",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.password_validation",
+        "documentation": {}
+    },
+    {
+        "label": "ValidationError",
+        "importPath": "django.core.exceptions",
+        "description": "django.core.exceptions",
+        "isExtraImport": true,
+        "detail": "django.core.exceptions",
         "documentation": {}
     },
     {
@@ -144,22 +353,6 @@
         "documentation": {}
     },
     {
-        "label": "AllowAny",
-        "importPath": "rest_framework.permissions",
-        "description": "rest_framework.permissions",
-        "isExtraImport": true,
-        "detail": "rest_framework.permissions",
-        "documentation": {}
-    },
-    {
-        "label": "IsAuthenticated",
-        "importPath": "rest_framework.permissions",
-        "description": "rest_framework.permissions",
-        "isExtraImport": true,
-        "detail": "rest_framework.permissions",
-        "documentation": {}
-    },
-    {
         "label": "RefreshToken",
         "importPath": "rest_framework_simplejwt.tokens",
         "description": "rest_framework_simplejwt.tokens",
@@ -200,14 +393,6 @@
         "documentation": {}
     },
     {
-        "label": "ApiResponse",
-        "importPath": "core.response",
-        "description": "core.response",
-        "isExtraImport": true,
-        "detail": "core.response",
-        "documentation": {}
-    },
-    {
         "label": "os",
         "kind": 6,
         "isExtraImport": true,
@@ -230,6 +415,14 @@
         "description": "pathlib",
         "isExtraImport": true,
         "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
         "documentation": {}
     },
     {
@@ -319,6 +512,78 @@
         "importPath": "sys",
         "description": "sys",
         "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.migrations.0001_initial",
+        "description": "backend.apps.juegos.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n        migrations.swappable_dependency(settings.AUTH_USER_MODEL),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='Juego',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),",
+        "detail": "backend.apps.juegos.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.migrations.0002_juego_estado_juego_puntaje_juego_resenia",
+        "description": "backend.apps.juegos.migrations.0002_juego_estado_juego_puntaje_juego_resenia",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('juegos', '0001_initial'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='juego',\n            name='estado',\n            field=models.CharField(choices=[('jugando', 'Jugando'), ('completado', 'Completado'), ('pendiente', 'Pendiente'), ('abandonado', 'Abandonado')], default='pendiente', max_length=20),\n        ),",
+        "detail": "backend.apps.juegos.migrations.0002_juego_estado_juego_puntaje_juego_resenia",
+        "documentation": {}
+    },
+    {
+        "label": "JuegosConfig",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.apps",
+        "description": "backend.apps.juegos.apps",
+        "peekOfCode": "class JuegosConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'apps.juegos'",
+        "detail": "backend.apps.juegos.apps",
+        "documentation": {}
+    },
+    {
+        "label": "Juego",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.models",
+        "description": "backend.apps.juegos.models",
+        "peekOfCode": "class Juego(models.Model):\n    ESTADOS = [\n        ('jugando', 'Jugando'),\n        ('completado', 'Completado'),\n        ('pendiente', 'Pendiente'),\n        ('abandonado', 'Abandonado'),\n    ]\n    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='juegos')\n    nombre = models.CharField(max_length=100)\n    genero = models.CharField(max_length=50)",
+        "detail": "backend.apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "JuegoSerializer",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.serializers",
+        "description": "backend.apps.juegos.serializers",
+        "peekOfCode": "class JuegoSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Juego\n        fields = ('id', 'nombre', 'genero', 'plataforma', 'imagen', 'descripcion', 'anio', 'estado', 'puntaje', 'resenia', 'created_at')\n        read_only_fields = ('id', 'created_at')",
+        "detail": "backend.apps.juegos.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "backend.apps.juegos.urls",
+        "description": "backend.apps.juegos.urls",
+        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'', views.JuegoViewSet, basename='juego')\nurlpatterns = [path('', include(router.urls))]",
+        "detail": "backend.apps.juegos.urls",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "backend.apps.juegos.urls",
+        "description": "backend.apps.juegos.urls",
+        "peekOfCode": "urlpatterns = [path('', include(router.urls))]",
+        "detail": "backend.apps.juegos.urls",
+        "documentation": {}
+    },
+    {
+        "label": "JuegoViewSet",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.views",
+        "description": "backend.apps.juegos.views",
+        "peekOfCode": "class JuegoViewSet(viewsets.ModelViewSet):\n    permission_classes = [IsAuthenticated]\n    serializer_class = JuegoSerializer\n    def get_queryset(self):\n        return Juego.objects.filter(user=self.request.user)\n    def perform_create(self, serializer):\n        serializer.save(user=self.request.user)\n    def list(self, request, *args, **kwargs):\n        serializer = self.get_serializer(self.get_queryset(), many=True)\n        return ApiResponse.success(data=serializer.data)",
+        "detail": "backend.apps.juegos.views",
         "documentation": {}
     },
     {
@@ -569,7 +834,16 @@
         "kind": 5,
         "importPath": "backend.config.settings",
         "description": "backend.config.settings",
-        "peekOfCode": "CORS_ALLOWED_ORIGINS = [\n    'http://localhost:5173',\n    'http://127.0.0.1:5173',\n]",
+        "peekOfCode": "CORS_ALLOWED_ORIGINS = [\n    'http://localhost:5173',\n    'http://127.0.0.1:5173',\n]\n# JWT - Tiempo de expiracion\nSIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),\n    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),\n}",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SIMPLE_JWT",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "SIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),\n    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),\n}",
         "detail": "backend.config.settings",
         "documentation": {}
     },
@@ -578,7 +852,7 @@
         "kind": 5,
         "importPath": "backend.config.urls",
         "description": "backend.config.urls",
-        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('api/auth/', include('apps.users.urls')),\n]",
+        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('api/auth/', include('apps.users.urls')),\n    path('api/juegos/', include('apps.juegos.urls'))\n]",
         "detail": "backend.config.urls",
         "documentation": {}
     },
