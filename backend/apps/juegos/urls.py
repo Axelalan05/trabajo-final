@@ -5,4 +5,7 @@ from apps.juegos import views
 router = DefaultRouter()
 router.register(r'', views.JuegoViewSet, basename='juego')
 
-urlpatterns = [path('', include(router.urls))]
+urlpatterns = [
+    path('publico/', views.JuegoPublicoListView.as_view()),
+    path('', include(router.urls)),
+]

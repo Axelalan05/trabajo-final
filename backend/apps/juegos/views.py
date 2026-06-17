@@ -1,5 +1,5 @@
-from rest_framework import viewsets, status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets, status, generics
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from apps.juegos.models import Juego
 from apps.juegos.serializers import JuegoSerializer
 from core.response import ApiResponse
@@ -51,3 +51,8 @@ class JuegoViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         self.perform_destroy(self.get_object())
         return ApiResponse.success(status=204)
+
+class JuegoPublicoListView(generics.ListAPIView):
+    queryset = Juego.objects.all().order_by('-created_at')
+    serializer_class = JuegoSerializer
+    permission_classes = [AllowAny]

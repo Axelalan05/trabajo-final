@@ -145,6 +145,14 @@
         "documentation": {}
     },
     {
+        "label": "generics",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
         "label": "serializers",
         "importPath": "rest_framework",
         "description": "rest_framework",
@@ -250,6 +258,14 @@
     },
     {
         "label": "IsAuthenticated",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "AllowAny",
         "importPath": "rest_framework.permissions",
         "description": "rest_framework.permissions",
         "isExtraImport": true,
@@ -564,7 +580,7 @@
         "kind": 5,
         "importPath": "backend.apps.juegos.urls",
         "description": "backend.apps.juegos.urls",
-        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'', views.JuegoViewSet, basename='juego')\nurlpatterns = [path('', include(router.urls))]",
+        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'', views.JuegoViewSet, basename='juego')\nurlpatterns = [\n    path('publico/', views.JuegoPublicoListView.as_view()),\n    path('', include(router.urls)),\n]",
         "detail": "backend.apps.juegos.urls",
         "documentation": {}
     },
@@ -573,7 +589,7 @@
         "kind": 5,
         "importPath": "backend.apps.juegos.urls",
         "description": "backend.apps.juegos.urls",
-        "peekOfCode": "urlpatterns = [path('', include(router.urls))]",
+        "peekOfCode": "urlpatterns = [\n    path('publico/', views.JuegoPublicoListView.as_view()),\n    path('', include(router.urls)),\n]",
         "detail": "backend.apps.juegos.urls",
         "documentation": {}
     },
@@ -583,6 +599,15 @@
         "importPath": "backend.apps.juegos.views",
         "description": "backend.apps.juegos.views",
         "peekOfCode": "class JuegoViewSet(viewsets.ModelViewSet):\n    permission_classes = [IsAuthenticated]\n    serializer_class = JuegoSerializer\n    def get_queryset(self):\n        return Juego.objects.filter(user=self.request.user)\n    def perform_create(self, serializer):\n        serializer.save(user=self.request.user)\n    def list(self, request, *args, **kwargs):\n        serializer = self.get_serializer(self.get_queryset(), many=True)\n        return ApiResponse.success(data=serializer.data)",
+        "detail": "backend.apps.juegos.views",
+        "documentation": {}
+    },
+    {
+        "label": "JuegoPublicoListView",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.views",
+        "description": "backend.apps.juegos.views",
+        "peekOfCode": "class JuegoPublicoListView(generics.ListAPIView):\n    queryset = Juego.objects.all().order_by('-created_at')\n    serializer_class = JuegoSerializer\n    permission_classes = [AllowAny]",
         "detail": "backend.apps.juegos.views",
         "documentation": {}
     },
