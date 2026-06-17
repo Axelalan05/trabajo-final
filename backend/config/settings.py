@@ -155,6 +155,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',  # para el endpoint de registro
     ],
     'EXCEPTION_HANDLER': 'core.exceptions.custom_exception_handler',
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
 }
 
 

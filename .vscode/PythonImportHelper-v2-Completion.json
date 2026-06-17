@@ -289,6 +289,14 @@
         "documentation": {}
     },
     {
+        "label": "OrderingFilter",
+        "importPath": "rest_framework.filters",
+        "description": "rest_framework.filters",
+        "isExtraImport": true,
+        "detail": "rest_framework.filters",
+        "documentation": {}
+    },
+    {
         "label": "JuegoSerializer",
         "importPath": "apps.juegos.serializers",
         "description": "apps.juegos.serializers",
@@ -310,6 +318,14 @@
         "description": "core.response",
         "isExtraImport": true,
         "detail": "core.response",
+        "documentation": {}
+    },
+    {
+        "label": "DjangoFilterBackend",
+        "importPath": "django_filters.rest_framework",
+        "description": "django_filters.rest_framework",
+        "isExtraImport": true,
+        "detail": "django_filters.rest_framework",
         "documentation": {}
     },
     {
@@ -607,7 +623,7 @@
         "kind": 6,
         "importPath": "backend.apps.juegos.views",
         "description": "backend.apps.juegos.views",
-        "peekOfCode": "class JuegoPublicoListView(generics.ListAPIView):\n    queryset = Juego.objects.all().order_by('-created_at')\n    serializer_class = JuegoSerializer\n    permission_classes = [AllowAny]",
+        "peekOfCode": "class JuegoPublicoListView(generics.ListAPIView):\n    queryset = Juego.objects.all().order_by('-created_at')\n    serializer_class = JuegoSerializer\n    permission_classes = [AllowAny]\n    filter_backends = [DjangoFilterBackend, OrderingFilter]\n    filterset_fields = ['genero', 'plataforma', 'estado']\n    ordering_fields = ['puntaje', 'created_at', 'nombre']\n    ordering = ['-created_at']",
         "detail": "backend.apps.juegos.views",
         "documentation": {}
     },
@@ -850,7 +866,7 @@
         "kind": 5,
         "importPath": "backend.config.settings",
         "description": "backend.config.settings",
-        "peekOfCode": "REST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': [\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ],\n    'DEFAULT_PERMISSION_CLASSES': [\n        'rest_framework.permissions.AllowAny',  # para el endpoint de registro\n    ],\n    'EXCEPTION_HANDLER': 'core.exceptions.custom_exception_handler',\n}\n# CORS — permite que Vue en :5173 hable con Django en :8000",
+        "peekOfCode": "REST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': [\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ],\n    'DEFAULT_PERMISSION_CLASSES': [\n        'rest_framework.permissions.AllowAny',  # para el endpoint de registro\n    ],\n    'EXCEPTION_HANDLER': 'core.exceptions.custom_exception_handler',\n    'DEFAULT_FILTER_BACKENDS': [\n        'django_filters.rest_framework.DjangoFilterBackend'",
         "detail": "backend.config.settings",
         "documentation": {}
     },

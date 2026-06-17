@@ -1,8 +1,10 @@
 from rest_framework import viewsets, status, generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.filters import OrderingFilter
 from apps.juegos.models import Juego
 from apps.juegos.serializers import JuegoSerializer
 from core.response import ApiResponse
+from django_filters.rest_framework import DjangoFilterBackend
 
 # Create your views here.
 
@@ -56,3 +58,8 @@ class JuegoPublicoListView(generics.ListAPIView):
     queryset = Juego.objects.all().order_by('-created_at')
     serializer_class = JuegoSerializer
     permission_classes = [AllowAny]
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ['genero', 'plataforma', 'estado']
+    ordering_fields = ['puntaje', 'created_at', 'nombre']
+    ordering = ['-created_at']
+    
