@@ -481,6 +481,14 @@
         "documentation": {}
     },
     {
+        "label": "ProfilePublicoSerializer",
+        "importPath": "apps.users.serializers",
+        "description": "apps.users.serializers",
+        "isExtraImport": true,
+        "detail": "apps.users.serializers",
+        "documentation": {}
+    },
+    {
         "label": "os",
         "kind": 6,
         "isExtraImport": true,
@@ -733,7 +741,16 @@
         "kind": 6,
         "importPath": "backend.apps.users.serializers",
         "description": "backend.apps.users.serializers",
-        "peekOfCode": "class ProfileSerializer(serializers.ModelSerializer):\n    username = serializers.CharField(source='user.username', read_only=True)\n    email = serializers.CharField(source='user.email', read_only=True)\n    class Meta:\n        model = Profile\n        fields = ('username', 'email', 'bio', 'avatar')",
+        "peekOfCode": "class ProfileSerializer(serializers.ModelSerializer):\n    username = serializers.CharField(source='user.username', read_only=True)\n    email = serializers.CharField(source='user.email', read_only=True)\n    class Meta:\n        model = Profile\n        fields = ('username', 'email', 'bio', 'avatar')\nclass ProfilePublicoSerializer(serializers.ModelSerializer):\n    username = serializers.CharField(source='user.username', read_only=True)\n    class Meta:\n        model = Profile",
+        "detail": "backend.apps.users.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "ProfilePublicoSerializer",
+        "kind": 6,
+        "importPath": "backend.apps.users.serializers",
+        "description": "backend.apps.users.serializers",
+        "peekOfCode": "class ProfilePublicoSerializer(serializers.ModelSerializer):\n    username = serializers.CharField(source='user.username', read_only=True)\n    class Meta:\n        model = Profile\n        fields = ('username', 'bio', 'avatar')",
         "detail": "backend.apps.users.serializers",
         "documentation": {}
     },
@@ -742,7 +759,7 @@
         "kind": 5,
         "importPath": "backend.apps.users.urls",
         "description": "backend.apps.users.urls",
-        "peekOfCode": "urlpatterns = [\n    path('register/', views.RegisterView.as_view()),\n    path('login/', TokenObtainPairView.as_view()),\n    path('token/refresh/', TokenRefreshView.as_view()),\n    path('logout/', views.LogoutView.as_view()),\n    path('profile/', views.ProfileView.as_view()),\n]",
+        "peekOfCode": "urlpatterns = [\n    path('register/', views.RegisterView.as_view()),\n    path('login/', TokenObtainPairView.as_view()),\n    path('token/refresh/', TokenRefreshView.as_view()),\n    path('logout/', views.LogoutView.as_view()),\n    path('profile/', views.ProfileView.as_view()),\n    path('users/<str:username>/', views.ProfilePublicoView.as_view()),\n]",
         "detail": "backend.apps.users.urls",
         "documentation": {}
     },
@@ -770,6 +787,15 @@
         "importPath": "backend.apps.users.views",
         "description": "backend.apps.users.views",
         "peekOfCode": "class ProfileView(generics.RetrieveUpdateAPIView):\n    serializer_class = ProfileSerializer\n    permission_classes = [IsAuthenticated]\n    def get_object(self):\n        profile, created = Profile.objects.get_or_create(user=self.request.user)\n        return profile\n    def retrieve(self, request, *args, **kwargs):\n        serializer = self.get_serializer(self.get_object())\n        return ApiResponse.success(data=serializer.data)\n    def update(self, request, *args, **kwargs):",
+        "detail": "backend.apps.users.views",
+        "documentation": {}
+    },
+    {
+        "label": "ProfilePublicoView",
+        "kind": 6,
+        "importPath": "backend.apps.users.views",
+        "description": "backend.apps.users.views",
+        "peekOfCode": "class ProfilePublicoView(generics.RetrieveAPIView):\n    serializer_class = ProfilePublicoSerializer\n    permission_classes = [AllowAny]\n    lookup_field = 'user__username'\n    lookup_url_kwarg = 'username'\n    queryset = Profile.objects.all()\n    def retrieve(self, request, *args, **kwargs):\n        serializer = self.get_serializer(self.get_object())\n        return ApiResponse.success(data=serializer.data)",
         "detail": "backend.apps.users.views",
         "documentation": {}
     },

@@ -69,6 +69,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'email', 'date_joined')
         read_only_fields = ('id', 'date_joined')
+        
 
 class ProfileSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username', read_only=True)
@@ -77,3 +78,11 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ('username', 'email', 'bio', 'avatar')
+        
+
+class ProfilePublicoSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
+
+    class Meta:
+        model = Profile
+        fields = ('username', 'bio', 'avatar')

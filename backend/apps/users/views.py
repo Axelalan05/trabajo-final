@@ -4,7 +4,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from apps.users.serializers import RegisterSerializer, UserSerializer, ProfileSerializer
+from apps.users.serializers import RegisterSerializer, UserSerializer, ProfileSerializer, ProfilePublicoSerializer
 from apps.users.models import Profile
 from core.response import ApiResponse
 
@@ -69,3 +69,14 @@ class ProfileView(generics.RetrieveUpdateAPIView):
             details=serializer.errors,
             status=400
         )
+
+class ProfilePublicoView(generics.RetrieveAPIView):
+    serializer_class = ProfilePublicoSerializer
+    permission_classes = [AllowAny]
+    lookup_field = 'user__username'
+    lookup_url_kwarg = 'username'
+    queryset = Profile.objects.all()
+
+    def retrieve(self, request, *args, **kwargs):
+        serializer = self.get_serializer(self.get_object())
+        return ApiResponse.success(data=serializer.data)
