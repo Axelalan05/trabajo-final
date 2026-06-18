@@ -22,6 +22,7 @@ class Juego(models.Model):
     puntaje = models.IntegerField(null=True, blank=True)
     resenia = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    favoritos = models.ManyToManyField(User, related_name='juegos_favoritos', blank=True)
     
     
     def __str__(self):

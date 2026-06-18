@@ -25,6 +25,30 @@
         "documentation": {}
     },
     {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
         "label": "migrations",
         "importPath": "django.db",
         "description": "django.db",
@@ -393,6 +417,14 @@
         "documentation": {}
     },
     {
+        "label": "action",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
         "label": "JuegoSerializer",
         "importPath": "apps.juegos.serializers",
         "description": "apps.juegos.serializers",
@@ -690,6 +722,15 @@
         "description": "backend.apps.juegos.migrations.0002_juego_estado_juego_puntaje_juego_resenia",
         "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('juegos', '0001_initial'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='juego',\n            name='estado',\n            field=models.CharField(choices=[('jugando', 'Jugando'), ('completado', 'Completado'), ('pendiente', 'Pendiente'), ('abandonado', 'Abandonado')], default='pendiente', max_length=20),\n        ),",
         "detail": "backend.apps.juegos.migrations.0002_juego_estado_juego_puntaje_juego_resenia",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.migrations.0003_juego_favoritos",
+        "description": "backend.apps.juegos.migrations.0003_juego_favoritos",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('juegos', '0002_juego_estado_juego_puntaje_juego_resenia'),\n        migrations.swappable_dependency(settings.AUTH_USER_MODEL),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='juego',\n            name='favoritos',\n            field=models.ManyToManyField(blank=True, related_name='juegos_favoritos', to=settings.AUTH_USER_MODEL),",
+        "detail": "backend.apps.juegos.migrations.0003_juego_favoritos",
         "documentation": {}
     },
     {
