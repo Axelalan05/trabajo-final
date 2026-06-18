@@ -78,6 +78,11 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ('username', 'email', 'bio', 'avatar')
+    
+    def validate_bio(self, value):
+        if len(value) > 500:
+            raise serializers.ValidationError('La bio no puede superar los 500 caracteres.')
+        return value
         
 
 class ProfilePublicoSerializer(serializers.ModelSerializer):

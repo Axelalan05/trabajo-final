@@ -161,6 +161,14 @@
         "documentation": {}
     },
     {
+        "label": "User",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
         "label": "serializers",
         "importPath": "rest_framework",
         "description": "rest_framework",
@@ -202,6 +210,14 @@
     },
     {
         "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "status",
         "importPath": "rest_framework",
         "description": "rest_framework",
         "isExtraImport": true,
@@ -262,6 +278,14 @@
         "description": "django.test",
         "isExtraImport": true,
         "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "APIClient",
+        "importPath": "rest_framework.test",
+        "description": "rest_framework.test",
+        "isExtraImport": true,
+        "detail": "rest_framework.test",
         "documentation": {}
     },
     {
@@ -414,6 +438,14 @@
         "description": "django.core.exceptions",
         "isExtraImport": true,
         "detail": "django.core.exceptions",
+        "documentation": {}
+    },
+    {
+        "label": "Profile",
+        "importPath": "apps.users.models",
+        "description": "apps.users.models",
+        "isExtraImport": true,
+        "detail": "apps.users.models",
         "documentation": {}
     },
     {
@@ -782,7 +814,7 @@
         "kind": 6,
         "importPath": "backend.apps.users.serializers",
         "description": "backend.apps.users.serializers",
-        "peekOfCode": "class ProfileSerializer(serializers.ModelSerializer):\n    username = serializers.CharField(source='user.username', read_only=True)\n    email = serializers.CharField(source='user.email', read_only=True)\n    class Meta:\n        model = Profile\n        fields = ('username', 'email', 'bio', 'avatar')\nclass ProfilePublicoSerializer(serializers.ModelSerializer):\n    username = serializers.CharField(source='user.username', read_only=True)\n    class Meta:\n        model = Profile",
+        "peekOfCode": "class ProfileSerializer(serializers.ModelSerializer):\n    username = serializers.CharField(source='user.username', read_only=True)\n    email = serializers.CharField(source='user.email', read_only=True)\n    class Meta:\n        model = Profile\n        fields = ('username', 'email', 'bio', 'avatar')\n    def validate_bio(self, value):\n        if len(value) > 500:\n            raise serializers.ValidationError('La bio no puede superar los 500 caracteres.')\n        return value",
         "detail": "backend.apps.users.serializers",
         "documentation": {}
     },
@@ -793,6 +825,24 @@
         "description": "backend.apps.users.serializers",
         "peekOfCode": "class ProfilePublicoSerializer(serializers.ModelSerializer):\n    username = serializers.CharField(source='user.username', read_only=True)\n    class Meta:\n        model = Profile\n        fields = ('username', 'bio', 'avatar')",
         "detail": "backend.apps.users.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "RegistroTests",
+        "kind": 6,
+        "importPath": "backend.apps.users.tests",
+        "description": "backend.apps.users.tests",
+        "peekOfCode": "class RegistroTests(TestCase):\n    def setUp(self):\n        self.client = APIClient()\n    def test_registro_exitoso(self):\n        response = self.client.post('/api/auth/register/', {\n            'username': 'nuevouser',\n            'email': 'nuevo@test.com',\n            'password': 'Test1234!',\n            'password_confirm': 'Test1234!'\n        }, format='json')",
+        "detail": "backend.apps.users.tests",
+        "documentation": {}
+    },
+    {
+        "label": "ProfileTests",
+        "kind": 6,
+        "importPath": "backend.apps.users.tests",
+        "description": "backend.apps.users.tests",
+        "peekOfCode": "class ProfileTests(TestCase):\n    def setUp(self):\n        self.client = APIClient()\n        self.user = User.objects.create_user(\n            username='testuser',\n            password='Test1234!',\n            email='test@test.com'\n        )\n        Profile.objects.create(user=self.user)\n        self.client.force_authenticate(user=self.user)",
+        "detail": "backend.apps.users.tests",
         "documentation": {}
     },
     {

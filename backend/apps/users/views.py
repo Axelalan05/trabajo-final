@@ -24,7 +24,7 @@ class RegisterView(generics.CreateAPIView):
         return ApiResponse.error(
             code="validation_error",
             message="Invalidad data",
-            details=serializer.erros,
+            details=serializer.errors,
             status=400
         )
 
