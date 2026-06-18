@@ -273,6 +273,14 @@
         "documentation": {}
     },
     {
+        "label": "Juego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
         "label": "date",
         "importPath": "datetime",
         "description": "datetime",
@@ -454,6 +462,22 @@
         "description": "django_filters.rest_framework",
         "isExtraImport": true,
         "detail": "django_filters.rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "Avg",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Count",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
         "documentation": {}
     },
     {
@@ -766,6 +790,24 @@
         "importPath": "backend.apps.juegos.tests",
         "description": "backend.apps.juegos.tests",
         "peekOfCode": "class JuegoValidacionTests(TestCase):\n    def setUp(self):\n        self.client = APIClient()\n        self.user = User.objects.create_user(\n            username='testuser',\n            password='Test1234!',\n            email='test@test.com'\n        )\n        self.client.force_authenticate(user=self.user)\n    def test_puntaje_fuera_de_rango(self):",
+        "detail": "backend.apps.juegos.tests",
+        "documentation": {}
+    },
+    {
+        "label": "FavoritosTests",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.tests",
+        "description": "backend.apps.juegos.tests",
+        "peekOfCode": "class FavoritosTests(TestCase):\n    def setUp(self):\n        self.client = APIClient()\n        self.user = User.objects.create_user(\n            username='testuser',\n            password='Test1234!',\n            email='test@test.com'\n        )\n        self.client.force_authenticate(user=self.user)\n        self.juego = Juego.objects.create(",
+        "detail": "backend.apps.juegos.tests",
+        "documentation": {}
+    },
+    {
+        "label": "EstadisticasTests",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.tests",
+        "description": "backend.apps.juegos.tests",
+        "peekOfCode": "class EstadisticasTests(TestCase):\n    def setUp(self):\n        self.client = APIClient()\n        self.user = User.objects.create_user(\n            username='testuser',\n            password='Test1234!',\n            email='test@test.com'\n        )\n        self.client.force_authenticate(user=self.user)\n        Juego.objects.create(",
         "detail": "backend.apps.juegos.tests",
         "documentation": {}
     },

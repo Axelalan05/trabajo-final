@@ -6,6 +6,7 @@ from apps.juegos.models import Juego
 from apps.juegos.serializers import JuegoSerializer
 from core.response import ApiResponse
 from django_filters.rest_framework import DjangoFilterBackend
+from django.db.models import Avg, Count
 
 # Create your views here.
 
@@ -65,6 +66,20 @@ class JuegoViewSet(viewsets.ModelViewSet):
         else:
             juego.favoritos.add(user)
             return ApiResponse.success(message='Agregado a favoritos')
+    
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+    def estadisticas(self, request):
+        juegos = Juego.objects.filter(user=request.user)
+        
+        completados = juegos.filter(estado='completado').count()
+        promedio_puntaje = juegos.aggregate(Avg('puntaje'))['puntaje__avg']
+        generos = juegos.values('genero').annotate(total=Count('genero')).order_by('-total')
+        
+        return ApiResponse.success(data={
+            'juegos_completados': completados,
+            'promedio_puntaje': round(promedio_puntaje, 1) if promedio_puntaje else 0,
+            'generos_mas_jugados': list(generos),
+        })
 
 class JuegoPublicoListView(generics.ListAPIView):
     queryset = Juego.objects.all().order_by('-created_at')
