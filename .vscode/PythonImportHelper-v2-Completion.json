@@ -153,7 +153,23 @@
         "documentation": {}
     },
     {
+        "label": "User",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
         "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "status",
         "importPath": "rest_framework",
         "description": "rest_framework",
         "isExtraImport": true,
@@ -217,6 +233,22 @@
         "documentation": {}
     },
     {
+        "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
         "label": "TestCase",
         "importPath": "django.test",
         "description": "django.test",
@@ -230,6 +262,14 @@
         "description": "django.test",
         "isExtraImport": true,
         "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "APIClient",
+        "importPath": "rest_framework.test",
+        "description": "rest_framework.test",
+        "isExtraImport": true,
+        "detail": "rest_framework.test",
         "documentation": {}
     },
     {
@@ -514,14 +554,6 @@
         "documentation": {}
     },
     {
-        "label": "timedelta",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
         "label": "load_dotenv",
         "importPath": "dotenv",
         "description": "dotenv",
@@ -651,8 +683,17 @@
         "kind": 6,
         "importPath": "backend.apps.juegos.serializers",
         "description": "backend.apps.juegos.serializers",
-        "peekOfCode": "class JuegoSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Juego\n        fields = ('id', 'nombre', 'genero', 'plataforma', 'imagen', 'descripcion', 'anio', 'estado', 'puntaje', 'resenia', 'created_at')\n        read_only_fields = ('id', 'created_at')",
+        "peekOfCode": "class JuegoSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Juego\n        fields = ('id', 'nombre', 'genero', 'plataforma', 'imagen', 'descripcion', 'anio', 'estado', 'puntaje', 'resenia', 'created_at')\n        read_only_fields = ('id', 'created_at')\n    def validate_nombre(self, value):\n        if not value.strip():\n            raise serializers.ValidationError('El nombre no puede estar vacío.')\n        return value.strip()\n    def validate_anio(self, value):",
         "detail": "backend.apps.juegos.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "JuegoValidacionTests",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.tests",
+        "description": "backend.apps.juegos.tests",
+        "peekOfCode": "class JuegoValidacionTests(TestCase):\n    def setUp(self):\n        self.client = APIClient()\n        self.user = User.objects.create_user(\n            username='testuser',\n            password='Test1234!',\n            email='test@test.com'\n        )\n        self.client.force_authenticate(user=self.user)\n    def test_puntaje_fuera_de_rango(self):",
+        "detail": "backend.apps.juegos.tests",
         "documentation": {}
     },
     {
