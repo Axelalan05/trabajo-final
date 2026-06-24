@@ -3,10 +3,18 @@ from apps.juegos.models import Juego
 from datetime import date
 
 class JuegoSerializer(serializers.ModelSerializer):
+    es_favorito = serializers.SerializerMethodField()
+    
     class Meta:
         model = Juego
-        fields = ('id', 'nombre', 'genero', 'plataforma', 'imagen', 'descripcion', 'anio', 'estado', 'puntaje', 'resenia', 'created_at')
+        fields = ('id', 'nombre', 'genero', 'plataforma', 'imagen', 'descripcion', 'anio', 'estado', 'puntaje', 'resenia', 'created_at', 'es_favorito')
         read_only_fields = ('id', 'created_at')
+        
+    def get_es_favorito(self, obj):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            return obj.favoritos.filter(id=request.user.id).exists()
+        return False
 
     def validate_nombre(self, value):
         if not value.strip():

@@ -780,7 +780,7 @@
         "kind": 6,
         "importPath": "backend.apps.juegos.serializers",
         "description": "backend.apps.juegos.serializers",
-        "peekOfCode": "class JuegoSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Juego\n        fields = ('id', 'nombre', 'genero', 'plataforma', 'imagen', 'descripcion', 'anio', 'estado', 'puntaje', 'resenia', 'created_at')\n        read_only_fields = ('id', 'created_at')\n    def validate_nombre(self, value):\n        if not value.strip():\n            raise serializers.ValidationError('El nombre no puede estar vacío.')\n        return value.strip()\n    def validate_anio(self, value):",
+        "peekOfCode": "class JuegoSerializer(serializers.ModelSerializer):\n    es_favorito = serializers.SerializerMethodField()\n    class Meta:\n        model = Juego\n        fields = ('id', 'nombre', 'genero', 'plataforma', 'imagen', 'descripcion', 'anio', 'estado', 'puntaje', 'resenia', 'created_at', 'es_favorito')\n        read_only_fields = ('id', 'created_at')\n    def get_es_favorito(self, obj):\n        request = self.context.get('request')\n        if request and request.user.is_authenticated:\n            return obj.favoritos.filter(id=request.user.id).exists()",
         "detail": "backend.apps.juegos.serializers",
         "documentation": {}
     },
