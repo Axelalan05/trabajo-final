@@ -90,3 +90,8 @@ class JuegoPublicoListView(generics.ListAPIView):
     ordering_fields = ['puntaje', 'created_at', 'nombre']
     ordering = ['-created_at']
     
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
+        return ApiResponse.success(data=serializer.data)
+    

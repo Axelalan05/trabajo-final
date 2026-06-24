@@ -843,7 +843,7 @@
         "kind": 6,
         "importPath": "backend.apps.juegos.views",
         "description": "backend.apps.juegos.views",
-        "peekOfCode": "class JuegoPublicoListView(generics.ListAPIView):\n    queryset = Juego.objects.all().order_by('-created_at')\n    serializer_class = JuegoSerializer\n    permission_classes = [AllowAny]\n    filter_backends = [DjangoFilterBackend, OrderingFilter]\n    filterset_fields = ['genero', 'plataforma', 'estado']\n    ordering_fields = ['puntaje', 'created_at', 'nombre']\n    ordering = ['-created_at']",
+        "peekOfCode": "class JuegoPublicoListView(generics.ListAPIView):\n    queryset = Juego.objects.all().order_by('-created_at')\n    serializer_class = JuegoSerializer\n    permission_classes = [AllowAny]\n    filter_backends = [DjangoFilterBackend, OrderingFilter]\n    filterset_fields = ['genero', 'plataforma', 'estado']\n    ordering_fields = ['puntaje', 'created_at', 'nombre']\n    ordering = ['-created_at']\n    def list(self, request, *args, **kwargs):\n        queryset = self.filter_queryset(self.get_queryset())",
         "detail": "backend.apps.juegos.views",
         "documentation": {}
     },
