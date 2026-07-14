@@ -153,6 +153,47 @@
         "documentation": {}
     },
     {
+        "label": "django_filters",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django_filters",
+        "description": "django_filters",
+        "detail": "django_filters",
+        "documentation": {}
+    },
+    {
+        "label": "Juego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "Juego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "Juego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "Juego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
         "label": "User",
         "importPath": "django.contrib.auth.models",
         "description": "django.contrib.auth.models",
@@ -217,14 +258,6 @@
         "documentation": {}
     },
     {
-        "label": "status",
-        "importPath": "rest_framework",
-        "description": "rest_framework",
-        "isExtraImport": true,
-        "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
         "label": "generics",
         "importPath": "rest_framework",
         "description": "rest_framework",
@@ -254,30 +287,6 @@
         "description": "rest_framework",
         "isExtraImport": true,
         "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
-        "label": "Juego",
-        "importPath": "apps.juegos.models",
-        "description": "apps.juegos.models",
-        "isExtraImport": true,
-        "detail": "apps.juegos.models",
-        "documentation": {}
-    },
-    {
-        "label": "Juego",
-        "importPath": "apps.juegos.models",
-        "description": "apps.juegos.models",
-        "isExtraImport": true,
-        "detail": "apps.juegos.models",
-        "documentation": {}
-    },
-    {
-        "label": "Juego",
-        "importPath": "apps.juegos.models",
-        "description": "apps.juegos.models",
-        "isExtraImport": true,
-        "detail": "apps.juegos.models",
         "documentation": {}
     },
     {
@@ -438,6 +447,14 @@
         "description": "apps.juegos.serializers",
         "isExtraImport": true,
         "detail": "apps.juegos.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "JuegoFilter",
+        "importPath": "apps.juegos.filters",
+        "description": "apps.juegos.filters",
+        "isExtraImport": true,
+        "detail": "apps.juegos.filters",
         "documentation": {}
     },
     {
@@ -767,6 +784,15 @@
         "documentation": {}
     },
     {
+        "label": "JuegoFilter",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.filters",
+        "description": "backend.apps.juegos.filters",
+        "peekOfCode": "class JuegoFilter(django_filters.FilterSet):\n    nombre = django_filters.CharFilter(lookup_expr='icontains')\n    genero = django_filters.CharFilter(lookup_expr='icontains')\n    plataforma = django_filters.CharFilter(lookup_expr='icontains')\n    estado = django_filters.CharFilter(lookup_expr='iexact')\n    class Meta:\n        model = Juego\n        fields = ['nombre', 'genero', 'plataforma', 'estado']",
+        "detail": "backend.apps.juegos.filters",
+        "documentation": {}
+    },
+    {
         "label": "Juego",
         "kind": 6,
         "importPath": "backend.apps.juegos.models",
@@ -834,7 +860,7 @@
         "kind": 6,
         "importPath": "backend.apps.juegos.views",
         "description": "backend.apps.juegos.views",
-        "peekOfCode": "class JuegoViewSet(viewsets.ModelViewSet):\n    permission_classes = [IsAuthenticated]\n    serializer_class = JuegoSerializer\n    def get_queryset(self):\n        return Juego.objects.filter(user=self.request.user)\n    def perform_create(self, serializer):\n        serializer.save(user=self.request.user)\n    def list(self, request, *args, **kwargs):\n        serializer = self.get_serializer(self.get_queryset(), many=True)\n        return ApiResponse.success(data=serializer.data)",
+        "peekOfCode": "class JuegoViewSet(viewsets.ModelViewSet):\n    permission_classes = [IsAuthenticated]\n    serializer_class = JuegoSerializer\n    filter_backends = [DjangoFilterBackend, OrderingFilter]\n    filterset_class = JuegoFilter\n    ordering_fields = ['puntaje', 'created_at', 'nombre']\n    def get_queryset(self):\n        return Juego.objects.filter(user=self.request.user)\n    def perform_create(self, serializer):\n        serializer.save(user=self.request.user)",
         "detail": "backend.apps.juegos.views",
         "documentation": {}
     },
@@ -843,7 +869,7 @@
         "kind": 6,
         "importPath": "backend.apps.juegos.views",
         "description": "backend.apps.juegos.views",
-        "peekOfCode": "class JuegoPublicoListView(generics.ListAPIView):\n    queryset = Juego.objects.all().order_by('-created_at')\n    serializer_class = JuegoSerializer\n    permission_classes = [AllowAny]\n    filter_backends = [DjangoFilterBackend, OrderingFilter]\n    filterset_fields = ['genero', 'plataforma', 'estado']\n    ordering_fields = ['puntaje', 'created_at', 'nombre']\n    ordering = ['-created_at']\n    def list(self, request, *args, **kwargs):\n        queryset = self.filter_queryset(self.get_queryset())",
+        "peekOfCode": "class JuegoPublicoListView(generics.ListAPIView):\n    queryset = Juego.objects.all().order_by('-created_at')\n    serializer_class = JuegoSerializer\n    permission_classes = [AllowAny]\n    filter_backends = [DjangoFilterBackend, OrderingFilter]\n    filterset_class = JuegoFilter\n    ordering_fields = ['puntaje', 'created_at', 'nombre']\n    ordering = ['-created_at']\n    def list(self, request, *args, **kwargs):\n        queryset = self.filter_queryset(self.get_queryset())",
         "detail": "backend.apps.juegos.views",
         "documentation": {}
     },

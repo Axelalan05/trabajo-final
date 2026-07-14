@@ -6,6 +6,7 @@ import { onMounted, ref } from 'vue'
 
 const juegos = ref<Juego[]>([])
 const loading = ref(true)
+const nombre = ref('')
 const genero = ref('')
 const plataforma = ref('')
 const estado = ref('')
@@ -15,6 +16,7 @@ async function cargarJuegos() {
     loading.value = true
     try {
         const response = await juegoService.listPublico({
+            nombre: nombre.value || undefined,
             genero: genero.value || undefined,
             plataforma: plataforma.value || undefined,
             estado: estado.value || undefined,
@@ -34,6 +36,7 @@ onMounted(cargarJuegos)
         <h1>Explorar juegos</h1>
 
         <div class="filtros">
+            <input v-model="nombre" placeholder="Nombre" @keyup.enter="cargarJuegos" />
             <input v-model="genero" placeholder="Género" @keyup.enter="cargarJuegos" />
             <input v-model="plataforma" placeholder="Plataforma" @keyup.enter="cargarJuegos" />
             <select v-model="estado">

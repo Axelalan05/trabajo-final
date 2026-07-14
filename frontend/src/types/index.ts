@@ -24,6 +24,7 @@ export interface Juego {
   puntaje: number | null
   reseña: string
   created_at: string
+  es_favorito: boolean
 }
 
 export interface ApiResponse<T> {

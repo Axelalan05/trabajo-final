@@ -1,25 +1,28 @@
-from rest_framework import viewsets, status, generics
+from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.filters import OrderingFilter
 from rest_framework.decorators import action
 from apps.juegos.models import Juego
 from apps.juegos.serializers import JuegoSerializer
+from apps.juegos.filters import JuegoFilter
 from core.response import ApiResponse
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Avg, Count
 
-# Create your views here.
 
 class JuegoViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = JuegoSerializer
-    
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_class = JuegoFilter
+    ordering_fields = ['puntaje', 'created_at', 'nombre']
+
     def get_queryset(self):
         return Juego.objects.filter(user=self.request.user)
-    
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-    
+
     def list(self, request, *args, **kwargs):
         serializer = self.get_serializer(self.get_queryset(), many=True)
         return ApiResponse.success(data=serializer.data)
@@ -33,12 +36,12 @@ class JuegoViewSet(viewsets.ModelViewSet):
             code="validation_error",
             message="Invalid data",
             details=serializer.errors,
-            status= 400
+            status=400
         )
-    
+
     def retrieve(self, request, *args, **kwargs):
         return ApiResponse.success(data=self.get_serializer(self.get_object()).data)
-    
+
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
         serializer = self.get_serializer(self.get_object(), data=request.data, partial=partial)
@@ -51,11 +54,11 @@ class JuegoViewSet(viewsets.ModelViewSet):
             details=serializer.errors,
             status=400
         )
-    
+
     def destroy(self, request, *args, **kwargs):
         self.perform_destroy(self.get_object())
         return ApiResponse.success(status=204)
-    
+
     @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def favorito(self, request, pk=None):
         juego = self.get_object()
@@ -66,32 +69,37 @@ class JuegoViewSet(viewsets.ModelViewSet):
         else:
             juego.favoritos.add(user)
             return ApiResponse.success(message='Agregado a favoritos')
-    
+
     @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
     def estadisticas(self, request):
         juegos = Juego.objects.filter(user=request.user)
-        
         completados = juegos.filter(estado='completado').count()
         promedio_puntaje = juegos.aggregate(Avg('puntaje'))['puntaje__avg']
         generos = juegos.values('genero').annotate(total=Count('genero')).order_by('-total')
-        
         return ApiResponse.success(data={
             'juegos_completados': completados,
             'promedio_puntaje': round(promedio_puntaje, 1) if promedio_puntaje else 0,
             'generos_mas_jugados': list(generos),
         })
 
+
 class JuegoPublicoListView(generics.ListAPIView):
     queryset = Juego.objects.all().order_by('-created_at')
     serializer_class = JuegoSerializer
     permission_classes = [AllowAny]
     filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filterset_fields = ['genero', 'plataforma', 'estado']
+    filterset_class = JuegoFilter
     ordering_fields = ['puntaje', 'created_at', 'nombre']
     ordering = ['-created_at']
-    
+
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-        serializer = self.get_serializer(queryset, many=True)
+        vistos = set()
+        juegos_unicos = []
+        for juego in queryset:
+            nombre_lower = juego.nombre.lower()
+            if nombre_lower not in vistos:
+                vistos.add(nombre_lower)
+                juegos_unicos.append(juego)
+        serializer = self.get_serializer(juegos_unicos, many=True)
         return ApiResponse.success(data=serializer.data)
-    

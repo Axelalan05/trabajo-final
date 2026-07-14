@@ -2,6 +2,7 @@ import type { ApiResponse, Juego } from '@/types'
 import api from './api'
 
 export interface JuegoFiltros {
+  nombre?: string
   genero?: string
   plataforma?: string
   estado?: string

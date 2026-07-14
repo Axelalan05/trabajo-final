@@ -33,3 +33,23 @@ class JuegoSerializer(serializers.ModelSerializer):
         if value is not None and (value < 1 or value > 10):
             raise serializers.ValidationError('El puntaje debe estar entre 1 y 10.')
         return value
+
+    def validate(self, attrs):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            user = request.user
+            nombre = attrs.get('nombre', '')
+
+            qs = Juego.objects.filter(
+                user=user,
+                nombre__iexact=nombre,
+            )
+
+            if self.instance:
+                qs = qs.exclude(pk=self.instance.pk)
+
+            if qs.exists():
+                raise serializers.ValidationError(
+                'Ya tenés ese juego en tu colección.'
+                )
+        return attrs
