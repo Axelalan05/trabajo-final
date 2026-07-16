@@ -1,20 +1,13 @@
 from rest_framework import serializers
-from apps.juegos.models import Juego
+from apps.juegos.models import Juego, UserJuego
 from datetime import date
 
+
 class JuegoSerializer(serializers.ModelSerializer):
-    es_favorito = serializers.SerializerMethodField()
-    
     class Meta:
         model = Juego
-        fields = ('id', 'nombre', 'genero', 'plataforma', 'imagen', 'descripcion', 'anio', 'estado', 'puntaje', 'resenia', 'created_at', 'es_favorito')
+        fields = ('id', 'nombre', 'genero', 'plataforma', 'imagen', 'descripcion', 'anio', 'created_at')
         read_only_fields = ('id', 'created_at')
-        
-    def get_es_favorito(self, obj):
-        request = self.context.get('request')
-        if request and request.user.is_authenticated:
-            return obj.favoritos.filter(id=request.user.id).exists()
-        return False
 
     def validate_nombre(self, value):
         if not value.strip():
@@ -29,27 +22,35 @@ class JuegoSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('El año no puede ser anterior a 1970.')
         return value
 
+    def validate(self, attrs):
+        nombre = attrs.get('nombre', '')
+        qs = Juego.objects.filter(nombre__iexact=nombre)
+        if self.instance:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise serializers.ValidationError('Ya existe un juego con ese nombre en el catálogo.')
+        return attrs
+
+
+class UserJuegoSerializer(serializers.ModelSerializer):
+    juego = JuegoSerializer(read_only=True)
+    juego_id = serializers.PrimaryKeyRelatedField(
+        queryset=Juego.objects.all(), source='juego', write_only=True
+    )
+
+    class Meta:
+        model = UserJuego
+        fields = ('id', 'juego', 'juego_id', 'estado', 'puntaje', 'resenia', 'created_at')
+        read_only_fields = ('id', 'created_at')
+
+    def validate(self, attrs):
+        request = self.context.get('request')
+        juego = attrs.get('juego')
+        if request and not self.instance and UserJuego.objects.filter(user=request.user, juego=juego).exists():
+            raise serializers.ValidationError('Ya estás en este juego.')
+        return attrs
+    
     def validate_puntaje(self, value):
         if value is not None and (value < 1 or value > 10):
             raise serializers.ValidationError('El puntaje debe estar entre 1 y 10.')
         return value
-
-    def validate(self, attrs):
-        request = self.context.get('request')
-        if request and request.user.is_authenticated:
-            user = request.user
-            nombre = attrs.get('nombre', '')
-
-            qs = Juego.objects.filter(
-                user=user,
-                nombre__iexact=nombre,
-            )
-
-            if self.instance:
-                qs = qs.exclude(pk=self.instance.pk)
-
-            if qs.exists():
-                raise serializers.ValidationError(
-                'Ya tenés ese juego en tu colección.'
-                )
-        return attrs

@@ -25,46 +25,6 @@
         "documentation": {}
     },
     {
-        "label": "settings",
-        "importPath": "django.conf",
-        "description": "django.conf",
-        "isExtraImport": true,
-        "detail": "django.conf",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
         "label": "migrations",
         "importPath": "django.db",
         "description": "django.db",
@@ -134,6 +94,70 @@
         "description": "django.contrib",
         "isExtraImport": true,
         "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "Juego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "UserJuego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "Juego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "Juego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "UserJuego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "Juego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "Juego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "UserJuego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
         "documentation": {}
     },
     {
@@ -150,6 +174,15 @@
         "description": "django.apps",
         "isExtraImport": true,
         "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "re",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "re",
+        "description": "re",
+        "detail": "re",
         "documentation": {}
     },
     {
@@ -162,35 +195,27 @@
         "documentation": {}
     },
     {
-        "label": "Juego",
-        "importPath": "apps.juegos.models",
-        "description": "apps.juegos.models",
+        "label": "Q",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
         "isExtraImport": true,
-        "detail": "apps.juegos.models",
+        "detail": "django.db.models",
         "documentation": {}
     },
     {
-        "label": "Juego",
-        "importPath": "apps.juegos.models",
-        "description": "apps.juegos.models",
+        "label": "Avg",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
         "isExtraImport": true,
-        "detail": "apps.juegos.models",
+        "detail": "django.db.models",
         "documentation": {}
     },
     {
-        "label": "Juego",
-        "importPath": "apps.juegos.models",
-        "description": "apps.juegos.models",
+        "label": "Count",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
         "isExtraImport": true,
-        "detail": "apps.juegos.models",
-        "documentation": {}
-    },
-    {
-        "label": "Juego",
-        "importPath": "apps.juegos.models",
-        "description": "apps.juegos.models",
-        "isExtraImport": true,
-        "detail": "apps.juegos.models",
+        "detail": "django.db.models",
         "documentation": {}
     },
     {
@@ -402,6 +427,14 @@
         "documentation": {}
     },
     {
+        "label": "IsAdminUser",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
         "label": "AllowAny",
         "importPath": "rest_framework.permissions",
         "description": "rest_framework.permissions",
@@ -450,6 +483,14 @@
         "documentation": {}
     },
     {
+        "label": "UserJuegoSerializer",
+        "importPath": "apps.juegos.serializers",
+        "description": "apps.juegos.serializers",
+        "isExtraImport": true,
+        "detail": "apps.juegos.serializers",
+        "documentation": {}
+    },
+    {
         "label": "JuegoFilter",
         "importPath": "apps.juegos.filters",
         "description": "apps.juegos.filters",
@@ -479,22 +520,6 @@
         "description": "django_filters.rest_framework",
         "isExtraImport": true,
         "detail": "django_filters.rest_framework",
-        "documentation": {}
-    },
-    {
-        "label": "Avg",
-        "importPath": "django.db.models",
-        "description": "django.db.models",
-        "isExtraImport": true,
-        "detail": "django.db.models",
-        "documentation": {}
-    },
-    {
-        "label": "Count",
-        "importPath": "django.db.models",
-        "description": "django.db.models",
-        "isExtraImport": true,
-        "detail": "django.db.models",
         "documentation": {}
     },
     {
@@ -757,21 +782,21 @@
         "documentation": {}
     },
     {
-        "label": "Migration",
+        "label": "JuegoAdmin",
         "kind": 6,
-        "importPath": "backend.apps.juegos.migrations.0002_juego_estado_juego_puntaje_juego_resenia",
-        "description": "backend.apps.juegos.migrations.0002_juego_estado_juego_puntaje_juego_resenia",
-        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('juegos', '0001_initial'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='juego',\n            name='estado',\n            field=models.CharField(choices=[('jugando', 'Jugando'), ('completado', 'Completado'), ('pendiente', 'Pendiente'), ('abandonado', 'Abandonado')], default='pendiente', max_length=20),\n        ),",
-        "detail": "backend.apps.juegos.migrations.0002_juego_estado_juego_puntaje_juego_resenia",
+        "importPath": "backend.apps.juegos.admin",
+        "description": "backend.apps.juegos.admin",
+        "peekOfCode": "class JuegoAdmin(admin.ModelAdmin):\n    list_display = ('nombre', 'genero', 'plataforma', 'anio', 'created_at')\n    list_filter = ('genero', 'plataforma', 'anio')\n    search_fields = ('nombre',)\n    ordering = ('-created_at',)\n@admin.register(UserJuego)\nclass UserJuegoAdmin(admin.ModelAdmin):\n    list_display = ('user', 'juego', 'estado', 'puntaje', 'created_at')\n    list_filter = ('estado',)\n    search_fields = ('user__username', 'juego__nombre')",
+        "detail": "backend.apps.juegos.admin",
         "documentation": {}
     },
     {
-        "label": "Migration",
+        "label": "UserJuegoAdmin",
         "kind": 6,
-        "importPath": "backend.apps.juegos.migrations.0003_juego_favoritos",
-        "description": "backend.apps.juegos.migrations.0003_juego_favoritos",
-        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('juegos', '0002_juego_estado_juego_puntaje_juego_resenia'),\n        migrations.swappable_dependency(settings.AUTH_USER_MODEL),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='juego',\n            name='favoritos',\n            field=models.ManyToManyField(blank=True, related_name='juegos_favoritos', to=settings.AUTH_USER_MODEL),",
-        "detail": "backend.apps.juegos.migrations.0003_juego_favoritos",
+        "importPath": "backend.apps.juegos.admin",
+        "description": "backend.apps.juegos.admin",
+        "peekOfCode": "class UserJuegoAdmin(admin.ModelAdmin):\n    list_display = ('user', 'juego', 'estado', 'puntaje', 'created_at')\n    list_filter = ('estado',)\n    search_fields = ('user__username', 'juego__nombre')\n    autocomplete_fields = ('user', 'juego')\n    ordering = ('-created_at',)",
+        "detail": "backend.apps.juegos.admin",
         "documentation": {}
     },
     {
@@ -788,7 +813,7 @@
         "kind": 6,
         "importPath": "backend.apps.juegos.filters",
         "description": "backend.apps.juegos.filters",
-        "peekOfCode": "class JuegoFilter(django_filters.FilterSet):\n    nombre = django_filters.CharFilter(lookup_expr='icontains')\n    genero = django_filters.CharFilter(lookup_expr='icontains')\n    plataforma = django_filters.CharFilter(lookup_expr='icontains')\n    estado = django_filters.CharFilter(lookup_expr='iexact')\n    class Meta:\n        model = Juego\n        fields = ['nombre', 'genero', 'plataforma', 'estado']",
+        "peekOfCode": "class JuegoFilter(django_filters.FilterSet):\n    nombre = django_filters.CharFilter(lookup_expr='icontains')\n    genero = django_filters.CharFilter(lookup_expr='icontains')\n    plataforma = django_filters.CharFilter(method='filter_plataforma')\n    class Meta:\n        model = Juego\n        fields = ['nombre', 'genero', 'plataforma']\n    def filter_plataforma(self, queryset, name, value):\n        return queryset.filter(_expandir_busqueda_plataforma(value))",
         "detail": "backend.apps.juegos.filters",
         "documentation": {}
     },
@@ -797,7 +822,16 @@
         "kind": 6,
         "importPath": "backend.apps.juegos.models",
         "description": "backend.apps.juegos.models",
-        "peekOfCode": "class Juego(models.Model):\n    ESTADOS = [\n        ('jugando', 'Jugando'),\n        ('completado', 'Completado'),\n        ('pendiente', 'Pendiente'),\n        ('abandonado', 'Abandonado'),\n    ]\n    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='juegos')\n    nombre = models.CharField(max_length=100)\n    genero = models.CharField(max_length=50)",
+        "peekOfCode": "class Juego(models.Model):\n    nombre = models.CharField(max_length=100)\n    genero = models.CharField(max_length=50)\n    plataforma = models.CharField(max_length=50)\n    imagen = models.ImageField(upload_to='juegos/', blank=True, null=True)\n    descripcion = models.TextField(blank=True)\n    anio = models.IntegerField()\n    created_at = models.DateTimeField(auto_now_add=True)\n    def __str__(self):\n        return f'{self.nombre} ({self.plataforma})'",
+        "detail": "backend.apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "UserJuego",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.models",
+        "description": "backend.apps.juegos.models",
+        "peekOfCode": "class UserJuego(models.Model):\n    ESTADOS = [\n        ('jugando', 'Jugando'),\n        ('completado', 'Completado'),\n        ('pendiente', 'Pendiente'),\n        ('abandonado', 'Abandonado'),\n    ]\n    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='juegos_usuario')\n    juego = models.ForeignKey(Juego, on_delete=models.CASCADE, related_name='usuarios_juego')\n    estado = models.CharField(max_length=20, choices=ESTADOS, default='pendiente')",
         "detail": "backend.apps.juegos.models",
         "documentation": {}
     },
@@ -806,7 +840,16 @@
         "kind": 6,
         "importPath": "backend.apps.juegos.serializers",
         "description": "backend.apps.juegos.serializers",
-        "peekOfCode": "class JuegoSerializer(serializers.ModelSerializer):\n    es_favorito = serializers.SerializerMethodField()\n    class Meta:\n        model = Juego\n        fields = ('id', 'nombre', 'genero', 'plataforma', 'imagen', 'descripcion', 'anio', 'estado', 'puntaje', 'resenia', 'created_at', 'es_favorito')\n        read_only_fields = ('id', 'created_at')\n    def get_es_favorito(self, obj):\n        request = self.context.get('request')\n        if request and request.user.is_authenticated:\n            return obj.favoritos.filter(id=request.user.id).exists()",
+        "peekOfCode": "class JuegoSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Juego\n        fields = ('id', 'nombre', 'genero', 'plataforma', 'imagen', 'descripcion', 'anio', 'created_at')\n        read_only_fields = ('id', 'created_at')\n    def validate_nombre(self, value):\n        if not value.strip():\n            raise serializers.ValidationError('El nombre no puede estar vacío.')\n        return value.strip()\n    def validate_anio(self, value):",
+        "detail": "backend.apps.juegos.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "UserJuegoSerializer",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.serializers",
+        "description": "backend.apps.juegos.serializers",
+        "peekOfCode": "class UserJuegoSerializer(serializers.ModelSerializer):\n    juego = JuegoSerializer(read_only=True)\n    juego_id = serializers.PrimaryKeyRelatedField(\n        queryset=Juego.objects.all(), source='juego', write_only=True\n    )\n    class Meta:\n        model = UserJuego\n        fields = ('id', 'juego', 'juego_id', 'estado', 'puntaje', 'resenia', 'created_at')\n        read_only_fields = ('id', 'created_at')\n    def validate(self, attrs):",
         "detail": "backend.apps.juegos.serializers",
         "documentation": {}
     },
@@ -842,7 +885,7 @@
         "kind": 5,
         "importPath": "backend.apps.juegos.urls",
         "description": "backend.apps.juegos.urls",
-        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'', views.JuegoViewSet, basename='juego')\nurlpatterns = [\n    path('publico/', views.JuegoPublicoListView.as_view()),\n    path('', include(router.urls)),\n]",
+        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'mis-juegos', views.UserJuegoViewSet, basename='userjuego')\nrouter.register(r'', views.JuegoViewSet, basename='juego')\nurlpatterns = [\n    path('publico/', views.JuegoPublicoListView.as_view()),\n    path('', include(router.urls)),\n]",
         "detail": "backend.apps.juegos.urls",
         "documentation": {}
     },
@@ -860,7 +903,7 @@
         "kind": 6,
         "importPath": "backend.apps.juegos.views",
         "description": "backend.apps.juegos.views",
-        "peekOfCode": "class JuegoViewSet(viewsets.ModelViewSet):\n    permission_classes = [IsAuthenticated]\n    serializer_class = JuegoSerializer\n    filter_backends = [DjangoFilterBackend, OrderingFilter]\n    filterset_class = JuegoFilter\n    ordering_fields = ['puntaje', 'created_at', 'nombre']\n    def get_queryset(self):\n        return Juego.objects.filter(user=self.request.user)\n    def perform_create(self, serializer):\n        serializer.save(user=self.request.user)",
+        "peekOfCode": "class JuegoViewSet(viewsets.ModelViewSet):\n    queryset = Juego.objects.all().order_by('-created_at')\n    serializer_class = JuegoSerializer\n    filter_backends = [DjangoFilterBackend, OrderingFilter]\n    filterset_class = JuegoFilter\n    ordering_fields = ['created_at', 'nombre']\n    def get_permissions(self):\n        if self.action in ['create', 'update', 'partial_update', 'destroy']:\n            return [IsAdminUser()]\n        return [IsAuthenticated()]",
         "detail": "backend.apps.juegos.views",
         "documentation": {}
     },
@@ -869,7 +912,16 @@
         "kind": 6,
         "importPath": "backend.apps.juegos.views",
         "description": "backend.apps.juegos.views",
-        "peekOfCode": "class JuegoPublicoListView(generics.ListAPIView):\n    queryset = Juego.objects.all().order_by('-created_at')\n    serializer_class = JuegoSerializer\n    permission_classes = [AllowAny]\n    filter_backends = [DjangoFilterBackend, OrderingFilter]\n    filterset_class = JuegoFilter\n    ordering_fields = ['puntaje', 'created_at', 'nombre']\n    ordering = ['-created_at']\n    def list(self, request, *args, **kwargs):\n        queryset = self.filter_queryset(self.get_queryset())",
+        "peekOfCode": "class JuegoPublicoListView(generics.ListAPIView):\n    queryset = Juego.objects.all().order_by('-created_at')\n    serializer_class = JuegoSerializer\n    permission_classes = [AllowAny]\n    filter_backends = [DjangoFilterBackend, OrderingFilter]\n    filterset_class = JuegoFilter\n    ordering_fields = ['created_at', 'nombre']\n    ordering = ['-created_at']\n    def list(self, request, *args, **kwargs):\n        serializer = self.get_serializer(self.filter_queryset(self.get_queryset()), many=True)",
+        "detail": "backend.apps.juegos.views",
+        "documentation": {}
+    },
+    {
+        "label": "UserJuegoViewSet",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.views",
+        "description": "backend.apps.juegos.views",
+        "peekOfCode": "class UserJuegoViewSet(viewsets.ModelViewSet):\n    permission_classes = [IsAuthenticated]\n    serializer_class = UserJuegoSerializer\n    ordering_fields = ['puntaje', 'created_at']\n    def get_queryset(self):\n        return UserJuego.objects.filter(user=self.request.user).select_related('juego')\n    def perform_create(self, serializer):\n        serializer.save(user=self.request.user)\n    def list(self, request, *args, **kwargs):\n        serializer = self.get_serializer(self.get_queryset(), many=True)",
         "detail": "backend.apps.juegos.views",
         "documentation": {}
     },
@@ -905,7 +957,7 @@
         "kind": 6,
         "importPath": "backend.apps.users.serializers",
         "description": "backend.apps.users.serializers",
-        "peekOfCode": "class RegisterSerializer(serializers.ModelSerializer):\n    \"\"\"\n    Serializer para el registro de nuevos usuarios.\n    Puntos clave:\n    - password y password_confirm son write_only: nunca aparecen en las respuestas.\n    - validate_<field>() valida un campo individual antes de validate().\n    - validate() valida relaciones entre campos (aquí: que las passwords coincidan).\n    - create() llama a create_user() que hashea la password correctamente.\n      Nunca guardar la password en texto plano con User(password=...).\n    \"\"\"",
+        "peekOfCode": "class RegisterSerializer(serializers.ModelSerializer):\n    password = serializers.CharField(write_only=True, required=True)\n    password_confirm = serializers.CharField(write_only=True, required=True)\n    class Meta:\n        model = User\n        fields = ('username', 'email', 'password', 'password_confirm')\n        extra_kwargs = {\n            'email': {'required': True},\n        }\n    def validate_email(self, value):",
         "detail": "backend.apps.users.serializers",
         "documentation": {}
     },
@@ -914,7 +966,7 @@
         "kind": 6,
         "importPath": "backend.apps.users.serializers",
         "description": "backend.apps.users.serializers",
-        "peekOfCode": "class UserSerializer(serializers.ModelSerializer):\n    \"\"\"Serializer de solo lectura para exponer datos del usuario autenticado.\"\"\"\n    class Meta:\n        model = User\n        fields = ('id', 'username', 'email', 'date_joined')\n        read_only_fields = ('id', 'date_joined')\nclass ProfileSerializer(serializers.ModelSerializer):\n    username = serializers.CharField(source='user.username', read_only=True)\n    email = serializers.CharField(source='user.email', read_only=True)\n    class Meta:",
+        "peekOfCode": "class UserSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = User\n        fields = ('id', 'username', 'email', 'date_joined', 'is_staff')\n        read_only_fields = ('id', 'date_joined', 'is_staff')\nclass ProfileSerializer(serializers.ModelSerializer):\n    username = serializers.CharField(source='user.username', read_only=True)\n    email = serializers.CharField(source='user.email', read_only=True)\n    class Meta:\n        model = Profile",
         "detail": "backend.apps.users.serializers",
         "documentation": {}
     },
@@ -959,7 +1011,7 @@
         "kind": 5,
         "importPath": "backend.apps.users.urls",
         "description": "backend.apps.users.urls",
-        "peekOfCode": "urlpatterns = [\n    path('register/', views.RegisterView.as_view()),\n    path('login/', TokenObtainPairView.as_view()),\n    path('token/refresh/', TokenRefreshView.as_view()),\n    path('logout/', views.LogoutView.as_view()),\n    path('profile/', views.ProfileView.as_view()),\n    path('users/<str:username>/', views.ProfilePublicoView.as_view()),\n]",
+        "peekOfCode": "urlpatterns = [\n    path('register/', views.RegisterView.as_view()),\n    path('login/', TokenObtainPairView.as_view()),\n    path('token/refresh/', TokenRefreshView.as_view()),\n    path('logout/', views.LogoutView.as_view()),\n    path('profile/', views.ProfileView.as_view()),\n    path('me/', views.MeView.as_view()),\n    path('users/<str:username>/', views.ProfilePublicoView.as_view()),\n]",
         "detail": "backend.apps.users.urls",
         "documentation": {}
     },
@@ -978,6 +1030,15 @@
         "importPath": "backend.apps.users.views",
         "description": "backend.apps.users.views",
         "peekOfCode": "class LogoutView(APIView):\n    permission_classes = [IsAuthenticated]\n    def post(self, request):\n        try:\n            refresh_token = request.data['refresh']\n            token = RefreshToken(refresh_token)\n            token.blacklist()\n            return ApiResponse.success(status=204)\n        except Exception:\n            return ApiResponse.error(",
+        "detail": "backend.apps.users.views",
+        "documentation": {}
+    },
+    {
+        "label": "MeView",
+        "kind": 6,
+        "importPath": "backend.apps.users.views",
+        "description": "backend.apps.users.views",
+        "peekOfCode": "class MeView(generics.RetrieveAPIView):\n    serializer_class = UserSerializer\n    permission_classes = [IsAuthenticated]\n    def get_object(self):\n        return self.request.user\n    def retrieve(self, request, *args, **kwargs):\n        serializer = self.get_serializer(self.get_object())\n        return ApiResponse.success(data=serializer.data)\nclass ProfileView(generics.RetrieveUpdateAPIView):\n    serializer_class = ProfileSerializer",
         "detail": "backend.apps.users.views",
         "documentation": {}
     },

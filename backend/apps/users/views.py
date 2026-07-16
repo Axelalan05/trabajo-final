@@ -44,6 +44,17 @@ class LogoutView(APIView):
                 message='Invalid or expired token',
                 status=400
             )
+            
+class MeView(generics.RetrieveAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
+
+    def retrieve(self, request, *args, **kwargs):
+        serializer = self.get_serializer(self.get_object())
+        return ApiResponse.success(data=serializer.data)
 
 class ProfileView(generics.RetrieveUpdateAPIView):
     serializer_class = ProfileSerializer

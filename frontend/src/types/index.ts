@@ -3,6 +3,7 @@ export interface User {
   username: string
   email: string
   date_joined: string
+  is_staff: boolean
 }
 
 export interface Profile {
@@ -12,6 +13,7 @@ export interface Profile {
   avatar: string | null
 }
 
+// Catálogo: ya no tiene estado/puntaje/reseña/favorito — eso es de cada usuario
 export interface Juego {
   id: number
   nombre: string
@@ -20,11 +22,19 @@ export interface Juego {
   imagen: string | null
   descripcion: string
   anio: number
-  estado: 'jugando' | 'completado' | 'pendiente' | 'abandonado'
-  puntaje: number | null
-  reseña: string
   created_at: string
-  es_favorito: boolean
+}
+
+export type EstadoJuego = 'jugando' | 'completado' | 'pendiente' | 'abandonado'
+
+// La relación de "mi cuenta" con un juego del catálogo
+export interface UserJuego {
+  id: number
+  juego: Juego
+  estado: EstadoJuego
+  puntaje: number | null
+  resenia: string
+  created_at: string
 }
 
 export interface ApiResponse<T> {

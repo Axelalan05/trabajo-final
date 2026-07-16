@@ -3,6 +3,7 @@ from rest_framework.routers import DefaultRouter
 from apps.juegos import views
 
 router = DefaultRouter()
+router.register(r'mis-juegos', views.UserJuegoViewSet, basename='userjuego')
 router.register(r'', views.JuegoViewSet, basename='juego')
 
 urlpatterns = [

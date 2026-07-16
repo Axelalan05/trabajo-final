@@ -11,6 +11,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   // Getters
   const isAuthenticated = computed(() => !!accessToken.value)
+  const isAdmin = computed(() => !!user.value?.is_staff)
 
   // Actions
   function setTokens(tokens: AuthTokens) {
@@ -20,9 +21,15 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.setItem('refresh', tokens.refresh)
   }
 
+  async function fetchUser() {
+    const { data } = await api.get<{ success: boolean; data: User }>('/auth/me/')
+    user.value = data.data
+  }
+
   async function login(username: string, password: string) {
     const { data } = await api.post<AuthTokens>('/auth/login/', { username, password })
     setTokens(data)
+    await fetchUser()
   }
 
   async function register(username: string, email: string, password: string, password_confirm: string) {
@@ -41,5 +48,5 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  return { accessToken, refreshToken, user, isAuthenticated, setTokens, login, register, logout }
+  return { accessToken, refreshToken, user, isAuthenticated, isAdmin, setTokens, login, register, logout, fetchUser }
 })

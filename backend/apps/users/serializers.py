@@ -6,16 +6,6 @@ from apps.users.models import Profile
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    """
-    Serializer para el registro de nuevos usuarios.
-
-    Puntos clave:
-    - password y password_confirm son write_only: nunca aparecen en las respuestas.
-    - validate_<field>() valida un campo individual antes de validate().
-    - validate() valida relaciones entre campos (aquí: que las passwords coincidan).
-    - create() llama a create_user() que hashea la password correctamente.
-      Nunca guardar la password en texto plano con User(password=...).
-    """
 
     password = serializers.CharField(write_only=True, required=True)
     password_confirm = serializers.CharField(write_only=True, required=True)
@@ -28,17 +18,11 @@ class RegisterSerializer(serializers.ModelSerializer):
         }
 
     def validate_email(self, value):
-        """Valida que el email no esté registrado."""
         if User.objects.filter(email=value).exists():
             raise serializers.ValidationError('Email already in use.')
         return value
 
     def validate_password(self, value):
-        """
-        Aplica los validadores de contraseña configurados en AUTH_PASSWORD_VALIDATORS.
-        Por defecto Django verifica: longitud mínima, no ser muy común, no ser solo
-        números y no parecerse demasiado al username/email.
-        """
         try:
             dj_validate_password(value)
         except DjangoValidationError as e:
@@ -46,7 +30,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         return value
 
     def validate(self, attrs):
-        """Validación cruzada: password y password_confirm deben ser iguales."""
         if attrs['password'] != attrs['password_confirm']:
             raise serializers.ValidationError(
                 {'password_confirm': 'Passwords do not match.'}
@@ -63,12 +46,11 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """Serializer de solo lectura para exponer datos del usuario autenticado."""
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'date_joined')
-        read_only_fields = ('id', 'date_joined')
+        fields = ('id', 'username', 'email', 'date_joined', 'is_staff')
+        read_only_fields = ('id', 'date_joined', 'is_staff')
         
 
 class ProfileSerializer(serializers.ModelSerializer):

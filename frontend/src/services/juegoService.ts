@@ -5,13 +5,14 @@ export interface JuegoFiltros {
   nombre?: string
   genero?: string
   plataforma?: string
-  estado?: string
   ordering?: string
 }
 
 export const juegoService = {
-  async listMios(): Promise<ApiResponse<Juego[]>> {
-    const { data } = await api.get<ApiResponse<Juego[]>>('/juegos/')
+  async listCatalogo(filtros?: JuegoFiltros): Promise<ApiResponse<Juego[]>> {
+    const { data } = await api.get<ApiResponse<Juego[]>>('/juegos/', {
+      params: filtros,
+    })
     return data
   },
 
@@ -39,15 +40,5 @@ export const juegoService = {
 
   async delete(id: number): Promise<void> {
     await api.delete(`/juegos/${id}/`)
-  },
-
-  async toggleFavorito(id: number): Promise<ApiResponse<null>> {
-    const { data } = await api.post<ApiResponse<null>>(`/juegos/${id}/favorito/`)
-    return data
-  },
-
-  async estadisticas(): Promise<ApiResponse<any>> {
-    const { data } = await api.get<ApiResponse<any>>('/juegos/estadisticas/')
-    return data
   },
 }

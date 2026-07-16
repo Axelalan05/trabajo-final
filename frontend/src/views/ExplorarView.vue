@@ -1,25 +1,29 @@
 <script setup lang="ts">
 import AppButton from '@/components/ui/AppButton.vue'
 import { juegoService } from '@/services/juegoService'
+import { userJuegoService } from '@/services/userJuegoService'
+import { useAuthStore } from '@/stores/auth'
 import type { Juego } from '@/types'
 import { onMounted, ref } from 'vue'
 
+const authStore = useAuthStore()
+
 const juegos = ref<Juego[]>([])
+const misJuegoIds = ref<Set<number>>(new Set())
 const loading = ref(true)
 const nombre = ref('')
 const genero = ref('')
 const plataforma = ref('')
-const estado = ref('')
 const ordering = ref('-created_at')
+const mensajeUnion = ref<{ id: number; texto: string } | null>(null)
 
 async function cargarJuegos() {
     loading.value = true
     try {
-        const response = await juegoService.listPublico({
+        const response = await juegoService.listCatalogo({
             nombre: nombre.value || undefined,
             genero: genero.value || undefined,
             plataforma: plataforma.value || undefined,
-            estado: estado.value || undefined,
             ordering: ordering.value,
         })
         juegos.value = response.data
@@ -28,7 +32,30 @@ async function cargarJuegos() {
     }
 }
 
-onMounted(cargarJuegos)
+async function cargarMisJuegoIds() {
+    if (!authStore.isAuthenticated) return
+    const response = await userJuegoService.listMios()
+    misJuegoIds.value = new Set(response.data.map((uj) => uj.juego.id))
+}
+
+async function unirseAJuego(juego: Juego) {
+    mensajeUnion.value = null
+    try {
+        await userJuegoService.unirse({ juego_id: juego.id })
+        misJuegoIds.value.add(juego.id)
+    } catch (err: any) {
+        const detail = err?.response?.data?.error?.details
+        const mensaje = detail && typeof detail === 'object'
+            ? (Object.values(detail).flat() as string[]).join(' ')
+            : 'No se pudo unir al juego.'
+        mensajeUnion.value = { id: juego.id, texto: mensaje }
+    }
+}
+
+onMounted(async () => {
+    await cargarJuegos()
+    await cargarMisJuegoIds()
+})
 </script>
 
 <template>
@@ -39,16 +66,8 @@ onMounted(cargarJuegos)
             <input v-model="nombre" placeholder="Nombre" @keyup.enter="cargarJuegos" />
             <input v-model="genero" placeholder="Género" @keyup.enter="cargarJuegos" />
             <input v-model="plataforma" placeholder="Plataforma" @keyup.enter="cargarJuegos" />
-            <select v-model="estado">
-                <option value="">Todos los estados</option>
-                <option value="jugando">Jugando</option>
-                <option value="completado">Completado</option>
-                <option value="pendiente">Pendiente</option>
-                <option value="abandonado">Abandonado</option>
-            </select>
             <select v-model="ordering">
                 <option value="-created_at">Más recientes</option>
-                <option value="-puntaje">Mejor puntaje</option>
                 <option value="nombre">Nombre (A-Z)</option>
             </select>
             <AppButton @click="cargarJuegos">Filtrar</AppButton>
@@ -64,8 +83,14 @@ onMounted(cargarJuegos)
             <div v-for="juego in juegos" :key="juego.id" class="juego-card">
                 <h3>{{ juego.nombre }}</h3>
                 <p class="detalle">{{ juego.genero }} · {{ juego.plataforma }} · {{ juego.anio }}</p>
-                <p class="estado">{{ juego.estado }}</p>
-                <p v-if="juego.puntaje" class="puntaje">⭐ {{ juego.puntaje }}/10</p>
+                <p v-if="juego.descripcion" class="descripcion">{{ juego.descripcion }}</p>
+
+                <p v-if="mensajeUnion?.id === juego.id" class="error-union">{{ mensajeUnion.texto }}</p>
+
+                <AppButton v-if="authStore.isAuthenticated && !misJuegoIds.has(juego.id)" @click="unirseAJuego(juego)">
+                    Unirme
+                </AppButton>
+                <p v-else-if="authStore.isAuthenticated" class="ya-unido">Ya está en tu colección</p>
             </div>
         </div>
     </div>
@@ -117,13 +142,21 @@ onMounted(cargarJuegos)
     font-size: var(--font-size-sm);
 }
 
-.estado {
-    color: var(--color-header-bg);
-    font-weight: bold;
+.descripcion {
     margin-top: var(--space-2);
+    font-size: var(--font-size-sm);
 }
 
-.puntaje {
+.ya-unido {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    font-style: italic;
+}
+
+.error-union {
+    color: #ff6b6b;
+    font-size: var(--font-size-sm);
     margin-top: var(--space-2);
 }
 </style>

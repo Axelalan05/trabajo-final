@@ -1,28 +1,23 @@
 <script setup lang="ts">
-import JuegoForm from '@/components/juegos/JuegoForm.vue'
-import AppButton from '@/components/ui/AppButton.vue'
-import AppModal from '@/components/ui/AppModal.vue'
-import { juegoService } from '@/services/juegoService'
-import type { Juego } from '@/types'
-import { Heart, Pencil, Plus, Star, Trash2 } from 'lucide-vue-next'
+import ConfirmModal from '@/components/ui/ConfirmModal.vue'
+import { userJuegoService } from '@/services/userJuegoService'
+import type { EstadoJuego, UserJuego } from '@/types'
+import { Star, Trash2 } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
 
-const juegos = ref<Juego[]>([])
+const misJuegos = ref<UserJuego[]>([])
 const loading = ref(true)
-const showModal = ref(false)
-const juegoEditando = ref<Juego | null>(null)
-const errorSubmit = ref('')
 const estadisticas = ref<{
     juegos_completados: number
     promedio_puntaje: number
-    generos_mas_jugados: { genero: string; total: number }[]
+    generos_mas_jugados: { juego__genero: string; total: number }[]
 } | null>(null)
 
-async function cargarJuegos() {
+async function cargarMisJuegos() {
     loading.value = true
     try {
-        const response = await juegoService.listMios()
-        juegos.value = response.data
+        const response = await userJuegoService.listMios()
+        misJuegos.value = response.data
     } finally {
         loading.value = false
     }
@@ -30,67 +25,46 @@ async function cargarJuegos() {
 
 async function cargarEstadisticas() {
     try {
-        const response = await juegoService.estadisticas()
+        const response = await userJuegoService.estadisticas()
         estadisticas.value = response.data
     } catch {
         // silencioso
     }
 }
 
-function abrirModalCrear() {
-    juegoEditando.value = null
-    errorSubmit.value = ''
-    showModal.value = true
-}
-
-function abrirModalEditar(juego: Juego) {
-    juegoEditando.value = juego
-    errorSubmit.value = ''
-    showModal.value = true
-}
-
-function cerrarModal() {
-    showModal.value = false
-    juegoEditando.value = null
-    errorSubmit.value = ''
-}
-
-async function handleSubmit(data: Partial<Juego>) {
-    errorSubmit.value = ''
-    try {
-        if (juegoEditando.value) {
-            await juegoService.update(juegoEditando.value.id, data)
-        } else {
-            await juegoService.create(data)
-        }
-        cerrarModal()
-        await cargarJuegos()
-        await cargarEstadisticas()
-    } catch (err: any) {
-        const detail = err?.response?.data?.error?.details
-        if (detail && typeof detail === 'object') {
-            const mensajes = Object.values(detail).flat()
-            errorSubmit.value = (mensajes as string[]).join(' ')
-        } else {
-            errorSubmit.value = 'Error al guardar el juego.'
-        }
-    }
-}
-
-async function eliminarJuego(id: number) {
-    if (!confirm('¿Seguro que querés eliminar este juego?')) return
-    await juegoService.delete(id)
-    juegos.value = juegos.value.filter((j) => j.id !== id)
+async function actualizarEstado(userJuego: UserJuego, estado: EstadoJuego) {
+    const response = await userJuegoService.actualizar(userJuego.id, { estado })
+    userJuego.estado = response.data.estado
     await cargarEstadisticas()
 }
 
-async function toggleFavorito(juego: Juego) {
-    await juegoService.toggleFavorito(juego.id)
-    juego.es_favorito = !juego.es_favorito
+async function actualizarPuntaje(userJuego: UserJuego, puntaje: number | null) {
+    const response = await userJuegoService.actualizar(userJuego.id, { puntaje })
+    userJuego.puntaje = response.data.puntaje
+    await cargarEstadisticas()
+}
+
+function claseEstado(estado: EstadoJuego): string {
+    return `estado-${estado}`
+}
+
+const juegoASalir = ref<UserJuego | null>(null)
+
+function pedirSalir(userJuego: UserJuego) {
+    juegoASalir.value = userJuego
+}
+
+async function confirmarSalir() {
+    if (!juegoASalir.value) return
+    const id = juegoASalir.value.id
+    await userJuegoService.salir(id)
+    misJuegos.value = misJuegos.value.filter((uj) => uj.id !== id)
+    await cargarEstadisticas()
+    juegoASalir.value = null
 }
 
 onMounted(async () => {
-    await cargarJuegos()
+    await cargarMisJuegos()
     await cargarEstadisticas()
 })
 </script>
@@ -99,14 +73,11 @@ onMounted(async () => {
     <div class="mis-juegos-view">
         <div class="encabezado">
             <h1>Mi colección</h1>
-            <AppButton @click="abrirModalCrear">
-                <Plus :size="18" /> Agregar juego
-            </AppButton>
         </div>
 
         <div v-if="estadisticas" class="estadisticas">
             <div class="stat-card">
-                <p class="stat-numero">{{ juegos.length }}</p>
+                <p class="stat-numero">{{ misJuegos.length }}</p>
                 <p class="stat-label">Total de juegos</p>
             </div>
             <div class="stat-card">
@@ -118,45 +89,54 @@ onMounted(async () => {
                 <p class="stat-label">Puntaje promedio</p>
             </div>
             <div class="stat-card">
-                <p class="stat-numero">{{ estadisticas.generos_mas_jugados[0]?.genero ?? '—' }}</p>
+                <p class="stat-numero">{{ estadisticas.generos_mas_jugados[0]?.juego__genero ?? '—' }}</p>
                 <p class="stat-label">Género favorito</p>
             </div>
         </div>
 
         <div v-if="loading">Cargando...</div>
 
-        <div v-else-if="juegos.length === 0" class="vacio">
-            Todavía no agregaste ningún juego.
+        <div v-else-if="misJuegos.length === 0" class="vacio">
+            Todavía no te uniste a ningún juego. Buscá algo en <router-link to="/explorar">Explorar</router-link>.
         </div>
 
         <div v-else class="lista-juegos">
-            <div v-for="juego in juegos" :key="juego.id" class="juego-card">
+            <div v-for="userJuego in misJuegos" :key="userJuego.id" class="juego-card">
                 <div class="card-top">
-                    <h3>{{ juego.nombre }}</h3>
-                    <button class="favorito-btn" :class="{ activo: juego.es_favorito }" @click="toggleFavorito(juego)">
-                        <Heart :size="20" :fill="juego.es_favorito ? 'currentColor' : 'none'" />
-                    </button>
-                </div>
-                <p class="detalle">{{ juego.genero }} · {{ juego.plataforma }} · {{ juego.anio }}</p>
-                <p class="estado">{{ juego.estado }}</p>
-                <p v-if="juego.puntaje" class="puntaje">
-                    <Star :size="16" /> {{ juego.puntaje }}/10
-                </p>
-                <div class="acciones">
-                    <button class="icon-btn" @click="abrirModalEditar(juego)">
-                        <Pencil :size="18" />
-                    </button>
-                    <button class="icon-btn icon-btn-danger" @click="eliminarJuego(juego.id)">
+                    <h3>{{ userJuego.juego.nombre }}</h3>
+                    <button class="icon-btn icon-btn-danger" @click="pedirSalir(userJuego)">
                         <Trash2 :size="18" />
                     </button>
                 </div>
+                <p class="detalle">
+                    {{ userJuego.juego.genero }} · {{ userJuego.juego.plataforma }} · {{ userJuego.juego.anio }}
+                </p>
+
+                <div class="campo">
+                    <label>Estado</label>
+                    <select :class="claseEstado(userJuego.estado)" :value="userJuego.estado"
+                        @change="actualizarEstado(userJuego, ($event.target as HTMLSelectElement).value as EstadoJuego)">
+                        <option value="pendiente">Pendiente</option>
+                        <option value="jugando">Jugando</option>
+                        <option value="completado">Completado</option>
+                        <option value="abandonado">Abandonado</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label>Puntaje (1-10)</label>
+                    <input type="number" min="1" max="10" :value="userJuego.puntaje"
+                        @change="actualizarPuntaje(userJuego, ($event.target as HTMLInputElement).valueAsNumber || null)" />
+                </div>
+
+                <p v-if="userJuego.puntaje" class="puntaje">
+                    <Star :size="16" /> {{ userJuego.puntaje }}/10
+                </p>
             </div>
         </div>
-
-        <AppModal :show="showModal" :title="juegoEditando ? 'Editar juego' : 'Agregar juego'" @close="cerrarModal">
-            <p v-if="errorSubmit" class="error-modal">{{ errorSubmit }}</p>
-            <JuegoForm :juego="juegoEditando" @submit="handleSubmit" />
-        </AppModal>
+        <ConfirmModal :show="!!juegoASalir" title="Salir del juego"
+            :mensaje="`¿Seguro que querés salir de '${juegoASalir?.juego.nombre}'? Perdés tu estado, puntaje y reseña de este juego.`"
+            texto-confirmar="Salir" variant-confirmar="danger" @confirm="confirmarSalir" @close="juegoASalir = null" />
     </div>
 </template>
 
@@ -240,35 +220,31 @@ onMounted(async () => {
     margin: 0;
 }
 
-.favorito-btn {
-    background: transparent;
-    border: none;
-    color: var(--color-text-secondary);
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    transition: transform 0.15s ease, color 0.15s ease;
-    flex-shrink: 0;
-}
-
-.favorito-btn:hover {
-    transform: scale(1.15);
-}
-
-.favorito-btn.activo {
-    color: #ff6b6b;
-}
-
 .detalle {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-2);
+}
+
+.campo {
+    margin-top: var(--space-2);
+}
+
+.campo label {
+    display: block;
+    margin-bottom: var(--space-1);
     color: var(--color-text-secondary);
     font-size: var(--font-size-sm);
 }
 
-.estado {
-    color: var(--color-header-bg);
-    font-weight: bold;
-    margin-top: var(--space-2);
+.campo input,
+.campo select {
+    width: 100%;
+    padding: var(--space-2);
+    border-radius: var(--radius-sm);
+    border: none;
+    font-family: var(--font-sans);
+    box-sizing: border-box;
 }
 
 .puntaje {
@@ -305,14 +281,27 @@ onMounted(async () => {
     color: #ff6b6b;
 }
 
-.app-button {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-1);
+.estado-pendiente {
+    color: #ffd93d !important;
+    background: #3a3520 !important;
+    border: 1px solid #ffd93d !important;
 }
 
-.error-modal {
-    color: #ff6b6b;
-    margin-bottom: var(--space-4);
+.estado-jugando {
+    color: #6bcf7f !important;
+    background: #1f3a24 !important;
+    border: 1px solid #6bcf7f !important;
+}
+
+.estado-completado {
+    color: #63d2ff !important;
+    background: #1a3540 !important;
+    border: 1px solid #63d2ff !important;
+}
+
+.estado-abandonado {
+    color: #ff6b6b !important;
+    background: #3a1f1f !important;
+    border: 1px solid #ff6b6b !important;
 }
 </style>

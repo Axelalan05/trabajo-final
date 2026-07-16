@@ -37,6 +37,12 @@ const router = createRouter({
       component: () => import('@/views/ExplorarView.vue'),
     },
     {
+      path: '/admin/juegos',
+      name: 'admin-juegos',
+      component: () => import('@/views/AdminJuegosView.vue'),
+      meta: { requiresAuth: true, requiresAdmin: true },
+    },
+    {
       path: '/usuarios/:username',
       name: 'perfil-publico',
       component: () => import('@/views/PerfilPublicoView.vue'),
@@ -44,11 +50,22 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach((to) => {
+router.beforeEach(async (to) => {
   const authStore = useAuthStore()
+
+  if (authStore.isAuthenticated && !authStore.user) {
+    try {
+      await authStore.fetchUser()
+    } catch {
+    }
+  }
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     return { name: 'login' }
+  }
+
+  if (to.meta.requiresAdmin && !authStore.isAdmin) {
+    return { name: 'home' }
   }
 })
 

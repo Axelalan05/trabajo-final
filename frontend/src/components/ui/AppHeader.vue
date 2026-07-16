@@ -21,6 +21,7 @@ async function handleLogout() {
         <nav class="nav">
             <router-link to="/explorar">Explorar</router-link>
             <router-link v-if="authStore.isAuthenticated" to="/mis-juegos">Mi colección</router-link>
+            <router-link v-if="authStore.isAdmin" to="/admin/juegos">Administrar catálogo</router-link>
             <router-link v-if="authStore.isAuthenticated" to="/perfil">Perfil</router-link>
 
             <button v-if="authStore.isAuthenticated" class="logout-btn" @click="handleLogout">
