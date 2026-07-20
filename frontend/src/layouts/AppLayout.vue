@@ -22,5 +22,21 @@ import AppHeader from '@/components/ui/AppHeader.vue';
 
 .contenido {
     flex: 1;
+    position: relative;
+    z-index: 0;
+    background: var(--color-bg);
+}
+
+.contenido::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('@/assets/background-juegos.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.15;
+    z-index: -1;
+    pointer-events: none;
 }
 </style>

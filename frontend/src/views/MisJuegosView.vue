@@ -102,36 +102,40 @@ onMounted(async () => {
 
         <div v-else class="lista-juegos">
             <div v-for="userJuego in misJuegos" :key="userJuego.id" class="juego-card">
-                <div class="card-top">
-                    <h3>{{ userJuego.juego.nombre }}</h3>
-                    <button class="icon-btn icon-btn-danger" @click="pedirSalir(userJuego)">
-                        <Trash2 :size="18" />
-                    </button>
-                </div>
-                <p class="detalle">
-                    {{ userJuego.juego.genero }} · {{ userJuego.juego.plataforma }} · {{ userJuego.juego.anio }}
-                </p>
+                <img v-if="userJuego.juego.imagen_url" :src="userJuego.juego.imagen_url" :alt="userJuego.juego.nombre"
+                    class="portada" />
+                <div class="juego-card-body">
+                    <div class="card-top">
+                        <h3>{{ userJuego.juego.nombre }}</h3>
+                        <button class="icon-btn icon-btn-danger" @click="pedirSalir(userJuego)">
+                            <Trash2 :size="18" />
+                        </button>
+                    </div>
+                    <p class="detalle">
+                        {{ userJuego.juego.genero }} · {{ userJuego.juego.plataforma }}
+                    </p>
 
-                <div class="campo">
-                    <label>Estado</label>
-                    <select :class="claseEstado(userJuego.estado)" :value="userJuego.estado"
-                        @change="actualizarEstado(userJuego, ($event.target as HTMLSelectElement).value as EstadoJuego)">
-                        <option value="pendiente">Pendiente</option>
-                        <option value="jugando">Jugando</option>
-                        <option value="completado">Completado</option>
-                        <option value="abandonado">Abandonado</option>
-                    </select>
-                </div>
+                    <div class="campo">
+                        <label>Estado</label>
+                        <select :class="claseEstado(userJuego.estado)" :value="userJuego.estado"
+                            @change="actualizarEstado(userJuego, ($event.target as HTMLSelectElement).value as EstadoJuego)">
+                            <option value="pendiente">Pendiente</option>
+                            <option value="jugando">Jugando</option>
+                            <option value="completado">Completado</option>
+                            <option value="abandonado">Abandonado</option>
+                        </select>
+                    </div>
 
-                <div class="campo">
-                    <label>Puntaje (1-10)</label>
-                    <input type="number" min="1" max="10" :value="userJuego.puntaje"
-                        @change="actualizarPuntaje(userJuego, ($event.target as HTMLInputElement).valueAsNumber || null)" />
-                </div>
+                    <div class="campo">
+                        <label>Puntaje (1-10)</label>
+                        <input type="number" min="1" max="10" :value="userJuego.puntaje"
+                            @change="actualizarPuntaje(userJuego, ($event.target as HTMLInputElement).valueAsNumber || null)" />
+                    </div>
 
-                <p v-if="userJuego.puntaje" class="puntaje">
-                    <Star :size="16" /> {{ userJuego.puntaje }}/10
-                </p>
+                    <p v-if="userJuego.puntaje" class="puntaje">
+                        <Star :size="16" /> {{ userJuego.puntaje }}/10
+                    </p>
+                </div>
             </div>
         </div>
         <ConfirmModal :show="!!juegoASalir" title="Salir del juego"
@@ -205,8 +209,19 @@ onMounted(async () => {
 .juego-card {
     background: var(--color-footer-bg);
     border-radius: var(--radius-md);
-    padding: var(--space-4);
+    overflow: hidden;
     text-align: left;
+}
+
+.portada {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+}
+
+.juego-card-body {
+    padding: var(--space-4);
 }
 
 .card-top {

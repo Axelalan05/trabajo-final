@@ -16,13 +16,27 @@ export interface Profile {
 // Catálogo: ya no tiene estado/puntaje/reseña/favorito — eso es de cada usuario
 export interface Juego {
   id: number
+  rawg_id: number | null
   nombre: string
   genero: string
   plataforma: string
-  imagen: string | null
+  imagen_url: string | null
   descripcion: string
-  anio: number
+  fecha_lanzamiento: string | null
   created_at: string
+}
+
+export interface RawgResultado {
+  rawg_id: number
+  nombre: string
+  imagen_url: string | null
+  fecha_lanzamiento: string | null
+  genero: string
+  plataforma: string
+}
+
+export interface RawgDetalle extends RawgResultado {
+  descripcion: string
 }
 
 export type EstadoJuego = 'jugando' | 'completado' | 'pendiente' | 'abandonado'

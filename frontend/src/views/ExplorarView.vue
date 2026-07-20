@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppButton from '@/components/ui/AppButton.vue'
+import AppModal from '@/components/ui/AppModal.vue'
 import { juegoService } from '@/services/juegoService'
 import { userJuegoService } from '@/services/userJuegoService'
 import { useAuthStore } from '@/stores/auth'
@@ -16,6 +17,8 @@ const genero = ref('')
 const plataforma = ref('')
 const ordering = ref('-created_at')
 const mensajeUnion = ref<{ id: number; texto: string } | null>(null)
+
+const juegoDetalle = ref<Juego | null>(null)
 
 async function cargarJuegos() {
     loading.value = true
@@ -52,6 +55,15 @@ async function unirseAJuego(juego: Juego) {
     }
 }
 
+function truncar(texto: string, limite = 30): string {
+    if (texto.length <= limite) return texto
+    return texto.slice(0, limite).trimEnd() + '...'
+}
+
+function verDetalle(juego: Juego) {
+    juegoDetalle.value = juego
+}
+
 onMounted(async () => {
     await cargarJuegos()
     await cargarMisJuegoIds()
@@ -80,19 +92,36 @@ onMounted(async () => {
         </div>
 
         <div v-else class="lista-juegos">
-            <div v-for="juego in juegos" :key="juego.id" class="juego-card">
-                <h3>{{ juego.nombre }}</h3>
-                <p class="detalle">{{ juego.genero }} · {{ juego.plataforma }} · {{ juego.anio }}</p>
-                <p v-if="juego.descripcion" class="descripcion">{{ juego.descripcion }}</p>
+            <div v-for="juego in juegos" :key="juego.id" class="juego-card" @click="verDetalle(juego)">
+                <img v-if="juego.imagen_url" :src="juego.imagen_url" :alt="juego.nombre" class="portada" />
+                <div class="juego-card-body">
+                    <h3>{{ juego.nombre }}</h3>
+                    <p class="detalle">
+                        {{ juego.genero }} · {{ juego.plataforma }}
+                        <span v-if="juego.fecha_lanzamiento"> · {{ juego.fecha_lanzamiento.slice(0, 4) }}</span>
+                    </p>
+                    <p v-if="juego.descripcion" class="descripcion">{{ truncar(juego.descripcion) }}</p>
 
-                <p v-if="mensajeUnion?.id === juego.id" class="error-union">{{ mensajeUnion.texto }}</p>
+                    <p v-if="mensajeUnion?.id === juego.id" class="error-union">{{ mensajeUnion.texto }}</p>
 
-                <AppButton v-if="authStore.isAuthenticated && !misJuegoIds.has(juego.id)" @click="unirseAJuego(juego)">
-                    Unirme
-                </AppButton>
-                <p v-else-if="authStore.isAuthenticated" class="ya-unido">Ya está en tu colección</p>
+                    <AppButton v-if="authStore.isAuthenticated && !misJuegoIds.has(juego.id)"
+                        @click.stop="unirseAJuego(juego)">
+                        Unirme
+                    </AppButton>
+                    <p v-else-if="authStore.isAuthenticated" class="ya-unido">Ya está en tu colección</p>
+                </div>
             </div>
         </div>
+
+        <AppModal :show="!!juegoDetalle" :title="juegoDetalle?.nombre ?? ''" @close="juegoDetalle = null">
+            <img v-if="juegoDetalle?.imagen_url" :src="juegoDetalle.imagen_url" :alt="juegoDetalle.nombre"
+                class="detalle-portada" />
+            <p class="detalle-meta">
+                {{ juegoDetalle?.genero }} · {{ juegoDetalle?.plataforma }}
+                <span v-if="juegoDetalle?.fecha_lanzamiento"> · {{ juegoDetalle.fecha_lanzamiento.slice(0, 4) }}</span>
+            </p>
+            <p class="detalle-descripcion">{{ juegoDetalle?.descripcion || 'Sin descripción.' }}</p>
+        </AppModal>
     </div>
 </template>
 
@@ -133,8 +162,25 @@ onMounted(async () => {
 .juego-card {
     background: var(--color-footer-bg);
     border-radius: var(--radius-md);
-    padding: var(--space-4);
+    overflow: hidden;
     text-align: left;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.juego-card:hover {
+    transform: translateY(-2px);
+}
+
+.portada {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+}
+
+.juego-card-body {
+    padding: var(--space-4);
 }
 
 .detalle {
@@ -158,5 +204,24 @@ onMounted(async () => {
     color: #ff6b6b;
     font-size: var(--font-size-sm);
     margin-top: var(--space-2);
+}
+
+.detalle-portada {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-4);
+}
+
+.detalle-meta {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-3);
+}
+
+.detalle-descripcion {
+    white-space: pre-line;
+    line-height: 1.5;
 }
 </style>

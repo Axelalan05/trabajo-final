@@ -2,12 +2,14 @@ from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework.filters import OrderingFilter
 from rest_framework.decorators import action
+from rest_framework.views import APIView
 from apps.juegos.models import Juego, UserJuego
 from apps.juegos.serializers import JuegoSerializer, UserJuegoSerializer
 from apps.juegos.filters import JuegoFilter
 from core.response import ApiResponse
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Avg, Count
+from apps.juegos import rawg_service
 
 
 class JuegoViewSet(viewsets.ModelViewSet):
@@ -123,3 +125,27 @@ class UserJuegoViewSet(viewsets.ModelViewSet):
             'promedio_puntaje': round(promedio, 1) if promedio else 0,
             'generos_mas_jugados': list(generos),
         })
+
+class RawgBuscarView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        query = request.query_params.get('q', '').strip()
+        if not query:
+            return ApiResponse.error(code='validation_error', message='Falta el parámetro q', status=400)
+        try:
+            resultados = rawg_service.buscar_juegos(query)
+        except rawg_service.RawgError as exc:
+            return ApiResponse.error(code='rawg_error', message=str(exc), status=502)
+        return ApiResponse.success(data=resultados)
+
+
+class RawgDetalleView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, rawg_id):
+        try:
+            detalle = rawg_service.obtener_detalle(rawg_id)
+        except rawg_service.RawgError as exc:
+            return ApiResponse.error(code='rawg_error', message=str(exc), status=502)
+        return ApiResponse.success(data=detalle)

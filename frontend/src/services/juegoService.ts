@@ -1,4 +1,4 @@
-import type { ApiResponse, Juego } from '@/types'
+import type { ApiResponse, Juego, RawgDetalle, RawgResultado } from '@/types'
 import api from './api'
 
 export interface JuegoFiltros {
@@ -40,5 +40,18 @@ export const juegoService = {
 
   async delete(id: number): Promise<void> {
     await api.delete(`/juegos/${id}/`)
+  },
+
+  // Búsqueda e integración con RAWG (solo admin)
+  async rawgBuscar(query: string): Promise<ApiResponse<RawgResultado[]>> {
+    const { data } = await api.get<ApiResponse<RawgResultado[]>>('/juegos/rawg/buscar/', {
+      params: { q: query },
+    })
+    return data
+  },
+
+  async rawgDetalle(rawgId: number): Promise<ApiResponse<RawgDetalle>> {
+    const { data } = await api.get<ApiResponse<RawgDetalle>>(`/juegos/rawg/${rawgId}/`)
+    return data
   },
 }

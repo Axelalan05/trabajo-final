@@ -31,6 +31,8 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'
 
+RAWG_API_KEY = os.environ.get('RAWG_API_KEY', '')
+
 ALLOWED_HOSTS = ['*']
 
 

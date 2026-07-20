@@ -4,9 +4,9 @@ from apps.juegos.models import Juego, UserJuego
 
 @admin.register(Juego)
 class JuegoAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'genero', 'plataforma', 'anio', 'created_at')
-    list_filter = ('genero', 'plataforma', 'anio')
-    search_fields = ('nombre',)
+    list_display = ('nombre', 'genero', 'plataforma', 'fecha_lanzamiento', 'created_at')
+    list_filter = ('genero', 'plataforma')
+    search_fields = ('nombre', 'rawg_id')
     ordering = ('-created_at',)
 
 

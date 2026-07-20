@@ -21,3 +21,5 @@ Pillow==11.1.0
 
 # Variables de entorno (.env)
 python-dotenv==1.0.1
+
+requests==2.32.3

@@ -3,12 +3,18 @@ from django.db import models
 
 
 class Juego(models.Model):
-    nombre = models.CharField(max_length=100)
-    genero = models.CharField(max_length=50)
-    plataforma = models.CharField(max_length=50)
-    imagen = models.ImageField(upload_to='juegos/', blank=True, null=True)
+    """
+    Catálogo de juegos. Los datos vienen de la API de RAWG — el admin
+    busca y selecciona un juego, y estos campos se llenan a partir de
+    ahí (no se tipean a mano, salvo que RAWG no tenga el dato).
+    """
+    rawg_id = models.IntegerField(unique=True, null=True, blank=True)
+    nombre = models.CharField(max_length=200)
+    genero = models.CharField(max_length=255)       # ej: "Action, RPG"
+    plataforma = models.CharField(max_length=255)    # ej: "PC, PlayStation 5"
+    imagen_url = models.URLField(blank=True, null=True)
     descripcion = models.TextField(blank=True)
-    anio = models.IntegerField()
+    fecha_lanzamiento = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -16,6 +22,11 @@ class Juego(models.Model):
 
 
 class UserJuego(models.Model):
+    """
+    Relación entre un usuario y un juego del catálogo.
+    Acá vive todo lo que es personal de cada usuario: su estado
+    de avance, su puntaje, su reseña.
+    """
     ESTADOS = [
         ('jugando', 'Jugando'),
         ('completado', 'Completado'),

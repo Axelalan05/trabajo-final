@@ -83,7 +83,20 @@ async function handleRegister() {
     width: 100%;
     padding: var(--space-2);
     border-radius: var(--radius-sm);
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: var(--color-footer-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    box-sizing: border-box;
+}
+
+.campo input:focus {
+    outline: none;
+    border-color: var(--color-header-bg);
+}
+
+.campo input::placeholder {
+    color: var(--color-text-secondary);
 }
 
 .error {

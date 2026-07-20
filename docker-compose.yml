@@ -34,6 +34,7 @@ services:
       DJANGO_ENV: development
       DJANGO_DEBUG: 1
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+      RAWG_API_KEY: ${RAWG_API_KEY}
     ports:
       - "8000:8000"
     volumes:

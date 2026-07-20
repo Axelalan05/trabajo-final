@@ -46,6 +46,9 @@ async function handleLogin() {
         <p class="link-secundario">
             ¿No tenés cuenta? <router-link to="/register">Registrate</router-link>
         </p>
+        <p class="link-secundario">
+            ¿No recordás la contraseña? <a href="#" @click.prevent>Click acá</a>
+        </p>
     </div>
 </template>
 
@@ -92,5 +95,25 @@ button:disabled {
 
 .link-secundario a {
     color: var(--color-header-bg);
+}
+
+.campo input {
+    width: 100%;
+    padding: var(--space-2);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: var(--color-footer-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    box-sizing: border-box;
+}
+
+.campo input:focus {
+    outline: none;
+    border-color: var(--color-header-bg);
+}
+
+.campo input::placeholder {
+    color: var(--color-text-secondary);
 }
 </style>

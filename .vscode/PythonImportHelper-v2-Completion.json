@@ -25,6 +25,14 @@
         "documentation": {}
     },
     {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
         "label": "migrations",
         "importPath": "django.db",
         "description": "django.db",
@@ -259,6 +267,15 @@
         "documentation": {}
     },
     {
+        "label": "requests",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "requests",
+        "description": "requests",
+        "detail": "requests",
+        "documentation": {}
+    },
+    {
         "label": "serializers",
         "importPath": "rest_framework",
         "description": "rest_framework",
@@ -312,22 +329,6 @@
         "description": "rest_framework",
         "isExtraImport": true,
         "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
-        "label": "date",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "timedelta",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
         "documentation": {}
     },
     {
@@ -419,6 +420,14 @@
         "documentation": {}
     },
     {
+        "label": "rawg_service",
+        "importPath": "apps.juegos",
+        "description": "apps.juegos",
+        "isExtraImport": true,
+        "detail": "apps.juegos",
+        "documentation": {}
+    },
+    {
         "label": "IsAuthenticated",
         "importPath": "rest_framework.permissions",
         "description": "rest_framework.permissions",
@@ -472,6 +481,30 @@
         "description": "rest_framework.decorators",
         "isExtraImport": true,
         "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "APIView",
+        "importPath": "rest_framework.views",
+        "description": "rest_framework.views",
+        "isExtraImport": true,
+        "detail": "rest_framework.views",
+        "documentation": {}
+    },
+    {
+        "label": "APIView",
+        "importPath": "rest_framework.views",
+        "description": "rest_framework.views",
+        "isExtraImport": true,
+        "detail": "rest_framework.views",
+        "documentation": {}
+    },
+    {
+        "label": "exception_handler",
+        "importPath": "rest_framework.views",
+        "description": "rest_framework.views",
+        "isExtraImport": true,
+        "detail": "rest_framework.views",
         "documentation": {}
     },
     {
@@ -611,22 +644,6 @@
         "documentation": {}
     },
     {
-        "label": "APIView",
-        "importPath": "rest_framework.views",
-        "description": "rest_framework.views",
-        "isExtraImport": true,
-        "detail": "rest_framework.views",
-        "documentation": {}
-    },
-    {
-        "label": "exception_handler",
-        "importPath": "rest_framework.views",
-        "description": "rest_framework.views",
-        "isExtraImport": true,
-        "detail": "rest_framework.views",
-        "documentation": {}
-    },
-    {
         "label": "RegisterSerializer",
         "importPath": "apps.users.serializers",
         "description": "apps.users.serializers",
@@ -681,6 +698,14 @@
         "description": "pathlib",
         "isExtraImport": true,
         "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
         "documentation": {}
     },
     {
@@ -786,7 +811,7 @@
         "kind": 6,
         "importPath": "backend.apps.juegos.admin",
         "description": "backend.apps.juegos.admin",
-        "peekOfCode": "class JuegoAdmin(admin.ModelAdmin):\n    list_display = ('nombre', 'genero', 'plataforma', 'anio', 'created_at')\n    list_filter = ('genero', 'plataforma', 'anio')\n    search_fields = ('nombre',)\n    ordering = ('-created_at',)\n@admin.register(UserJuego)\nclass UserJuegoAdmin(admin.ModelAdmin):\n    list_display = ('user', 'juego', 'estado', 'puntaje', 'created_at')\n    list_filter = ('estado',)\n    search_fields = ('user__username', 'juego__nombre')",
+        "peekOfCode": "class JuegoAdmin(admin.ModelAdmin):\n    list_display = ('nombre', 'genero', 'plataforma', 'fecha_lanzamiento', 'created_at')\n    list_filter = ('genero', 'plataforma')\n    search_fields = ('nombre', 'rawg_id')\n    ordering = ('-created_at',)\n@admin.register(UserJuego)\nclass UserJuegoAdmin(admin.ModelAdmin):\n    list_display = ('user', 'juego', 'estado', 'puntaje', 'created_at')\n    list_filter = ('estado',)\n    search_fields = ('user__username', 'juego__nombre')",
         "detail": "backend.apps.juegos.admin",
         "documentation": {}
     },
@@ -822,7 +847,7 @@
         "kind": 6,
         "importPath": "backend.apps.juegos.models",
         "description": "backend.apps.juegos.models",
-        "peekOfCode": "class Juego(models.Model):\n    nombre = models.CharField(max_length=100)\n    genero = models.CharField(max_length=50)\n    plataforma = models.CharField(max_length=50)\n    imagen = models.ImageField(upload_to='juegos/', blank=True, null=True)\n    descripcion = models.TextField(blank=True)\n    anio = models.IntegerField()\n    created_at = models.DateTimeField(auto_now_add=True)\n    def __str__(self):\n        return f'{self.nombre} ({self.plataforma})'",
+        "peekOfCode": "class Juego(models.Model):\n    \"\"\"\n    Catálogo de juegos. Los datos vienen de la API de RAWG — el admin\n    busca y selecciona un juego, y estos campos se llenan a partir de\n    ahí (no se tipean a mano, salvo que RAWG no tenga el dato).\n    \"\"\"\n    rawg_id = models.IntegerField(unique=True, null=True, blank=True)\n    nombre = models.CharField(max_length=200)\n    genero = models.CharField(max_length=255)       # ej: \"Action, RPG\"\n    plataforma = models.CharField(max_length=255)    # ej: \"PC, PlayStation 5\"",
         "detail": "backend.apps.juegos.models",
         "documentation": {}
     },
@@ -831,8 +856,44 @@
         "kind": 6,
         "importPath": "backend.apps.juegos.models",
         "description": "backend.apps.juegos.models",
-        "peekOfCode": "class UserJuego(models.Model):\n    ESTADOS = [\n        ('jugando', 'Jugando'),\n        ('completado', 'Completado'),\n        ('pendiente', 'Pendiente'),\n        ('abandonado', 'Abandonado'),\n    ]\n    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='juegos_usuario')\n    juego = models.ForeignKey(Juego, on_delete=models.CASCADE, related_name='usuarios_juego')\n    estado = models.CharField(max_length=20, choices=ESTADOS, default='pendiente')",
+        "peekOfCode": "class UserJuego(models.Model):\n    \"\"\"\n    Relación entre un usuario y un juego del catálogo.\n    Acá vive todo lo que es personal de cada usuario: su estado\n    de avance, su puntaje, su reseña.\n    \"\"\"\n    ESTADOS = [\n        ('jugando', 'Jugando'),\n        ('completado', 'Completado'),\n        ('pendiente', 'Pendiente'),",
         "detail": "backend.apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "RawgError",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.rawg_service",
+        "description": "backend.apps.juegos.rawg_service",
+        "peekOfCode": "class RawgError(Exception):\n    \"\"\"Error al comunicarse con la API de RAWG.\"\"\"\n    pass\ndef _armar_genero(juego: dict) -> str:\n    return ', '.join(g['name'] for g in juego.get('genres', []) or [])\ndef _armar_plataforma(juego: dict) -> str:\n    return ', '.join(p['platform']['name'] for p in juego.get('platforms', []) or [])\ndef buscar_juegos(query: str, page_size: int = 10) -> list[dict]:\n    if not settings.RAWG_API_KEY:\n        raise RawgError('RAWG_API_KEY no está configurada en el servidor.')",
+        "detail": "backend.apps.juegos.rawg_service",
+        "documentation": {}
+    },
+    {
+        "label": "buscar_juegos",
+        "kind": 2,
+        "importPath": "backend.apps.juegos.rawg_service",
+        "description": "backend.apps.juegos.rawg_service",
+        "peekOfCode": "def buscar_juegos(query: str, page_size: int = 10) -> list[dict]:\n    if not settings.RAWG_API_KEY:\n        raise RawgError('RAWG_API_KEY no está configurada en el servidor.')\n    try:\n        response = requests.get(\n            f'{RAWG_BASE_URL}/games',\n            params={'key': settings.RAWG_API_KEY, 'search': query, 'page_size': page_size},\n            timeout=8,\n        )\n        response.raise_for_status()",
+        "detail": "backend.apps.juegos.rawg_service",
+        "documentation": {}
+    },
+    {
+        "label": "obtener_detalle",
+        "kind": 2,
+        "importPath": "backend.apps.juegos.rawg_service",
+        "description": "backend.apps.juegos.rawg_service",
+        "peekOfCode": "def obtener_detalle(rawg_id: int) -> dict:\n    if not settings.RAWG_API_KEY:\n        raise RawgError('RAWG_API_KEY no está configurada en el servidor.')\n    try:\n        response = requests.get(\n            f'{RAWG_BASE_URL}/games/{rawg_id}',\n            params={'key': settings.RAWG_API_KEY},\n            timeout=8,\n        )\n        response.raise_for_status()",
+        "detail": "backend.apps.juegos.rawg_service",
+        "documentation": {}
+    },
+    {
+        "label": "RAWG_BASE_URL",
+        "kind": 5,
+        "importPath": "backend.apps.juegos.rawg_service",
+        "description": "backend.apps.juegos.rawg_service",
+        "peekOfCode": "RAWG_BASE_URL = 'https://api.rawg.io/api'\nclass RawgError(Exception):\n    \"\"\"Error al comunicarse con la API de RAWG.\"\"\"\n    pass\ndef _armar_genero(juego: dict) -> str:\n    return ', '.join(g['name'] for g in juego.get('genres', []) or [])\ndef _armar_plataforma(juego: dict) -> str:\n    return ', '.join(p['platform']['name'] for p in juego.get('platforms', []) or [])\ndef buscar_juegos(query: str, page_size: int = 10) -> list[dict]:\n    if not settings.RAWG_API_KEY:",
+        "detail": "backend.apps.juegos.rawg_service",
         "documentation": {}
     },
     {
@@ -840,7 +901,7 @@
         "kind": 6,
         "importPath": "backend.apps.juegos.serializers",
         "description": "backend.apps.juegos.serializers",
-        "peekOfCode": "class JuegoSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Juego\n        fields = ('id', 'nombre', 'genero', 'plataforma', 'imagen', 'descripcion', 'anio', 'created_at')\n        read_only_fields = ('id', 'created_at')\n    def validate_nombre(self, value):\n        if not value.strip():\n            raise serializers.ValidationError('El nombre no puede estar vacío.')\n        return value.strip()\n    def validate_anio(self, value):",
+        "peekOfCode": "class JuegoSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Juego\n        fields = ('id', 'rawg_id', 'nombre', 'genero', 'plataforma', 'imagen_url',\n                  'descripcion', 'fecha_lanzamiento', 'created_at')\n        read_only_fields = ('id', 'created_at')\n    def validate_nombre(self, value):\n        if not value.strip():\n            raise serializers.ValidationError('El nombre no puede estar vacío.')\n        return value.strip()",
         "detail": "backend.apps.juegos.serializers",
         "documentation": {}
     },
@@ -849,7 +910,7 @@
         "kind": 6,
         "importPath": "backend.apps.juegos.serializers",
         "description": "backend.apps.juegos.serializers",
-        "peekOfCode": "class UserJuegoSerializer(serializers.ModelSerializer):\n    juego = JuegoSerializer(read_only=True)\n    juego_id = serializers.PrimaryKeyRelatedField(\n        queryset=Juego.objects.all(), source='juego', write_only=True\n    )\n    class Meta:\n        model = UserJuego\n        fields = ('id', 'juego', 'juego_id', 'estado', 'puntaje', 'resenia', 'created_at')\n        read_only_fields = ('id', 'created_at')\n    def validate(self, attrs):",
+        "peekOfCode": "class UserJuegoSerializer(serializers.ModelSerializer):\n    juego = JuegoSerializer(read_only=True)\n    juego_id = serializers.PrimaryKeyRelatedField(\n        queryset=Juego.objects.all(), source='juego', write_only=True\n    )\n    class Meta:\n        model = UserJuego\n        fields = ('id', 'juego', 'juego_id', 'estado', 'puntaje', 'resenia', 'created_at')\n        read_only_fields = ('id', 'created_at')\n    def validate_puntaje(self, value):",
         "detail": "backend.apps.juegos.serializers",
         "documentation": {}
     },
@@ -885,7 +946,7 @@
         "kind": 5,
         "importPath": "backend.apps.juegos.urls",
         "description": "backend.apps.juegos.urls",
-        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'mis-juegos', views.UserJuegoViewSet, basename='userjuego')\nrouter.register(r'', views.JuegoViewSet, basename='juego')\nurlpatterns = [\n    path('publico/', views.JuegoPublicoListView.as_view()),\n    path('', include(router.urls)),\n]",
+        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'mis-juegos', views.UserJuegoViewSet, basename='userjuego')\nrouter.register(r'', views.JuegoViewSet, basename='juego')\nurlpatterns = [\n    path('publico/', views.JuegoPublicoListView.as_view()),\n    path('rawg/buscar/', views.RawgBuscarView.as_view()),\n    path('rawg/<int:rawg_id>/', views.RawgDetalleView.as_view()),\n    path('', include(router.urls)),\n]",
         "detail": "backend.apps.juegos.urls",
         "documentation": {}
     },
@@ -894,7 +955,7 @@
         "kind": 5,
         "importPath": "backend.apps.juegos.urls",
         "description": "backend.apps.juegos.urls",
-        "peekOfCode": "urlpatterns = [\n    path('publico/', views.JuegoPublicoListView.as_view()),\n    path('', include(router.urls)),\n]",
+        "peekOfCode": "urlpatterns = [\n    path('publico/', views.JuegoPublicoListView.as_view()),\n    path('rawg/buscar/', views.RawgBuscarView.as_view()),\n    path('rawg/<int:rawg_id>/', views.RawgDetalleView.as_view()),\n    path('', include(router.urls)),\n]",
         "detail": "backend.apps.juegos.urls",
         "documentation": {}
     },
@@ -922,6 +983,24 @@
         "importPath": "backend.apps.juegos.views",
         "description": "backend.apps.juegos.views",
         "peekOfCode": "class UserJuegoViewSet(viewsets.ModelViewSet):\n    permission_classes = [IsAuthenticated]\n    serializer_class = UserJuegoSerializer\n    ordering_fields = ['puntaje', 'created_at']\n    def get_queryset(self):\n        return UserJuego.objects.filter(user=self.request.user).select_related('juego')\n    def perform_create(self, serializer):\n        serializer.save(user=self.request.user)\n    def list(self, request, *args, **kwargs):\n        serializer = self.get_serializer(self.get_queryset(), many=True)",
+        "detail": "backend.apps.juegos.views",
+        "documentation": {}
+    },
+    {
+        "label": "RawgBuscarView",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.views",
+        "description": "backend.apps.juegos.views",
+        "peekOfCode": "class RawgBuscarView(APIView):\n    permission_classes = [IsAdminUser]\n    def get(self, request):\n        query = request.query_params.get('q', '').strip()\n        if not query:\n            return ApiResponse.error(code='validation_error', message='Falta el parámetro q', status=400)\n        try:\n            resultados = rawg_service.buscar_juegos(query)\n        except rawg_service.RawgError as exc:\n            return ApiResponse.error(code='rawg_error', message=str(exc), status=502)",
+        "detail": "backend.apps.juegos.views",
+        "documentation": {}
+    },
+    {
+        "label": "RawgDetalleView",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.views",
+        "description": "backend.apps.juegos.views",
+        "peekOfCode": "class RawgDetalleView(APIView):\n    permission_classes = [IsAdminUser]\n    def get(self, request, rawg_id):\n        try:\n            detalle = rawg_service.obtener_detalle(rawg_id)\n        except rawg_service.RawgError as exc:\n            return ApiResponse.error(code='rawg_error', message=str(exc), status=502)\n        return ApiResponse.success(data=detalle)",
         "detail": "backend.apps.juegos.views",
         "documentation": {}
     },
@@ -1074,7 +1153,7 @@
         "kind": 5,
         "importPath": "backend.config.settings",
         "description": "backend.config.settings",
-        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = os.environ.get(\n    'DJANGO_SECRET_KEY', 'django-insecure-)_6tb75%3f$vm_y)3s5b-k-x!)+$#0s&pux-i2-#r^l4-dzk_d')\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'\nALLOWED_HOSTS = ['*']\n# Application definition",
+        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = os.environ.get(\n    'DJANGO_SECRET_KEY', 'django-insecure-)_6tb75%3f$vm_y)3s5b-k-x!)+$#0s&pux-i2-#r^l4-dzk_d')\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'\nRAWG_API_KEY = os.environ.get('RAWG_API_KEY', '')\nALLOWED_HOSTS = ['*']",
         "detail": "backend.config.settings",
         "documentation": {}
     },
@@ -1083,7 +1162,7 @@
         "kind": 5,
         "importPath": "backend.config.settings",
         "description": "backend.config.settings",
-        "peekOfCode": "SECRET_KEY = os.environ.get(\n    'DJANGO_SECRET_KEY', 'django-insecure-)_6tb75%3f$vm_y)3s5b-k-x!)+$#0s&pux-i2-#r^l4-dzk_d')\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'\nALLOWED_HOSTS = ['*']\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',",
+        "peekOfCode": "SECRET_KEY = os.environ.get(\n    'DJANGO_SECRET_KEY', 'django-insecure-)_6tb75%3f$vm_y)3s5b-k-x!)+$#0s&pux-i2-#r^l4-dzk_d')\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'\nRAWG_API_KEY = os.environ.get('RAWG_API_KEY', '')\nALLOWED_HOSTS = ['*']\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',",
         "detail": "backend.config.settings",
         "documentation": {}
     },
@@ -1092,7 +1171,16 @@
         "kind": 5,
         "importPath": "backend.config.settings",
         "description": "backend.config.settings",
-        "peekOfCode": "DEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'\nALLOWED_HOSTS = ['*']\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',",
+        "peekOfCode": "DEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'\nRAWG_API_KEY = os.environ.get('RAWG_API_KEY', '')\nALLOWED_HOSTS = ['*']\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "RAWG_API_KEY",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "RAWG_API_KEY = os.environ.get('RAWG_API_KEY', '')\nALLOWED_HOSTS = ['*']\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',",
         "detail": "backend.config.settings",
         "documentation": {}
     },
