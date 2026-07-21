@@ -43,4 +43,22 @@ api.interceptors.response.use(
   }
 )
 
+export async function requestPasswordReset(email: string): Promise<void> {
+  await api.post('/auth/password-reset/', { email })
+}
+
+export async function confirmPasswordReset(
+  uid: number,
+  token: string,
+  password: string,
+  password_confirm: string
+): Promise<void> {
+  await api.post('/auth/password-reset/confirm/', {
+    uid,
+    token,
+    password,
+    password_confirm,
+  })
+}
+
 export default api

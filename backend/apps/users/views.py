@@ -4,6 +4,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from django.contrib.auth.models import User
 from apps.users.serializers import RegisterSerializer, UserSerializer, ProfileSerializer, ProfilePublicoSerializer
 from apps.users.models import Profile
 from core.response import ApiResponse
@@ -91,3 +92,60 @@ class ProfilePublicoView(generics.RetrieveAPIView):
     def retrieve(self, request, *args, **kwargs):
         serializer = self.get_serializer(self.get_object())
         return ApiResponse.success(data=serializer.data)
+
+from .password_reset import send_reset_email
+from .serializers import RequestPasswordResetSerializer, ResetPasswordSerializer
+
+
+class RequestPasswordResetView(generics.GenericAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = RequestPasswordResetSerializer
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid():
+            return ApiResponse.error(
+                code="validation_error",
+                message="Correo inválido",
+                details=serializer.errors,
+                status=400
+            )
+
+        email = serializer.validated_data['email']
+
+        try:
+            user = User.objects.get(email=email, is_active=True)
+            send_reset_email(user, request)
+        except User.DoesNotExist:
+            pass  # No revelamos si el email existe
+
+        return ApiResponse.success(
+            data={
+                "message": "Si el correo está registrado, recibirás un enlace para restablecer tu contraseña."
+            }
+        )
+
+
+class ResetPasswordView(generics.GenericAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = ResetPasswordSerializer
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid():
+            return ApiResponse.error(
+                code="validation_error",
+                message="Datos inválidos",
+                details=serializer.errors,
+                status=400
+            )
+
+        user = serializer.validated_data['user']
+        password = serializer.validated_data['password']
+
+        user.set_password(password)
+        user.save()
+
+        return ApiResponse.success(
+            data={"message": "Contraseña actualizada correctamente."}
+        )

@@ -52,6 +52,17 @@ const router = createRouter({
       name: 'perfil-publico',
       component: () => import('@/views/PerfilPublicoView.vue'),
     },
+    {
+      path: '/forgot-password',
+      name: 'forgot-password',
+      component: () => import('@/views/ForgotPasswordView.vue'),
+    },
+    {
+      path: '/reset-password/:uid/:token',
+      name: 'reset-password',
+      component: () => import('@/views/ResetPasswordView.vue'),
+    },
+
   ],
 })
 

@@ -19,7 +19,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def validate_email(self, value):
         if User.objects.filter(email=value).exists():
-            raise serializers.ValidationError('Email already in use.')
+            raise serializers.ValidationError('El email ya está en uso.')
         return value
 
     def validate_password(self, value):
@@ -32,7 +32,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if attrs['password'] != attrs['password_confirm']:
             raise serializers.ValidationError(
-                {'password_confirm': 'Passwords do not match.'}
+                {'password_confirm': 'Las contraseñas no coinciden.'}
             )
         return attrs
 
@@ -73,3 +73,43 @@ class ProfilePublicoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ('username', 'bio', 'avatar')
+        
+class RequestPasswordResetSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    def validate_email(self, value):
+        try:
+            User.objects.get(email=value)
+        except User.DoesNotExist:
+            # No revelamos si el email existe o no
+            pass
+        return value
+
+
+class ResetPasswordSerializer(serializers.Serializer):
+    uid = serializers.IntegerField()
+    token = serializers.CharField()
+    password = serializers.CharField(write_only=True, min_length=8)
+    password_confirm = serializers.CharField(write_only=True, min_length=8)
+
+    def validate(self, data):
+        if data['password'] != data['password_confirm']:
+            raise serializers.ValidationError(
+                {"password_confirm": "Las contraseñas no coinciden."}
+            )
+
+        try:
+            user = User.objects.get(pk=data['uid'])
+        except User.DoesNotExist:
+            raise serializers.ValidationError(
+                {"uid": "El enlace es inválido o ha expirado."}
+            )
+
+        from .password_reset import check_reset_token
+        if not check_reset_token(user, data['token']):
+            raise serializers.ValidationError(
+                {"token": "El enlace es inválido o ha expirado."}
+            )
+
+        data['user'] = user
+        return data

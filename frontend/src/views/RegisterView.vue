@@ -22,7 +22,17 @@ async function handleRegister() {
         router.push('/login')
     } catch (err: any) {
         const data = err?.response?.data
-        error.value = data?.error?.message || 'Error al registrarse'
+        const details = data?.error?.details
+        if (details) {
+            if (typeof details === 'object') {
+                error.value = Object.values(details).flat().join(', ')
+            } else {
+                error.value = String(details)
+            }
+        } else {
+            error.value = data?.error?.message || 'Error al registrarse'
+        }
+
     } finally {
         loading.value = false
     }

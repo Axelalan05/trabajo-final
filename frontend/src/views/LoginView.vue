@@ -47,7 +47,7 @@ async function handleLogin() {
             ¿No tenés cuenta? <router-link to="/register">Registrate</router-link>
         </p>
         <p class="link-secundario">
-            ¿No recordás la contraseña? <a href="#" @click.prevent>Click acá</a>
+            ¿No recordás la contraseña? <router-link to="/forgot-password">Click acá</router-link>
         </p>
     </div>
 </template>

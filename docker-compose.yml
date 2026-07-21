@@ -35,6 +35,10 @@ services:
       DJANGO_DEBUG: 1
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
       RAWG_API_KEY: ${RAWG_API_KEY}
+      RESEND_API_KEY: ${RESEND_API_KEY}
+      RESEND_FROM_EMAIL: ${RESEND_FROM_EMAIL}
+      FRONTEND_URL: ${FRONTEND_URL}
+
     ports:
       - "8000:8000"
     volumes:
