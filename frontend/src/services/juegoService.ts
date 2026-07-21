@@ -1,5 +1,6 @@
-import type { ApiResponse, Juego, RawgDetalle, RawgResultado } from '@/types'
+import type { ApiResponse, Juego, JuegoDetalleResponse, RawgDetalle, RawgResultado } from '@/types'
 import api from './api'
+
 
 export interface JuegoFiltros {
   nombre?: string
@@ -52,6 +53,11 @@ export const juegoService = {
 
   async rawgDetalle(rawgId: number): Promise<ApiResponse<RawgDetalle>> {
     const { data } = await api.get<ApiResponse<RawgDetalle>>(`/juegos/rawg/${rawgId}/`)
+    return data
+  },
+
+    async getDetalle(id: number): Promise<ApiResponse<JuegoDetalleResponse>> {
+    const { data } = await api.get<ApiResponse<JuegoDetalleResponse>>(`/juegos/${id}/detalle/`)
     return data
   },
 }

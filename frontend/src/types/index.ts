@@ -70,3 +70,10 @@ export interface AuthTokens {
   access: string
   refresh: string
 }
+
+export interface JuegoDetalleResponse {
+  juego: Juego
+  puntaje_promedio: number | null
+  total_resenias: number
+  mi_user_juego: UserJuego | null
+}

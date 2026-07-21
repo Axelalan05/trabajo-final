@@ -37,6 +37,11 @@ const router = createRouter({
       component: () => import('@/views/ExplorarView.vue'),
     },
     {
+      path: '/juegos/:id',
+      name: 'juego-detalle',
+      component: () => import('@/views/JuegoDetalleView.vue'),
+    },
+    {
       path: '/admin/juegos',
       name: 'admin-juegos',
       component: () => import('@/views/AdminJuegosView.vue'),

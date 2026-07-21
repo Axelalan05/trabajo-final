@@ -149,3 +149,49 @@ class RawgDetalleView(APIView):
         except rawg_service.RawgError as exc:
             return ApiResponse.error(code='rawg_error', message=str(exc), status=502)
         return ApiResponse.success(data=detalle)
+    
+class JuegoDetalleView(APIView):
+    """
+    Devuelve el detalle completo de un juego:
+    - Datos del juego
+    - Puntaje promedio de todos los usuarios
+    - Total de reseñas
+    - Si el usuario está autenticado, su UserJuego (estado, puntaje, reseña)
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request, juego_id):
+        try:
+            juego = Juego.objects.get(pk=juego_id)
+        except Juego.DoesNotExist:
+            return ApiResponse.error(
+                code='not_found',
+                message='Juego no encontrado',
+                status=404
+            )
+
+        # Calcular puntaje promedio y total de reseñas
+        userjuegos = UserJuego.objects.filter(juego=juego)
+        stats = userjuegos.aggregate(
+            puntaje_promedio=Avg('puntaje'),
+            total_resenias=Count('id')
+        )
+
+        # Serializar el juego
+        juego_data = JuegoSerializer(juego).data
+
+        # Si el usuario está autenticado, buscar su UserJuego
+        mi_user_juego = None
+        if request.user.is_authenticated:
+            try:
+                mi_user_juego_obj = userjuegos.get(user=request.user)
+                mi_user_juego = UserJuegoSerializer(mi_user_juego_obj).data
+            except UserJuego.DoesNotExist:
+                mi_user_juego = None
+
+        return ApiResponse.success(data={
+            'juego': juego_data,
+            'puntaje_promedio': round(stats['puntaje_promedio'], 1) if stats['puntaje_promedio'] else None,
+            'total_resenias': stats['total_resenias'],
+            'mi_user_juego': mi_user_juego,
+        })

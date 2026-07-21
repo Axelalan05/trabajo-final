@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppSpinner from '@/components/ui/AppSpinner.vue'
 import { userService } from '@/services/userService'
 import type { Profile } from '@/types'
 import { onMounted, ref } from 'vue'
@@ -24,7 +25,7 @@ onMounted(async () => {
 
 <template>
     <div class="perfil-publico-view">
-        <div v-if="loading">Cargando...</div>
+        <AppSpinner v-if="loading" />
         <div v-else-if="error" class="error">{{ error }}</div>
         <div v-else-if="profile" class="contenido">
             <h1>{{ profile.username }}</h1>

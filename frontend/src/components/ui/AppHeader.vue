@@ -47,6 +47,7 @@ onUnmounted(() => {
         </router-link>
 
         <nav class="nav">
+            <router-link to="/" class="nav-inicio">Inicio</router-link>
             <router-link to="/explorar">Explorar</router-link>
             <router-link v-if="authStore.isAuthenticated" to="/mis-juegos">Mi colección</router-link>
             <router-link v-if="authStore.isAdmin" to="/admin/juegos">Administrar catálogo</router-link>
@@ -82,6 +83,9 @@ onUnmounted(() => {
     align-items: center;
     flex-wrap: wrap;
     gap: var(--space-4);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .logo {
@@ -111,6 +115,10 @@ onUnmounted(() => {
 
 .nav a.router-link-active {
     text-decoration: underline;
+}
+
+.nav-inicio {
+    font-weight: 800;
 }
 
 .login-link {
@@ -160,7 +168,7 @@ onUnmounted(() => {
     overflow: hidden;
     min-width: 160px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    z-index: 10;
+    z-index: 101;
     display: flex;
     flex-direction: column;
 }

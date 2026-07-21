@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppButton from '@/components/ui/AppButton.vue'
+import AppSpinner from '@/components/ui/AppSpinner.vue'
 import { userService } from '@/services/userService'
 import type { Profile } from '@/types'
 import { onMounted, ref } from 'vue'
@@ -39,7 +40,7 @@ async function guardarCambios() {
     <div class="profile-view">
         <h1>Mi perfil</h1>
 
-        <div v-if="loading">Cargando...</div>
+        <AppSpinner v-if="loading" />
 
         <div v-else-if="profile" class="contenido">
             <p class="username">{{ profile.username }}</p>

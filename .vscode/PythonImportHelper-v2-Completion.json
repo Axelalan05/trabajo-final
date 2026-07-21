@@ -946,7 +946,7 @@
         "kind": 5,
         "importPath": "backend.apps.juegos.urls",
         "description": "backend.apps.juegos.urls",
-        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'mis-juegos', views.UserJuegoViewSet, basename='userjuego')\nrouter.register(r'', views.JuegoViewSet, basename='juego')\nurlpatterns = [\n    path('publico/', views.JuegoPublicoListView.as_view()),\n    path('rawg/buscar/', views.RawgBuscarView.as_view()),\n    path('rawg/<int:rawg_id>/', views.RawgDetalleView.as_view()),\n    path('', include(router.urls)),\n]",
+        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'mis-juegos', views.UserJuegoViewSet, basename='userjuego')\nrouter.register(r'', views.JuegoViewSet, basename='juego')\nurlpatterns = [\n    path('publico/', views.JuegoPublicoListView.as_view()),\n    path('rawg/buscar/', views.RawgBuscarView.as_view()),\n    path('rawg/<int:rawg_id>/', views.RawgDetalleView.as_view()),\n    path('<int:juego_id>/detalle/', views.JuegoDetalleView.as_view()),\n    path('', include(router.urls)),\n]",
         "detail": "backend.apps.juegos.urls",
         "documentation": {}
     },
@@ -955,7 +955,7 @@
         "kind": 5,
         "importPath": "backend.apps.juegos.urls",
         "description": "backend.apps.juegos.urls",
-        "peekOfCode": "urlpatterns = [\n    path('publico/', views.JuegoPublicoListView.as_view()),\n    path('rawg/buscar/', views.RawgBuscarView.as_view()),\n    path('rawg/<int:rawg_id>/', views.RawgDetalleView.as_view()),\n    path('', include(router.urls)),\n]",
+        "peekOfCode": "urlpatterns = [\n    path('publico/', views.JuegoPublicoListView.as_view()),\n    path('rawg/buscar/', views.RawgBuscarView.as_view()),\n    path('rawg/<int:rawg_id>/', views.RawgDetalleView.as_view()),\n    path('<int:juego_id>/detalle/', views.JuegoDetalleView.as_view()),\n    path('', include(router.urls)),\n]",
         "detail": "backend.apps.juegos.urls",
         "documentation": {}
     },
@@ -1000,7 +1000,16 @@
         "kind": 6,
         "importPath": "backend.apps.juegos.views",
         "description": "backend.apps.juegos.views",
-        "peekOfCode": "class RawgDetalleView(APIView):\n    permission_classes = [IsAdminUser]\n    def get(self, request, rawg_id):\n        try:\n            detalle = rawg_service.obtener_detalle(rawg_id)\n        except rawg_service.RawgError as exc:\n            return ApiResponse.error(code='rawg_error', message=str(exc), status=502)\n        return ApiResponse.success(data=detalle)",
+        "peekOfCode": "class RawgDetalleView(APIView):\n    permission_classes = [IsAdminUser]\n    def get(self, request, rawg_id):\n        try:\n            detalle = rawg_service.obtener_detalle(rawg_id)\n        except rawg_service.RawgError as exc:\n            return ApiResponse.error(code='rawg_error', message=str(exc), status=502)\n        return ApiResponse.success(data=detalle)\nclass JuegoDetalleView(APIView):\n    \"\"\"",
+        "detail": "backend.apps.juegos.views",
+        "documentation": {}
+    },
+    {
+        "label": "JuegoDetalleView",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.views",
+        "description": "backend.apps.juegos.views",
+        "peekOfCode": "class JuegoDetalleView(APIView):\n    \"\"\"\n    Devuelve el detalle completo de un juego:\n    - Datos del juego\n    - Puntaje promedio de todos los usuarios\n    - Total de reseñas\n    - Si el usuario está autenticado, su UserJuego (estado, puntaje, reseña)\n    \"\"\"\n    permission_classes = [AllowAny]\n    def get(self, request, juego_id):",
         "detail": "backend.apps.juegos.views",
         "documentation": {}
     },

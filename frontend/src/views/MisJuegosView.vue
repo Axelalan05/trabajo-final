@@ -1,12 +1,31 @@
 <script setup lang="ts">
+import AppPagination from '@/components/ui/AppPagination.vue'
+import AppSpinner from '@/components/ui/AppSpinner.vue'
 import ConfirmModal from '@/components/ui/ConfirmModal.vue'
 import { userJuegoService } from '@/services/userJuegoService'
 import type { EstadoJuego, UserJuego } from '@/types'
-import { Star, Trash2 } from 'lucide-vue-next'
-import { onMounted, ref } from 'vue'
+import { Eye, Star, Trash2 } from 'lucide-vue-next'
+import { computed, onMounted, ref } from 'vue'
+
+const JUEGOS_POR_PAGINA = 15
 
 const misJuegos = ref<UserJuego[]>([])
 const loading = ref(true)
+const paginaActual = ref(1)
+
+const totalPaginas = computed(() =>
+    Math.max(1, Math.ceil(misJuegos.value.length / JUEGOS_POR_PAGINA))
+)
+
+const misJuegosPagina = computed(() => {
+    const inicio = (paginaActual.value - 1) * JUEGOS_POR_PAGINA
+    return misJuegos.value.slice(inicio, inicio + JUEGOS_POR_PAGINA)
+})
+
+function cambiarPagina(pagina: number) {
+    paginaActual.value = pagina
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 const estadisticas = ref<{
     juegos_completados: number
     promedio_puntaje: number
@@ -94,50 +113,61 @@ onMounted(async () => {
             </div>
         </div>
 
-        <div v-if="loading">Cargando...</div>
+        <AppSpinner v-if="loading" />
 
         <div v-else-if="misJuegos.length === 0" class="vacio">
             Todavía no te uniste a ningún juego. Buscá algo en <router-link to="/explorar">Explorar</router-link>.
         </div>
 
-        <div v-else class="lista-juegos">
-            <div v-for="userJuego in misJuegos" :key="userJuego.id" class="juego-card">
-                <img v-if="userJuego.juego.imagen_url" :src="userJuego.juego.imagen_url" :alt="userJuego.juego.nombre"
-                    class="portada" />
-                <div class="juego-card-body">
-                    <div class="card-top">
-                        <h3>{{ userJuego.juego.nombre }}</h3>
-                        <button class="icon-btn icon-btn-danger" @click="pedirSalir(userJuego)">
-                            <Trash2 :size="18" />
-                        </button>
-                    </div>
-                    <p class="detalle">
-                        {{ userJuego.juego.genero }} · {{ userJuego.juego.plataforma }}
-                    </p>
+        <template v-else>
+            <div class="lista-juegos">
+                <div v-for="userJuego in misJuegosPagina" :key="userJuego.id" class="juego-card">
+                    <img v-if="userJuego.juego.imagen_url" :src="userJuego.juego.imagen_url"
+                        :alt="userJuego.juego.nombre" class="portada" />
+                    <div class="juego-card-body">
+                        <div class="card-top">
+                            <h3>{{ userJuego.juego.nombre }}</h3>
+                            <div class="card-top-acciones">
+                                <router-link :to="`/juegos/${userJuego.juego.id}`" class="icon-btn">
+                                    <Eye :size="18" />
+                                </router-link>
+                                <button class="icon-btn icon-btn-danger" @click="pedirSalir(userJuego)">
+                                    <Trash2 :size="18" />
+                                </button>
+                            </div>
+                        </div>
 
-                    <div class="campo">
-                        <label>Estado</label>
-                        <select :class="claseEstado(userJuego.estado)" :value="userJuego.estado"
-                            @change="actualizarEstado(userJuego, ($event.target as HTMLSelectElement).value as EstadoJuego)">
-                            <option value="pendiente">Pendiente</option>
-                            <option value="jugando">Jugando</option>
-                            <option value="completado">Completado</option>
-                            <option value="abandonado">Abandonado</option>
-                        </select>
-                    </div>
+                        <p class="detalle">
+                            {{ userJuego.juego.genero }} · {{ userJuego.juego.plataforma }}
+                        </p>
 
-                    <div class="campo">
-                        <label>Puntaje (1-10)</label>
-                        <input type="number" min="1" max="10" :value="userJuego.puntaje"
-                            @change="actualizarPuntaje(userJuego, ($event.target as HTMLInputElement).valueAsNumber || null)" />
-                    </div>
+                        <div class="campo">
+                            <label>Estado</label>
+                            <select :class="claseEstado(userJuego.estado)" :value="userJuego.estado"
+                                @change="actualizarEstado(userJuego, ($event.target as HTMLSelectElement).value as EstadoJuego)">
+                                <option value="pendiente">Pendiente</option>
+                                <option value="jugando">Jugando</option>
+                                <option value="completado">Completado</option>
+                                <option value="abandonado">Abandonado</option>
+                            </select>
+                        </div>
 
-                    <p v-if="userJuego.puntaje" class="puntaje">
-                        <Star :size="16" /> {{ userJuego.puntaje }}/10
-                    </p>
+                        <div class="campo">
+                            <label>Puntaje (1-10)</label>
+                            <input type="number" min="1" max="10" :value="userJuego.puntaje"
+                                @change="actualizarPuntaje(userJuego, ($event.target as HTMLInputElement).valueAsNumber || null)" />
+                        </div>
+
+                        <p v-if="userJuego.puntaje" class="puntaje">
+                            <Star :size="16" /> {{ userJuego.puntaje }}/10
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <AppPagination :pagina-actual="paginaActual" :total-paginas="totalPaginas"
+                @update:pagina-actual="cambiarPagina" />
+        </template>
         <ConfirmModal :show="!!juegoASalir" title="Salir del juego"
             :mensaje="`¿Seguro que querés salir de '${juegoASalir?.juego.nombre}'? Perdés tu estado, puntaje y reseña de este juego.`"
             texto-confirmar="Salir" variant-confirmar="danger" @confirm="confirmarSalir" @close="juegoASalir = null" />
@@ -318,5 +348,22 @@ onMounted(async () => {
     color: #ff6b6b !important;
     background: #3a1f1f !important;
     border: 1px solid #ff6b6b !important;
+}
+
+.card-top-acciones {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+}
+
+.vacio a {
+    color: var(--color-header-bg);
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.vacio a:hover {
+    color: var(--color-accent);
+    opacity: 0.8;
 }
 </style>

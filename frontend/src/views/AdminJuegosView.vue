@@ -2,13 +2,36 @@
 import JuegoForm from '@/components/juegos/JuegoForm.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppModal from '@/components/ui/AppModal.vue'
+import AppPagination from '@/components/ui/AppPagination.vue'
+import AppSpinner from '@/components/ui/AppSpinner.vue'
 import { juegoService } from '@/services/juegoService'
 import type { Juego, RawgResultado } from '@/types'
 import { Pencil, Plus, Search, Trash2 } from 'lucide-vue-next'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+
+const JUEGOS_POR_PAGINA = 15
 
 const juegos = ref<Juego[]>([])
 const loading = ref(true)
+const paginaActual = ref(1)
+const nombre = ref('')
+const genero = ref('')
+const plataforma = ref('')
+const ordering = ref('-created_at')
+
+const totalPaginas = computed(() =>
+    Math.max(1, Math.ceil(juegos.value.length / JUEGOS_POR_PAGINA))
+)
+
+const juegosPagina = computed(() => {
+    const inicio = (paginaActual.value - 1) * JUEGOS_POR_PAGINA
+    return juegos.value.slice(inicio, inicio + JUEGOS_POR_PAGINA)
+})
+
+function cambiarPagina(pagina: number) {
+    paginaActual.value = pagina
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 
 // Modal 1: buscar en RAWG
 const showBuscarModal = ref(false)
@@ -25,8 +48,14 @@ const errorSubmit = ref('')
 async function cargarJuegos() {
     loading.value = true
     try {
-        const response = await juegoService.listCatalogo()
+        const response = await juegoService.listCatalogo({
+            nombre: nombre.value || undefined,
+            genero: genero.value || undefined,
+            plataforma: plataforma.value || undefined,
+            ordering: ordering.value,
+        })
         juegos.value = response.data
+        paginaActual.value = 1
     } finally {
         loading.value = false
     }
@@ -123,29 +152,45 @@ onMounted(cargarJuegos)
             </AppButton>
         </div>
 
-        <div v-if="loading">Cargando...</div>
+        <div class="filtros">
+            <input v-model="nombre" placeholder="Nombre" @keyup.enter="cargarJuegos" />
+            <input v-model="genero" placeholder="Género" @keyup.enter="cargarJuegos" />
+            <input v-model="plataforma" placeholder="Plataforma" @keyup.enter="cargarJuegos" />
+            <select v-model="ordering">
+                <option value="-created_at">Más recientes</option>
+                <option value="nombre">Nombre (A-Z)</option>
+            </select>
+            <AppButton @click="cargarJuegos">Filtrar</AppButton>
+        </div>
+
+        <AppSpinner v-if="loading" />
 
         <div v-else-if="juegos.length === 0" class="vacio">
             Todavía no hay juegos en el catálogo.
         </div>
 
-        <div v-else class="lista-juegos">
-            <div v-for="juego in juegos" :key="juego.id" class="juego-card">
-                <img v-if="juego.imagen_url" :src="juego.imagen_url" :alt="juego.nombre" class="portada" />
-                <div class="juego-card-body">
-                    <h3>{{ juego.nombre }}</h3>
-                    <p class="detalle">{{ juego.genero }} · {{ juego.plataforma }}</p>
-                    <div class="acciones">
-                        <button class="icon-btn" @click="abrirModalEditar(juego)">
-                            <Pencil :size="18" />
-                        </button>
-                        <button class="icon-btn icon-btn-danger" @click="eliminarJuego(juego.id)">
-                            <Trash2 :size="18" />
-                        </button>
+        <template v-else>
+            <div class="lista-juegos">
+                <div v-for="juego in juegosPagina" :key="juego.id" class="juego-card">
+                    <img v-if="juego.imagen_url" :src="juego.imagen_url" :alt="juego.nombre" class="portada" />
+                    <div class="juego-card-body">
+                        <h3>{{ juego.nombre }}</h3>
+                        <p class="detalle">{{ juego.genero }} · {{ juego.plataforma }}</p>
+                        <div class="acciones">
+                            <button class="icon-btn" @click="abrirModalEditar(juego)">
+                                <Pencil :size="18" />
+                            </button>
+                            <button class="icon-btn icon-btn-danger" @click="eliminarJuego(juego.id)">
+                                <Trash2 :size="18" />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <AppPagination :pagina-actual="paginaActual" :total-paginas="totalPaginas"
+                @update:pagina-actual="cambiarPagina" />
+        </template>
 
         <!-- Modal 1: buscar en RAWG -->
         <AppModal :show="showBuscarModal" title="Buscar en RAWG" @close="cerrarBuscarModal">
@@ -202,6 +247,20 @@ onMounted(cargarJuegos)
 
 .encabezado h1 {
     margin: 0;
+}
+
+.filtros {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+    flex-wrap: wrap;
+}
+
+.filtros input,
+.filtros select {
+    padding: var(--space-2);
+    border-radius: var(--radius-sm);
+    border: none;
 }
 
 .vacio {
