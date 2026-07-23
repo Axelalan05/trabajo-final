@@ -1,5 +1,215 @@
 [
     {
+        "label": "random",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "random",
+        "description": "random",
+        "detail": "random",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "BaseCommand",
+        "importPath": "django.core.management.base",
+        "description": "django.core.management.base",
+        "isExtraImport": true,
+        "detail": "django.core.management.base",
+        "documentation": {}
+    },
+    {
+        "label": "rawg_service",
+        "importPath": "apps.juegos",
+        "description": "apps.juegos",
+        "isExtraImport": true,
+        "detail": "apps.juegos",
+        "documentation": {}
+    },
+    {
+        "label": "views",
+        "importPath": "apps.juegos",
+        "description": "apps.juegos",
+        "isExtraImport": true,
+        "detail": "apps.juegos",
+        "documentation": {}
+    },
+    {
+        "label": "rawg_service",
+        "importPath": "apps.juegos",
+        "description": "apps.juegos",
+        "isExtraImport": true,
+        "detail": "apps.juegos",
+        "documentation": {}
+    },
+    {
+        "label": "Juego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "UserJuego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "Juego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "UserJuego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "Juego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "Juego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "UserJuego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "Juego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "Juego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "UserJuego",
+        "importPath": "apps.juegos.models",
+        "description": "apps.juegos.models",
+        "isExtraImport": true,
+        "detail": "apps.juegos.models",
+        "documentation": {}
+    },
+    {
+        "label": "JuegoSerializer",
+        "importPath": "apps.juegos.serializers",
+        "description": "apps.juegos.serializers",
+        "isExtraImport": true,
+        "detail": "apps.juegos.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "JuegoSerializer",
+        "importPath": "apps.juegos.serializers",
+        "description": "apps.juegos.serializers",
+        "isExtraImport": true,
+        "detail": "apps.juegos.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "UserJuegoSerializer",
+        "importPath": "apps.juegos.serializers",
+        "description": "apps.juegos.serializers",
+        "isExtraImport": true,
+        "detail": "apps.juegos.serializers",
+        "documentation": {}
+    },
+    {
         "label": "django.db.models.deletion",
         "kind": 6,
         "isExtraImport": true,
@@ -137,70 +347,6 @@
         "documentation": {}
     },
     {
-        "label": "Juego",
-        "importPath": "apps.juegos.models",
-        "description": "apps.juegos.models",
-        "isExtraImport": true,
-        "detail": "apps.juegos.models",
-        "documentation": {}
-    },
-    {
-        "label": "UserJuego",
-        "importPath": "apps.juegos.models",
-        "description": "apps.juegos.models",
-        "isExtraImport": true,
-        "detail": "apps.juegos.models",
-        "documentation": {}
-    },
-    {
-        "label": "Juego",
-        "importPath": "apps.juegos.models",
-        "description": "apps.juegos.models",
-        "isExtraImport": true,
-        "detail": "apps.juegos.models",
-        "documentation": {}
-    },
-    {
-        "label": "Juego",
-        "importPath": "apps.juegos.models",
-        "description": "apps.juegos.models",
-        "isExtraImport": true,
-        "detail": "apps.juegos.models",
-        "documentation": {}
-    },
-    {
-        "label": "UserJuego",
-        "importPath": "apps.juegos.models",
-        "description": "apps.juegos.models",
-        "isExtraImport": true,
-        "detail": "apps.juegos.models",
-        "documentation": {}
-    },
-    {
-        "label": "Juego",
-        "importPath": "apps.juegos.models",
-        "description": "apps.juegos.models",
-        "isExtraImport": true,
-        "detail": "apps.juegos.models",
-        "documentation": {}
-    },
-    {
-        "label": "Juego",
-        "importPath": "apps.juegos.models",
-        "description": "apps.juegos.models",
-        "isExtraImport": true,
-        "detail": "apps.juegos.models",
-        "documentation": {}
-    },
-    {
-        "label": "UserJuego",
-        "importPath": "apps.juegos.models",
-        "description": "apps.juegos.models",
-        "isExtraImport": true,
-        "detail": "apps.juegos.models",
-        "documentation": {}
-    },
-    {
         "label": "AppConfig",
         "importPath": "django.apps",
         "description": "django.apps",
@@ -256,54 +402,6 @@
         "description": "django.db.models",
         "isExtraImport": true,
         "detail": "django.db.models",
-        "documentation": {}
-    },
-    {
-        "label": "User",
-        "importPath": "django.contrib.auth.models",
-        "description": "django.contrib.auth.models",
-        "isExtraImport": true,
-        "detail": "django.contrib.auth.models",
-        "documentation": {}
-    },
-    {
-        "label": "User",
-        "importPath": "django.contrib.auth.models",
-        "description": "django.contrib.auth.models",
-        "isExtraImport": true,
-        "detail": "django.contrib.auth.models",
-        "documentation": {}
-    },
-    {
-        "label": "User",
-        "importPath": "django.contrib.auth.models",
-        "description": "django.contrib.auth.models",
-        "isExtraImport": true,
-        "detail": "django.contrib.auth.models",
-        "documentation": {}
-    },
-    {
-        "label": "User",
-        "importPath": "django.contrib.auth.models",
-        "description": "django.contrib.auth.models",
-        "isExtraImport": true,
-        "detail": "django.contrib.auth.models",
-        "documentation": {}
-    },
-    {
-        "label": "User",
-        "importPath": "django.contrib.auth.models",
-        "description": "django.contrib.auth.models",
-        "isExtraImport": true,
-        "detail": "django.contrib.auth.models",
-        "documentation": {}
-    },
-    {
-        "label": "User",
-        "importPath": "django.contrib.auth.models",
-        "description": "django.contrib.auth.models",
-        "isExtraImport": true,
-        "detail": "django.contrib.auth.models",
         "documentation": {}
     },
     {
@@ -452,22 +550,6 @@
         "documentation": {}
     },
     {
-        "label": "views",
-        "importPath": "apps.juegos",
-        "description": "apps.juegos",
-        "isExtraImport": true,
-        "detail": "apps.juegos",
-        "documentation": {}
-    },
-    {
-        "label": "rawg_service",
-        "importPath": "apps.juegos",
-        "description": "apps.juegos",
-        "isExtraImport": true,
-        "detail": "apps.juegos",
-        "documentation": {}
-    },
-    {
         "label": "IsAuthenticated",
         "importPath": "rest_framework.permissions",
         "description": "rest_framework.permissions",
@@ -553,22 +635,6 @@
         "description": "rest_framework.views",
         "isExtraImport": true,
         "detail": "rest_framework.views",
-        "documentation": {}
-    },
-    {
-        "label": "JuegoSerializer",
-        "importPath": "apps.juegos.serializers",
-        "description": "apps.juegos.serializers",
-        "isExtraImport": true,
-        "detail": "apps.juegos.serializers",
-        "documentation": {}
-    },
-    {
-        "label": "UserJuegoSerializer",
-        "importPath": "apps.juegos.serializers",
-        "description": "apps.juegos.serializers",
-        "isExtraImport": true,
-        "detail": "apps.juegos.serializers",
         "documentation": {}
     },
     {
@@ -923,6 +989,60 @@
         "importPath": "sys",
         "description": "sys",
         "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "Command",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.management.commands.seed_data",
+        "description": "backend.apps.juegos.management.commands.seed_data",
+        "peekOfCode": "class Command(BaseCommand):\n    help = 'Carga un catálogo de 15 juegos (vía RAWG) y 50 usuarios de prueba, uniéndolos a juegos.'\n    def handle(self, *args, **options):\n        juegos_creados = self._crear_juegos()\n        usuarios = self._crear_usuarios()\n        self._unir_usuarios_a_juegos(juegos_creados, usuarios)\n    def _crear_juegos(self):\n        juegos = []\n        for titulo in JUEGOS_SEED:\n            try:",
+        "detail": "backend.apps.juegos.management.commands.seed_data",
+        "documentation": {}
+    },
+    {
+        "label": "JUEGOS_SEED",
+        "kind": 5,
+        "importPath": "backend.apps.juegos.management.commands.seed_data",
+        "description": "backend.apps.juegos.management.commands.seed_data",
+        "peekOfCode": "JUEGOS_SEED = [\n    'Elden Ring',\n    'The Legend of Zelda: Breath of the Wild',\n    'God of War',\n    'Red Dead Redemption 2',\n    'The Witcher 3: Wild Hunt',\n    'Portal 2',\n    'Hollow Knight',\n    'Hades',\n    'Disco Elysium',",
+        "detail": "backend.apps.juegos.management.commands.seed_data",
+        "documentation": {}
+    },
+    {
+        "label": "TOTAL_USUARIOS",
+        "kind": 5,
+        "importPath": "backend.apps.juegos.management.commands.seed_data",
+        "description": "backend.apps.juegos.management.commands.seed_data",
+        "peekOfCode": "TOTAL_USUARIOS = 50\nUSUARIOS_POR_JUEGO_GRUPO_A = 4  # primeros 5 juegos\nUSUARIOS_POR_JUEGO_GRUPO_B = 3  # siguientes 10 juegos\nPASSWORD_SEED = 'seed12345'\nclass Command(BaseCommand):\n    help = 'Carga un catálogo de 15 juegos (vía RAWG) y 50 usuarios de prueba, uniéndolos a juegos.'\n    def handle(self, *args, **options):\n        juegos_creados = self._crear_juegos()\n        usuarios = self._crear_usuarios()\n        self._unir_usuarios_a_juegos(juegos_creados, usuarios)",
+        "detail": "backend.apps.juegos.management.commands.seed_data",
+        "documentation": {}
+    },
+    {
+        "label": "USUARIOS_POR_JUEGO_GRUPO_A",
+        "kind": 5,
+        "importPath": "backend.apps.juegos.management.commands.seed_data",
+        "description": "backend.apps.juegos.management.commands.seed_data",
+        "peekOfCode": "USUARIOS_POR_JUEGO_GRUPO_A = 4  # primeros 5 juegos\nUSUARIOS_POR_JUEGO_GRUPO_B = 3  # siguientes 10 juegos\nPASSWORD_SEED = 'seed12345'\nclass Command(BaseCommand):\n    help = 'Carga un catálogo de 15 juegos (vía RAWG) y 50 usuarios de prueba, uniéndolos a juegos.'\n    def handle(self, *args, **options):\n        juegos_creados = self._crear_juegos()\n        usuarios = self._crear_usuarios()\n        self._unir_usuarios_a_juegos(juegos_creados, usuarios)\n    def _crear_juegos(self):",
+        "detail": "backend.apps.juegos.management.commands.seed_data",
+        "documentation": {}
+    },
+    {
+        "label": "USUARIOS_POR_JUEGO_GRUPO_B",
+        "kind": 5,
+        "importPath": "backend.apps.juegos.management.commands.seed_data",
+        "description": "backend.apps.juegos.management.commands.seed_data",
+        "peekOfCode": "USUARIOS_POR_JUEGO_GRUPO_B = 3  # siguientes 10 juegos\nPASSWORD_SEED = 'seed12345'\nclass Command(BaseCommand):\n    help = 'Carga un catálogo de 15 juegos (vía RAWG) y 50 usuarios de prueba, uniéndolos a juegos.'\n    def handle(self, *args, **options):\n        juegos_creados = self._crear_juegos()\n        usuarios = self._crear_usuarios()\n        self._unir_usuarios_a_juegos(juegos_creados, usuarios)\n    def _crear_juegos(self):\n        juegos = []",
+        "detail": "backend.apps.juegos.management.commands.seed_data",
+        "documentation": {}
+    },
+    {
+        "label": "PASSWORD_SEED",
+        "kind": 5,
+        "importPath": "backend.apps.juegos.management.commands.seed_data",
+        "description": "backend.apps.juegos.management.commands.seed_data",
+        "peekOfCode": "PASSWORD_SEED = 'seed12345'\nclass Command(BaseCommand):\n    help = 'Carga un catálogo de 15 juegos (vía RAWG) y 50 usuarios de prueba, uniéndolos a juegos.'\n    def handle(self, *args, **options):\n        juegos_creados = self._crear_juegos()\n        usuarios = self._crear_usuarios()\n        self._unir_usuarios_a_juegos(juegos_creados, usuarios)\n    def _crear_juegos(self):\n        juegos = []\n        for titulo in JUEGOS_SEED:",
+        "detail": "backend.apps.juegos.management.commands.seed_data",
         "documentation": {}
     },
     {
