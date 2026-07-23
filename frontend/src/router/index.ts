@@ -62,7 +62,17 @@ const router = createRouter({
       name: 'reset-password',
       component: () => import('@/views/ResetPasswordView.vue'),
     },
-
+    {
+      path: '/verify-email/:uid/:token',
+      name: 'verify-email',
+      component: () => import('@/views/VerifyEmailView.vue'),
+    },
+    {
+      path: '/admin/usuarios',
+      name: 'admin-usuarios',
+      component: () => import('@/views/AdminUsuariosView.vue'),
+      meta: { requiresAuth: true, requiresAdmin: true },
+    },
   ],
 })
 

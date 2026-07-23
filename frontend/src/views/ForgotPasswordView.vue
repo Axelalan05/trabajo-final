@@ -15,7 +15,8 @@ async function handleSubmit() {
     success.value = ''
     loading.value = true
     try {
-        await requestPasswordReset(email.value)
+        const response = await requestPasswordReset(email.value)
+        console.log('🔗 Enlace de recuperación:', response.data.data.reset_url)
         success.value = 'Si el correo está registrado, recibirás un enlace para restablecer tu contraseña.'
         email.value = ''
     } catch (err: any) {

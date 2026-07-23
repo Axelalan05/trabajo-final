@@ -14,4 +14,10 @@ urlpatterns = [
     # Password reset
     path('password-reset/', views.RequestPasswordResetView.as_view(), name='password-reset'),
     path('password-reset/confirm/', views.ResetPasswordView.as_view(), name='password-reset-confirm'),
+    # Verify email
+    path('verify-email/', views.VerifyEmailView.as_view(), name='verify-email'),
+    # Admin: gestión de usuarios
+    path('admin/users/', views.AdminUserListView.as_view(), name='admin-users'),
+    path('admin/users/<int:pk>/', views.AdminUserDetailView.as_view(), name='admin-user-detail'),
+    path('admin/users/<int:pk>/delete/', views.AdminUserDeleteView.as_view(), name='admin-user-delete'),
 ]

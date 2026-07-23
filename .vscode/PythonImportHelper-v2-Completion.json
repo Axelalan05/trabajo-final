@@ -41,6 +41,14 @@
         "documentation": {}
     },
     {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
         "label": "migrations",
         "importPath": "django.db",
         "description": "django.db",
@@ -50,6 +58,22 @@
     },
     {
         "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
         "importPath": "django.db",
         "description": "django.db",
         "isExtraImport": true,
@@ -492,6 +516,14 @@
         "documentation": {}
     },
     {
+        "label": "SearchFilter",
+        "importPath": "rest_framework.filters",
+        "description": "rest_framework.filters",
+        "isExtraImport": true,
+        "detail": "rest_framework.filters",
+        "documentation": {}
+    },
+    {
         "label": "action",
         "importPath": "rest_framework.decorators",
         "description": "rest_framework.decorators",
@@ -604,6 +636,14 @@
         "documentation": {}
     },
     {
+        "label": "PendingRegistration",
+        "importPath": "apps.users.models",
+        "description": "apps.users.models",
+        "isExtraImport": true,
+        "detail": "apps.users.models",
+        "documentation": {}
+    },
+    {
         "label": "Profile",
         "importPath": "apps.users.models",
         "description": "apps.users.models",
@@ -613,6 +653,14 @@
     },
     {
         "label": "Profile",
+        "importPath": "apps.users.models",
+        "description": "apps.users.models",
+        "isExtraImport": true,
+        "detail": "apps.users.models",
+        "documentation": {}
+    },
+    {
+        "label": "PendingRegistration",
         "importPath": "apps.users.models",
         "description": "apps.users.models",
         "isExtraImport": true,
@@ -668,6 +716,22 @@
         "documentation": {}
     },
     {
+        "label": "PageNumberPagination",
+        "importPath": "rest_framework.pagination",
+        "description": "rest_framework.pagination",
+        "isExtraImport": true,
+        "detail": "rest_framework.pagination",
+        "documentation": {}
+    },
+    {
+        "label": "PageNumberPagination",
+        "importPath": "rest_framework.pagination",
+        "description": "rest_framework.pagination",
+        "isExtraImport": true,
+        "detail": "rest_framework.pagination",
+        "documentation": {}
+    },
+    {
         "label": "RegisterSerializer",
         "importPath": "apps.users.serializers",
         "description": "apps.users.serializers",
@@ -693,6 +757,46 @@
     },
     {
         "label": "ProfilePublicoSerializer",
+        "importPath": "apps.users.serializers",
+        "description": "apps.users.serializers",
+        "isExtraImport": true,
+        "detail": "apps.users.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "RequestPasswordResetSerializer",
+        "importPath": "apps.users.serializers",
+        "description": "apps.users.serializers",
+        "isExtraImport": true,
+        "detail": "apps.users.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "ResetPasswordSerializer",
+        "importPath": "apps.users.serializers",
+        "description": "apps.users.serializers",
+        "isExtraImport": true,
+        "detail": "apps.users.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "VerifyEmailSerializer",
+        "importPath": "apps.users.serializers",
+        "description": "apps.users.serializers",
+        "isExtraImport": true,
+        "detail": "apps.users.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "AdminUserListSerializer",
+        "importPath": "apps.users.serializers",
+        "description": "apps.users.serializers",
+        "isExtraImport": true,
+        "detail": "apps.users.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "AdminUserDetailSerializer  # ← AGREGAR ESTOS",
         "importPath": "apps.users.serializers",
         "description": "apps.users.serializers",
         "isExtraImport": true,
@@ -1047,6 +1151,15 @@
         "documentation": {}
     },
     {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.apps.users.migrations.0002_pendingregistration",
+        "description": "backend.apps.users.migrations.0002_pendingregistration",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('users', '0001_initial'),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='PendingRegistration',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),\n                ('username', models.CharField(max_length=150)),",
+        "detail": "backend.apps.users.migrations.0002_pendingregistration",
+        "documentation": {}
+    },
+    {
         "label": "UsersConfig",
         "kind": 6,
         "importPath": "backend.apps.users.apps",
@@ -1060,7 +1173,16 @@
         "kind": 6,
         "importPath": "backend.apps.users.models",
         "description": "backend.apps.users.models",
-        "peekOfCode": "class Profile(models.Model):\n    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')\n    bio = models.TextField(blank=True)\n    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)\n    def __str__(self):\n        return f'Perfil de {self.user.username}'",
+        "peekOfCode": "class Profile(models.Model):\n    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')\n    bio = models.TextField(blank=True)\n    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)\n    def __str__(self):\n        return f'Perfil de {self.user.username}'\nclass PendingRegistration(models.Model):\n    username = models.CharField(max_length=150)\n    email = models.EmailField()\n    password = models.CharField(max_length=128)  # contraseña hasheada",
+        "detail": "backend.apps.users.models",
+        "documentation": {}
+    },
+    {
+        "label": "PendingRegistration",
+        "kind": 6,
+        "importPath": "backend.apps.users.models",
+        "description": "backend.apps.users.models",
+        "peekOfCode": "class PendingRegistration(models.Model):\n    username = models.CharField(max_length=150)\n    email = models.EmailField()\n    password = models.CharField(max_length=128)  # contraseña hasheada\n    token = models.CharField(max_length=100, unique=True)\n    created_at = models.DateTimeField(auto_now_add=True)\n    def __str__(self):\n        return f'Registro pendiente de {self.username} ({self.email})'",
         "detail": "backend.apps.users.models",
         "documentation": {}
     },
@@ -1088,6 +1210,15 @@
         "importPath": "backend.apps.users.password_reset",
         "description": "backend.apps.users.password_reset",
         "peekOfCode": "def send_reset_email(user, request=None):\n    \"\"\"\n    Envía el correo de recuperación mediante Resend.\n    Retorna (success: bool, token: str | None).\n    \"\"\"\n    token = generate_reset_token(user)\n    uid = user.pk\n    reset_url = f\"{settings.FRONTEND_URL}/reset-password/{uid}/{token}\"\n    subject = \"Recuperación de contraseña - GameVault\"\n    html_message = f\"\"\"",
+        "detail": "backend.apps.users.password_reset",
+        "documentation": {}
+    },
+    {
+        "label": "send_verification_email",
+        "kind": 2,
+        "importPath": "backend.apps.users.password_reset",
+        "description": "backend.apps.users.password_reset",
+        "peekOfCode": "def send_verification_email(username, email, uid, token, request=None):\n    \"\"\"\n    Envía el correo de verificación de registro mediante Resend.\n    \"\"\"\n    verify_url = f\"{settings.FRONTEND_URL}/verify-email/{uid}/{token}\"\n    subject = \"Confirmá tu registro - GameVault\"\n    html_message = f\"\"\"\n<!DOCTYPE html>\n<html>\n<head>",
         "detail": "backend.apps.users.password_reset",
         "documentation": {}
     },
@@ -1155,6 +1286,33 @@
         "documentation": {}
     },
     {
+        "label": "VerifyEmailSerializer",
+        "kind": 6,
+        "importPath": "backend.apps.users.serializers",
+        "description": "backend.apps.users.serializers",
+        "peekOfCode": "class VerifyEmailSerializer(serializers.Serializer):\n    uid = serializers.IntegerField()\n    token = serializers.CharField()\n    def validate(self, data):\n        try:\n            pending = PendingRegistration.objects.get(pk=data['uid'])\n        except PendingRegistration.DoesNotExist:\n            raise serializers.ValidationError(\n                {\"uid\": \"El enlace es inválido o ha expirado.\"}\n            )",
+        "detail": "backend.apps.users.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "AdminUserListSerializer",
+        "kind": 6,
+        "importPath": "backend.apps.users.serializers",
+        "description": "backend.apps.users.serializers",
+        "peekOfCode": "class AdminUserListSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = User\n        fields = ('id', 'username', 'email', 'date_joined', 'is_staff', 'is_active')\nclass AdminUserDetailSerializer(serializers.ModelSerializer):\n    \"\"\"Para mostrar datos del usuario + sus juegos\"\"\"\n    juegos = serializers.SerializerMethodField()\n    class Meta:\n        model = User\n        fields = ('id', 'username', 'email', 'date_joined', 'is_staff', 'is_active', 'juegos')",
+        "detail": "backend.apps.users.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "AdminUserDetailSerializer",
+        "kind": 6,
+        "importPath": "backend.apps.users.serializers",
+        "description": "backend.apps.users.serializers",
+        "peekOfCode": "class AdminUserDetailSerializer(serializers.ModelSerializer):\n    \"\"\"Para mostrar datos del usuario + sus juegos\"\"\"\n    juegos = serializers.SerializerMethodField()\n    class Meta:\n        model = User\n        fields = ('id', 'username', 'email', 'date_joined', 'is_staff', 'is_active', 'juegos')\n    def get_juegos(self, obj):\n        from apps.juegos.models import UserJuego\n        user_juegos = UserJuego.objects.filter(user=obj).select_related('juego')\n        return [",
+        "detail": "backend.apps.users.serializers",
+        "documentation": {}
+    },
+    {
         "label": "RegistroTests",
         "kind": 6,
         "importPath": "backend.apps.users.tests",
@@ -1186,7 +1344,7 @@
         "kind": 6,
         "importPath": "backend.apps.users.views",
         "description": "backend.apps.users.views",
-        "peekOfCode": "class RegisterView(generics.CreateAPIView):\n    serializer_class = RegisterSerializer\n    permission_classes = [AllowAny]\n    def create(self, request, *args, **kwargs):\n        serializer = RegisterSerializer(data=request.data)\n        if serializer.is_valid():\n            user = serializer.save()\n            return ApiResponse.success(\n                data=UserSerializer(user).data,\n                status=201",
+        "peekOfCode": "class RegisterView(generics.GenericAPIView):\n    serializer_class = RegisterSerializer\n    permission_classes = [AllowAny]\n    def post(self, request):\n        serializer = self.get_serializer(data=request.data)\n        if not serializer.is_valid():\n            return ApiResponse.error(\n                code=\"validation_error\",\n                message=\"Invalidad data\",\n                details=serializer.errors,",
         "detail": "backend.apps.users.views",
         "documentation": {}
     },
@@ -1222,7 +1380,7 @@
         "kind": 6,
         "importPath": "backend.apps.users.views",
         "description": "backend.apps.users.views",
-        "peekOfCode": "class ProfilePublicoView(generics.RetrieveAPIView):\n    serializer_class = ProfilePublicoSerializer\n    permission_classes = [AllowAny]\n    lookup_field = 'user__username'\n    lookup_url_kwarg = 'username'\n    queryset = Profile.objects.all()\n    def retrieve(self, request, *args, **kwargs):\n        serializer = self.get_serializer(self.get_object())\n        return ApiResponse.success(data=serializer.data)\nfrom .password_reset import send_reset_email",
+        "peekOfCode": "class ProfilePublicoView(generics.RetrieveAPIView):\n    serializer_class = ProfilePublicoSerializer\n    permission_classes = [AllowAny]\n    lookup_field = 'user__username'\n    lookup_url_kwarg = 'username'\n    queryset = Profile.objects.all()\n    def retrieve(self, request, *args, **kwargs):\n        serializer = self.get_serializer(self.get_object())\n        return ApiResponse.success(data=serializer.data)\nfrom .password_reset import send_reset_email, send_verification_email",
         "detail": "backend.apps.users.views",
         "documentation": {}
     },
@@ -1241,6 +1399,51 @@
         "importPath": "backend.apps.users.views",
         "description": "backend.apps.users.views",
         "peekOfCode": "class ResetPasswordView(generics.GenericAPIView):\n    permission_classes = [AllowAny]\n    serializer_class = ResetPasswordSerializer\n    def post(self, request):\n        serializer = self.get_serializer(data=request.data)\n        if not serializer.is_valid():\n            return ApiResponse.error(\n                code=\"validation_error\",\n                message=\"Datos inválidos\",\n                details=serializer.errors,",
+        "detail": "backend.apps.users.views",
+        "documentation": {}
+    },
+    {
+        "label": "VerifyEmailView",
+        "kind": 6,
+        "importPath": "backend.apps.users.views",
+        "description": "backend.apps.users.views",
+        "peekOfCode": "class VerifyEmailView(generics.GenericAPIView):\n    serializer_class = VerifyEmailSerializer\n    permission_classes = [AllowAny]\n    def post(self, request):\n        serializer = self.get_serializer(data=request.data)\n        if not serializer.is_valid():\n            return ApiResponse.error(\n                code=\"validation_error\",\n                message=\"Error de verificación\",\n                details=serializer.errors,",
+        "detail": "backend.apps.users.views",
+        "documentation": {}
+    },
+    {
+        "label": "AdminUserPagination",
+        "kind": 6,
+        "importPath": "backend.apps.users.views",
+        "description": "backend.apps.users.views",
+        "peekOfCode": "class AdminUserPagination(PageNumberPagination):\n    page_size = 15\n    page_size_query_param = 'page_size'\n    max_page_size = 100\nclass AdminUserListView(generics.ListAPIView):\n    serializer_class = AdminUserListSerializer\n    permission_classes = [IsAuthenticated]\n    pagination_class = AdminUserPagination\n    filter_backends = [SearchFilter]\n    search_fields = ['username', 'email']",
+        "detail": "backend.apps.users.views",
+        "documentation": {}
+    },
+    {
+        "label": "AdminUserListView",
+        "kind": 6,
+        "importPath": "backend.apps.users.views",
+        "description": "backend.apps.users.views",
+        "peekOfCode": "class AdminUserListView(generics.ListAPIView):\n    serializer_class = AdminUserListSerializer\n    permission_classes = [IsAuthenticated]\n    pagination_class = AdminUserPagination\n    filter_backends = [SearchFilter]\n    search_fields = ['username', 'email']\n    def get_queryset(self):\n        if not self.request.user.is_staff:\n            return User.objects.none()\n        return User.objects.all().order_by('username')",
+        "detail": "backend.apps.users.views",
+        "documentation": {}
+    },
+    {
+        "label": "AdminUserDeleteView",
+        "kind": 6,
+        "importPath": "backend.apps.users.views",
+        "description": "backend.apps.users.views",
+        "peekOfCode": "class AdminUserDeleteView(generics.DestroyAPIView):\n    permission_classes = [IsAuthenticated]\n    queryset = User.objects.all()\n    def destroy(self, request, *args, **kwargs):\n        if not request.user.is_staff:\n            return ApiResponse.error(\n                code=\"permission_denied\",\n                message=\"No tenés permisos de administrador.\",\n                status=403\n            )",
+        "detail": "backend.apps.users.views",
+        "documentation": {}
+    },
+    {
+        "label": "AdminUserDetailView",
+        "kind": 6,
+        "importPath": "backend.apps.users.views",
+        "description": "backend.apps.users.views",
+        "peekOfCode": "class AdminUserDetailView(generics.RetrieveAPIView):\n    permission_classes = [IsAuthenticated]\n    queryset = User.objects.all()\n    def retrieve(self, request, *args, **kwargs):\n        if not request.user.is_staff:\n            return ApiResponse.error(\n                code=\"permission_denied\",\n                message=\"No tenés permisos de administrador.\",\n                status=403\n            )",
         "detail": "backend.apps.users.views",
         "documentation": {}
     },

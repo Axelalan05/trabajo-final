@@ -51,6 +51,7 @@ onUnmounted(() => {
             <router-link to="/explorar">Explorar</router-link>
             <router-link v-if="authStore.isAuthenticated" to="/mis-juegos">Mi colección</router-link>
             <router-link v-if="authStore.isAdmin" to="/admin/juegos">Administrar catálogo</router-link>
+            <router-link v-if="authStore.isAdmin" to="/admin/usuarios">Administrar usuarios</router-link>
 
             <div v-if="authStore.isAuthenticated" class="perfil-menu" ref="menuRef">
                 <button class="perfil-btn" @click="toggleMenu">

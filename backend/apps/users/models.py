@@ -15,3 +15,13 @@ class Profile(models.Model):
     
     def __str__(self):
         return f'Perfil de {self.user.username}'
+    
+class PendingRegistration(models.Model):
+    username = models.CharField(max_length=150)
+    email = models.EmailField()
+    password = models.CharField(max_length=128)  # contraseña hasheada
+    token = models.CharField(max_length=100, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Registro pendiente de {self.username} ({self.email})'
