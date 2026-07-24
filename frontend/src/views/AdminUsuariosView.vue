@@ -112,7 +112,7 @@ onMounted(cargarUsuarios)
         <div class="barra-busqueda">
             <div class="input-wrapper">
                 <Search :size="18" class="search-icon" />
-                <input v-model="busqueda" placeholder="Buscar por nombre de usuario o correo..."
+                <input v-model="busqueda" placeholder="Buscar por nombre de usuario, correo o nombre del juego..."
                     @keyup.enter="buscar" />
             </div>
             <AppButton @click="buscar">Buscar</AppButton>
@@ -133,19 +133,33 @@ onMounted(cargarUsuarios)
                         <tr>
                             <th>Nombre de usuario</th>
                             <th>Correo electrónico</th>
+                            <th>Juego/s</th>
                             <th>Fecha de registro</th>
                             <th class="col-acciones">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="usuario in usuarios" :key="usuario.id">
-                            <td class="td-username">
+                            <td class="td-username" data-label="Nombre de usuario">
                                 <span class="admin-badge" v-if="usuario.is_staff">Admin</span>
                                 {{ usuario.username }}
                             </td>
-                            <td class="td-email">{{ usuario.email }}</td>
-                            <td class="td-fecha">{{ new Date(usuario.date_joined).toLocaleDateString('es-AR') }}</td>
-                            <td class="td-acciones">
+                            <td class="td-email" data-label="Correo electrónico">{{ usuario.email }}</td>
+                            <td class="td-juegos" data-label="Juego/s">
+                                <span v-if="usuario.juegos_nombres && usuario.juegos_nombres.length > 0">
+                                    <span v-for="(juego, idx) in usuario.juegos_nombres.slice(0, 2)" :key="idx">
+                                        {{ juego }}<span v-if="idx < Math.min(usuario.juegos_nombres.length, 2) - 1">,
+                                        </span>
+                                    </span>
+                                    <span v-if="usuario.juegos_nombres.length > 2" class="juegos-mas">
+                                        +{{ usuario.juegos_nombres.length - 2 }} más
+                                    </span>
+                                </span>
+                                <span v-else class="sin-juego">—</span>
+                            </td>
+                            <td class="td-fecha" data-label="Fecha de registro">{{ new
+                                Date(usuario.date_joined).toLocaleDateString('es-AR') }}</td>
+                            <td class="td-acciones" data-label="Acciones">
                                 <button class="icon-btn icon-btn-ver" @click="verDetalle(usuario.id)"
                                     title="Ver perfil y juegos">
                                     <Eye :size="18" />
@@ -557,6 +571,110 @@ onMounted(cargarUsuarios)
     .td-fecha,
     .col-acciones th:nth-child(3) {
         display: none;
+    }
+}
+
+.td-juegos {
+    font-size: var(--font-size-sm);
+    color: var(--color-header-bg);
+    max-width: 200px;
+    min-width: 120px;
+}
+
+.sin-juego {
+    color: var(--color-text-muted);
+    opacity: 0.5;
+}
+
+.juegos-mas {
+    color: var(--color-header-bg);
+    font-weight: 600;
+    font-size: var(--font-size-xs);
+}
+
+/* ===== Responsive: tarjetas en mobile ===== */
+@media (max-width: 768px) {
+    .admin-usuarios-view {
+        padding: var(--space-4);
+    }
+
+    .barra-busqueda {
+        flex-direction: column;
+    }
+
+    .tabla-usuarios,
+    .tabla-usuarios thead,
+    .tabla-usuarios tbody,
+    .tabla-usuarios tr,
+    .tabla-usuarios th,
+    .tabla-usuarios td {
+        display: block;
+    }
+
+    .tabla-usuarios thead {
+        display: none;
+    }
+
+    .tabla-usuarios tr {
+        background: var(--color-footer-bg);
+        border-radius: var(--radius-md);
+        padding: var(--space-4);
+        margin-bottom: var(--space-3);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .tabla-usuarios td {
+        padding: var(--space-1) 0;
+        border: none !important;
+        display: flex;
+        align-items: baseline;
+        gap: var(--space-2);
+        color: var(--color-header-bg);
+    }
+
+    .tabla-usuarios td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--color-text-secondary);
+        font-size: var(--font-size-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        min-width: 130px;
+        flex-shrink: 0;
+    }
+
+    .td-username {
+        font-weight: 600;
+        color: var(--color-header-bg);
+    }
+
+    .td-email {
+        word-break: break-all;
+        color: var(--color-header-bg);
+    }
+
+    .td-juegos {
+        max-width: none;
+        min-width: 0;
+        color: var(--color-header-bg);
+    }
+
+    .td-juegos .sin-juego {
+        color: var(--color-header-bg);
+        opacity: 1;
+    }
+
+    .td-fecha {
+        white-space: normal;
+        color: var(--color-header-bg);
+    }
+
+    .td-acciones {
+        justify-content: flex-start;
+        padding-top: var(--space-2) !important;
+        margin-top: var(--space-2);
+        border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+        color: unset;
     }
 }
 </style>

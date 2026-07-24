@@ -248,12 +248,12 @@ class AdminUserListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     pagination_class = AdminUserPagination
     filter_backends = [SearchFilter]
-    search_fields = ['username', 'email']
+    search_fields = ['username', 'email', 'juegos_usuario__juego__nombre']
 
     def get_queryset(self):
         if not self.request.user.is_staff:
             return User.objects.none()
-        return User.objects.all().order_by('username')
+        return User.objects.all().order_by('username').distinct()
 
     def list(self, request, *args, **kwargs):
         if not request.user.is_staff:

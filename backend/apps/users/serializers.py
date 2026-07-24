@@ -138,9 +138,20 @@ class VerifyEmailSerializer(serializers.Serializer):
         return data
 
 class AdminUserListSerializer(serializers.ModelSerializer):
+    juegos_nombres = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'date_joined', 'is_staff', 'is_active')
+        fields = ('id', 'username', 'email', 'date_joined', 'is_staff', 'is_active', 'juegos_nombres')
+
+    def get_juegos_nombres(self, obj):
+        from apps.juegos.models import UserJuego
+        return list(
+            UserJuego.objects.filter(user=obj)
+            .select_related('juego')
+            .values_list('juego__nombre', flat=True)
+        )
+
 
 class AdminUserDetailSerializer(serializers.ModelSerializer):
     """Para mostrar datos del usuario + sus juegos"""

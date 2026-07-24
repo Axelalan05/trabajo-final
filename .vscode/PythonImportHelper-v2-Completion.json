@@ -1419,7 +1419,7 @@
         "kind": 6,
         "importPath": "backend.apps.users.serializers",
         "description": "backend.apps.users.serializers",
-        "peekOfCode": "class AdminUserListSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = User\n        fields = ('id', 'username', 'email', 'date_joined', 'is_staff', 'is_active')\nclass AdminUserDetailSerializer(serializers.ModelSerializer):\n    \"\"\"Para mostrar datos del usuario + sus juegos\"\"\"\n    juegos = serializers.SerializerMethodField()\n    class Meta:\n        model = User\n        fields = ('id', 'username', 'email', 'date_joined', 'is_staff', 'is_active', 'juegos')",
+        "peekOfCode": "class AdminUserListSerializer(serializers.ModelSerializer):\n    juegos_nombres = serializers.SerializerMethodField()\n    class Meta:\n        model = User\n        fields = ('id', 'username', 'email', 'date_joined', 'is_staff', 'is_active', 'juegos_nombres')\n    def get_juegos_nombres(self, obj):\n        from apps.juegos.models import UserJuego\n        return list(\n            UserJuego.objects.filter(user=obj)\n            .select_related('juego')",
         "detail": "backend.apps.users.serializers",
         "documentation": {}
     },
@@ -1536,7 +1536,7 @@
         "kind": 6,
         "importPath": "backend.apps.users.views",
         "description": "backend.apps.users.views",
-        "peekOfCode": "class AdminUserPagination(PageNumberPagination):\n    page_size = 15\n    page_size_query_param = 'page_size'\n    max_page_size = 100\nclass AdminUserListView(generics.ListAPIView):\n    serializer_class = AdminUserListSerializer\n    permission_classes = [IsAuthenticated]\n    pagination_class = AdminUserPagination\n    filter_backends = [SearchFilter]\n    search_fields = ['username', 'email']",
+        "peekOfCode": "class AdminUserPagination(PageNumberPagination):\n    page_size = 15\n    page_size_query_param = 'page_size'\n    max_page_size = 100\nclass AdminUserListView(generics.ListAPIView):\n    serializer_class = AdminUserListSerializer\n    permission_classes = [IsAuthenticated]\n    pagination_class = AdminUserPagination\n    filter_backends = [SearchFilter]\n    search_fields = ['username', 'email', 'juegos_usuario__juego__nombre']",
         "detail": "backend.apps.users.views",
         "documentation": {}
     },
@@ -1545,7 +1545,7 @@
         "kind": 6,
         "importPath": "backend.apps.users.views",
         "description": "backend.apps.users.views",
-        "peekOfCode": "class AdminUserListView(generics.ListAPIView):\n    serializer_class = AdminUserListSerializer\n    permission_classes = [IsAuthenticated]\n    pagination_class = AdminUserPagination\n    filter_backends = [SearchFilter]\n    search_fields = ['username', 'email']\n    def get_queryset(self):\n        if not self.request.user.is_staff:\n            return User.objects.none()\n        return User.objects.all().order_by('username')",
+        "peekOfCode": "class AdminUserListView(generics.ListAPIView):\n    serializer_class = AdminUserListSerializer\n    permission_classes = [IsAuthenticated]\n    pagination_class = AdminUserPagination\n    filter_backends = [SearchFilter]\n    search_fields = ['username', 'email', 'juegos_usuario__juego__nombre']\n    def get_queryset(self):\n        if not self.request.user.is_staff:\n            return User.objects.none()\n        return User.objects.all().order_by('username').distinct()",
         "detail": "backend.apps.users.views",
         "documentation": {}
     },

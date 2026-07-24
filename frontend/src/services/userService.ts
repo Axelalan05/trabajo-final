@@ -8,6 +8,7 @@ export interface AdminUser {
   date_joined: string
   is_staff: boolean
   is_active: boolean
+  juegos_nombres: string[]
 }
 
 export interface UserJuegoInfo {
