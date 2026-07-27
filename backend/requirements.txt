@@ -16,9 +16,6 @@ django-filter==24.3
 # PostgreSQL
 psycopg2-binary==2.9.10
 
-# Imágenes de portada
-Pillow==11.1.0
-
 # Variables de entorno (.env)
 python-dotenv==1.0.1
 

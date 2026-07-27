@@ -1,177 +1,203 @@
 # 🎮 GameVault — Tu biblioteca personal de videojuegos
 
-**GameVault** es una aplicación web pensada para que cualquier usuario pueda armar y gestionar su propia colección de videojuegos. La idea es simple: guardar los juegos que jugaste, los que querés jugar, calificarlos, escribir reseñas y chusmear lo que tienen otros.
+**GameVault** es una aplicación web para armar y gestionar una colección personal de videojuegos. El catálogo de juegos lo mantengo yo como administrador (cargando cada título desde la API de RAWG, con portada, género, plataformas y fecha de lanzamiento reales) para evitar duplicados y datos inconsistentes. Cualquier usuario registrado puede unirse a los juegos del catálogo, llevar el registro de su propio estado (pendiente, jugando, completado, abandonado), puntuarlos y escribir una reseña personal.
 
-El objetivo del proyecto es demostrar un desarrollo fullstack completo: backend con API, frontend moderno, manejo de usuarios, base de datos y despliegue usando contenedores.
-
----
-
-# 🧱 Stack y arquitectura
-
-## 🔙 Backend
-
-- Django
-- Django REST Framework
-- SimpleJWT (autenticación con tokens)
-- django-cors-headers
-- django-filter
-- Pillow
-
-## 🔜 Frontend
-
-- Vue 3
-- Vue Router
-- Pinia (estado global)
-- Axios
-- Vite
-
-## 🐳 Infraestructura
-
-- Dockerfile (backend y frontend)
-- Docker Compose (para levantar todo junto)
-- Servicios:
-  - Backend (API)
-  - Frontend
-  - Base de datos (PostgreSQL)
-
-## 🧪 Testing y desarrollo
-
-- Postman (para testear endpoints y validar la API REST durante el desarrollo)
+Es mi proyecto final para la materia **Trabajo Final**, en la Universidad Nacional del Comahue.
 
 ---
 
-# ⚙️ Funcionalidades propuestas
+## 🧱 Stack y arquitectura
 
-## 🔐 Auth
+### Backend
 
-- Registro con email + contraseña, con email de confirmación (usando `send_mail` de Django + SMTP simple, sin colas — va sincrónico, suficiente para este trabajo final)
-- Login/logout con JWT (access + refresh token)
-- Perfil de usuario editable (avatar, bio, nombre)
-- Recuperación de contraseña por email
+- Django + Django REST Framework
+- Autenticación con JWT (`djangorestframework-simplejwt`), con blacklist de tokens
+- PostgreSQL
+- `django-filter` para los filtros de búsqueda
+- `django-cors-headers`
+- Envío de emails con **Resend** (confirmación de cuenta y recuperación de contraseña)
+- Integración con la **API de RAWG** (rawg.io) para traer portada, descripción, género, plataformas y fecha de lanzamiento de cada juego
 
----
+### Frontend
 
-## 🎮 CRUD principal — Juegos en la colección
+- Vue 3 + TypeScript
+- Vue Router (con guards de autenticación y de admin)
+- Pinia para el estado global
+- Axios (con interceptores para inyectar el token y refrescarlo automáticamente)
 
-- Agregar un juego con:
-  - nombre
-  - género
-  - plataforma
-  - imagen de portada
-  - descripción
-  - año
-- Editar y eliminar
-- Marcar estado:
-  - Jugando
-  - Completado
-  - Pendiente
-  - Abandonado
-- Puntaje personal (1–10)
-- Reseña / notas personales
+### Infraestructura
 
----
+- Docker + Docker Compose, con 4 servicios: `db` (PostgreSQL), `backend` (Django), `frontend` (Vue/Vite), y `nginx` (reverse proxy)
+- **nginx** como puerta de entrada única: rutea `/api/`, `/admin/` y `/media/` al backend, y todo lo demás al frontend
+- **HTTPS local con mkcert**, sirviendo la app en `https://gamevault.local` con certificado confiable en la máquina (sin advertencias de "sitio no seguro")
+- Scripts de conveniencia en `scripts/` (`setup.sh`, `reset_db.sh`, `seed_data.sh`, `test_endpoints.sh`)
 
-## 🔍 Exploración
+### Testing / desarrollo
 
-- Listado público de juegos cargados por todos los usuarios
-- Búsqueda y filtros (por género, plataforma, estado)
-- Ver el perfil público de otro usuario con su colección
-- Ordenar por:
-  - puntaje
-  - fecha de agregado
-  - nombre
+- Comando de gestión `seed_data` (Django) que carga un catálogo de prueba real vía RAWG y usuarios de prueba, reutilizando las mismas validaciones que la API pública
+- Scripts de `curl` para probar los endpoints de punta a punta sin necesidad de una herramienta externa
 
 ---
 
-## ⭐ Extra que suma sin complicar
+## ⚙️ Funcionalidades
 
-- Favoritos (muchos a muchos entre usuario y juego)
-- Estadísticas del perfil:
-  - cuántos juegos completados
-  - promedio de puntaje
-  - géneros más jugados  
-    _(todo calculado en el backend, sin usar celery)_
+### 🔐 Autenticación y cuenta
+
+- Registro con usuario, email y contraseña, con email de confirmación (Resend). En el entorno de desarrollo actual, al no contar todavía con un dominio propio verificado, el plan gratuito de Resend solo permite enviar correos reales a la casilla del titular de la cuenta (`axeldavidalan05@gmail.com`); para cualquier otro usuario, el registro y la solicitud de recuperación de contraseña igual funcionan: el backend devuelve el enlace correspondiente (`verification_url` / `reset_url`) en el JSON de la respuesta, y el frontend lo muestra por `console.log` en la consola del navegador (`RegisterView.vue` y `ForgotPasswordView.vue`), a modo de entorno de prueba.
+- Login/logout con JWT (access + refresh token, con blacklist al cerrar sesión)
+- Recuperación de contraseña por email (o vía la consola del navegador, según la limitación anterior)
+- Perfil propio editable, y perfil público de otros usuarios
+
+### 🎮 Catálogo (solo administrador)
+
+- Alta de juegos buscando directamente en RAWG: se elige un resultado y se autocompletan nombre, portada, descripción, género, plataformas y fecha de lanzamiento
+- Edición y baja de juegos del catálogo
+- Validación de duplicados por nombre y por ID de RAWG
+
+### 📚 Mi colección (cualquier usuario autenticado)
+
+- Unirse a un juego del catálogo
+- Marcar estado: pendiente, jugando, completado o abandonado (con su propio color)
+- Puntaje personal (1–10) y reseña
+- Salir de un juego (con modal de confirmación)
+- Estadísticas propias: juegos completados, puntaje promedio, géneros más jugados
+
+### 🔍 Exploración
+
+- Catálogo público, con filtros por nombre, género y plataforma (incluye abreviaturas de PlayStation: "ps", "ps3", etc.)
+- Orden por más recientes o por nombre
+- Detalle de cada juego en una vista propia
 - Paginación en los listados
 
----
+### 🛠️ Administración
 
-# 📘 Historias de usuario + visión del creador
-
----
-
-## Épica 1 — Autenticación
-
-**Como creador del sistema**, quiero que el acceso esté protegido y bien gestionado para que cada usuario tenga su información segura.
-
-- US-01 Como visitante, quiero registrarme con email y contraseña para crear mi cuenta.
-- US-02 Como visitante, quiero recibir un email de confirmación para activar mi cuenta.
-- US-03 Como visitante, quiero iniciar sesión y obtener un token JWT para acceder a mis datos.
-- US-04 Como usuario, quiero cerrar sesión invalidando mi refresh token.
-- US-05 Como usuario, quiero recuperar mi contraseña si me la olvido.
+- Panel propio en Vue para cargar/editar el catálogo (además del admin de Django)
+- Gestión de usuarios: búsqueda, ver detalle (con sus juegos y reseñas) y expulsar usuarios
 
 ---
 
-## Épica 2 — Perfil
+## 🚀 Cómo levantarlo en una PC nueva
 
-**Como creador del sistema**, quiero que cada usuario tenga identidad propia dentro de la plataforma y pueda mostrarse al resto.
+### 1. Clonar y configurar variables de entorno
 
-- US-06 Como usuario, quiero ver y editar mi perfil (nombre, bio, avatar).
-- US-07 Como visitante, quiero ver el perfil público de otros usuarios.
+```bash
+git clone https://github.com/Axelalan05/trabajo-final.git
+cd trabajo-final
+cp .env-example .env
+```
+
+Abrí el `.env` recién creado y completá:
+
+- `RAWG_API_KEY`: se consigue gratis registrándose en [rawg.io/apidocs](https://rawg.io/apidocs)
+- `RESEND_API_KEY` y `RESEND_FROM_EMAIL`: credenciales de [resend.com](https://resend.com)
+- `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DJANGO_SECRET_KEY`: los que prefieras para tu entorno local
+- `FRONTEND_URL`: `https://gamevault.local`
+
+### 2. Certificado HTTPS local con mkcert
+
+La app se sirve en `https://gamevault.local`. Esto requiere generar un certificado **una sola vez por máquina** (no se sube a Git, ya está en `.gitignore` bajo `nginx/certs/`).
+
+#### En Windows (con WSL, como este proyecto)
+
+> Importante: mkcert se instala y corre en **Windows**, no dentro de WSL — el navegador (Chrome/Edge) usa el almacén de certificados de Windows, no el de Linux.
+
+1. Descargar el ejecutable desde [github.com/FiloSottile/mkcert/releases/latest](https://github.com/FiloSottile/mkcert/releases/latest), el archivo que dice `windows-amd64` (ej. `mkcert-v1.4.4-windows-amd64.exe`).
+2. Crear la carpeta `C:\mkcert`, mover el archivo descargado ahí adentro, y renombrarlo a `mkcert.exe`.
+3. Abrir **PowerShell como Administrador** (menú inicio → buscar "PowerShell" → click derecho → "Ejecutar como administrador") y correr:
+   ```powershell
+   cd C:\mkcert
+   .\mkcert.exe -install
+   .\mkcert.exe gamevault.local
+   ```
+   Esto crea `gamevault.local.pem` y `gamevault.local-key.pem` en `C:\mkcert`.
+4. Copiar esos dos archivos al proyecto, desde la terminal de **WSL**:
+   ```bash
+   mkdir -p ~/trabajo-final/nginx/certs
+   cp /mnt/c/mkcert/gamevault.local.pem ~/trabajo-final/nginx/certs/
+   cp /mnt/c/mkcert/gamevault.local-key.pem ~/trabajo-final/nginx/certs/
+   ```
+
+#### En Linux
+
+```bash
+sudo apt update
+sudo apt install libnss3-tools wget -y
+wget https://github.com/FiloSottile/mkcert/releases/latest/download/mkcert-v1.4.4-linux-amd64
+chmod +x mkcert-v1.4.4-linux-amd64
+sudo mv mkcert-v1.4.4-linux-amd64 /usr/local/bin/mkcert
+mkcert -install
+mkdir -p nginx/certs
+cd nginx/certs
+mkcert gamevault.local
+cd ../..
+```
+
+(Revisar en la página de releases si hay una versión más nueva que `v1.4.4` y ajustar el número en la URL del `wget`.)
+
+### 3. Archivo hosts
+
+También es un paso único por máquina: le dice al sistema operativo que `gamevault.local` apunta a la propia PC, en vez de salir a buscarlo a internet.
+
+**Windows** (el `hosts` de Windows, no el de WSL — es el que usa el navegador):
+
+1. Abrir el Bloc de notas **como Administrador** (buscarlo en el menú inicio → click derecho → "Ejecutar como administrador").
+2. `Archivo → Abrir`, pegar esta ruta en el campo de nombre de archivo (cambiando el filtro a "Todos los archivos" si hace falta):
+   ```
+   C:\Windows\System32\drivers\etc\hosts
+   ```
+3. Al final del archivo, agregar:
+   ```
+   127.0.0.1 gamevault.local
+   ```
+4. Guardar con `Ctrl+S`.
+5. Verificar desde cualquier terminal:
+   ```bash
+   ping gamevault.local
+   ```
+   Debe resolver a `127.0.0.1`.
+
+**Linux:**
+
+```bash
+sudo nano /etc/hosts
+```
+
+Agregar la misma línea al final (`127.0.0.1 gamevault.local`), guardar con `Ctrl+O`, `Enter`, y salir con `Ctrl+X`.
+
+### 4. Levantar los contenedores
+
+```bash
+docker compose down
+docker compose up -d --build
+docker compose exec backend python manage.py migrate
+docker compose exec backend python manage.py createsuperuser
+```
+
+Opcional, para tener un catálogo de prueba con 15 juegos reales (vía RAWG) y 50 usuarios ya cargados:
+
+```bash
+bash scripts/seed_data.sh
+```
+
+### 5. Verificar que todo esté arriba
+
+```bash
+docker compose ps
+```
+
+Deben figurar 4 contenedores en estado `Up`: `gamevault_db`, `gamevault_backend`, `gamevault_frontend`, `gamevault_nginx`.
+
+### 6. Listo
+
+Entrar a `https://gamevault.local` 🎮 — debería cargar con el candado verde, sin advertencias de "sitio no seguro".
 
 ---
 
-## Épica 3 — Mi colección
+## 🚫 Fuera de alcance
 
-**Como creador del sistema**, quiero que cada usuario pueda gestionar su biblioteca de forma clara y completa.
+Para mantener el proyecto manejable dentro del tiempo de la materia:
 
-- US-08 Como usuario, quiero agregar un juego a mi colección.
-- US-09 Como usuario, quiero editar la información de un juego.
-- US-10 Como usuario, quiero eliminar un juego.
-- US-11 Como usuario, quiero marcar el estado de cada juego.
-- US-12 Como usuario, quiero poner puntaje y escribir una reseña.
-
----
-
-## Épica 4 — Exploración
-
-**Como creador del sistema**, quiero que los usuarios puedan descubrir contenido y ver qué juegan otros.
-
-- US-13 Como visitante, quiero ver juegos cargados en la plataforma.
-- US-14 Como usuario, quiero buscar juegos por distintos criterios.
-- US-15 Como usuario, quiero ordenar resultados.
-- US-16 Como usuario, quiero marcar juegos como favoritos.
-
----
-
-## Épica 5 — Estadísticas
-
-**Como creador del sistema**, quiero mostrar información útil que le dé valor a la colección del usuario.
-
-- US-17 Como usuario, quiero ver estadísticas de mi colección.
-
----
-
-# 🚫 Alcance (lo que NO se incluye)
-
-Para no irse de tema y mantenerlo manejable:
-
-- Nada de chat
-- Nada de notificaciones en tiempo real
-- Nada de APIs externas
-- Nada de sistema de amigos
-- Nada de colas tipo Celery o Redis
-
----
-
-# 💡 Idea general
-
-Es un proyecto bien completo pero realista. Tiene:
-
-- CRUD
-- Auth
-- API REST
-- Frontend moderno
-- Base de datos
-- Docker
-- Postman
-- JWT
+- Chat o mensajería entre usuarios
+- Notificaciones en tiempo real
+- Sistema de amigos/seguidores
+- Colas de tareas (Celery, Redis)
