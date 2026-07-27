@@ -14,7 +14,7 @@ defineEmits<{
 
 <template>
     <Teleport to="body">
-        <Transition name="fade">
+        <Transition name="fade-scale">
             <div v-if="show" class="overlay" @click.self="$emit('close')">
                 <div class="modal">
                     <div class="modal-header">
@@ -76,13 +76,27 @@ defineEmits<{
     color: var(--color-text);
 }
 
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.2s ease;
+.fade-scale-enter-active,
+.fade-scale-leave-active {
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.fade-enter-from,
-.fade-leave-to {
+.fade-scale-enter-from,
+.fade-scale-leave-to {
     opacity: 0;
+    transform: scale(0.95);
+}
+
+.fade-scale-enter-active .modal,
+.fade-scale-leave-active .modal {
+    transition: transform 0.2s ease;
+}
+
+.fade-scale-enter-from .modal {
+    transform: scale(0.95);
+}
+
+.fade-scale-leave-to .modal {
+    transform: scale(0.95);
 }
 </style>

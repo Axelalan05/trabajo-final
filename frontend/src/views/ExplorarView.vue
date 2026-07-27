@@ -6,11 +6,13 @@ import AppSpinner from '@/components/ui/AppSpinner.vue';
 import { juegoService } from '@/services/juegoService';
 import { userJuegoService } from '@/services/userJuegoService';
 import { useAuthStore } from '@/stores/auth';
+import { useToast } from '@/stores/toast';
 import type { Juego } from '@/types';
 import { Eye } from 'lucide-vue-next';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 const authStore = useAuthStore()
+const { addToast } = useToast()
 
 const JUEGOS_POR_PAGINA = 15
 
@@ -23,6 +25,14 @@ const plataforma = ref('')
 const ordering = ref('-created_at')
 const mensajeUnion = ref<{ id: number; texto: string } | null>(null)
 const paginaActual = ref(1)
+
+let searchTimer: ReturnType<typeof setTimeout>
+watch([nombre, genero, plataforma], () => {
+  clearTimeout(searchTimer)
+  searchTimer = setTimeout(() => {
+    cargarJuegos()
+  }, 350)
+})
 
 const juegoDetalle = ref<Juego | null>(null)
 const descripcionExpandida = ref(false)
@@ -82,6 +92,7 @@ async function unirseAJuego(juego: Juego) {
     try {
         await userJuegoService.unirse({ juego_id: juego.id })
         misJuegoIds.value.add(juego.id)
+        addToast(`Te uniste a "${juego.nombre}"`, 'success', 'userPlus')
     } catch (err: any) {
         const detail = err?.response?.data?.error?.details
         const mensaje = detail && typeof detail === 'object'
@@ -225,11 +236,35 @@ onMounted(async () => {
     overflow: hidden;
     text-align: left;
     cursor: pointer;
-    transition: transform 0.15s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    animation: fadeSlideUp 0.4s ease both;
 }
 
+.juego-card:nth-child(1) { animation-delay: 0.02s; }
+.juego-card:nth-child(2) { animation-delay: 0.04s; }
+.juego-card:nth-child(3) { animation-delay: 0.06s; }
+.juego-card:nth-child(4) { animation-delay: 0.08s; }
+.juego-card:nth-child(5) { animation-delay: 0.10s; }
+.juego-card:nth-child(6) { animation-delay: 0.12s; }
+.juego-card:nth-child(7) { animation-delay: 0.14s; }
+.juego-card:nth-child(8) { animation-delay: 0.16s; }
+.juego-card:nth-child(9) { animation-delay: 0.18s; }
+.juego-card:nth-child(10) { animation-delay: 0.20s; }
+
 .juego-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+}
+
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .portada {

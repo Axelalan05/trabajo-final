@@ -4,8 +4,11 @@ import AppModal from '@/components/ui/AppModal.vue'
 import AppPagination from '@/components/ui/AppPagination.vue'
 import AppSpinner from '@/components/ui/AppSpinner.vue'
 import { userService, type AdminUser, type AdminUserDetail } from '@/services/userService'
+import { useToast } from '@/stores/toast'
 import { Eye, Search, UserX } from 'lucide-vue-next'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
+
+const { addToast } = useToast()
 
 const usuarios = ref<AdminUser[]>([])
 const loading = ref(true)
@@ -14,6 +17,15 @@ const totalPaginas = ref(1)
 const totalUsuarios = ref(0)
 const busqueda = ref('')
 const error = ref('')
+
+let searchTimer: ReturnType<typeof setTimeout>
+watch(busqueda, () => {
+  clearTimeout(searchTimer)
+  searchTimer = setTimeout(() => {
+    paginaActual.value = 1
+    cargarUsuarios()
+  }, 350)
+})
 
 // Modal de detalle
 const showDetailModal = ref(false)
@@ -82,12 +94,14 @@ function cancelarEliminar() {
 
 async function eliminarUsuario() {
     if (!usuarioAEliminar.value) return
+    const username = usuarioAEliminar.value.username
     deleting.value = true
     try {
         await userService.deleteUser(usuarioAEliminar.value.id)
         showDeleteConfirm.value = false
         usuarioAEliminar.value = null
         await cargarUsuarios()
+        addToast(`Usuario "${username}" expulsado del sistema`, 'error', 'userX')
     } catch (err: any) {
         error.value = err?.response?.data?.error?.message || 'Error al eliminar usuario.'
         showDeleteConfirm.value = false
@@ -341,8 +355,12 @@ onMounted(cargarUsuarios)
     border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+.tabla-usuarios tr {
+    transition: background 0.2s ease;
+}
+
 .tabla-usuarios tr:hover {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.06);
 }
 
 .admin-badge {

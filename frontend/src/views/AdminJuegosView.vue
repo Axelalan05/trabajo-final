@@ -5,9 +5,12 @@ import AppModal from '@/components/ui/AppModal.vue'
 import AppPagination from '@/components/ui/AppPagination.vue'
 import AppSpinner from '@/components/ui/AppSpinner.vue'
 import { juegoService } from '@/services/juegoService'
+import { useToast } from '@/stores/toast'
 import type { Juego, RawgResultado } from '@/types'
 import { Pencil, Plus, Search, Trash2 } from 'lucide-vue-next'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
+
+const { addToast } = useToast()
 
 const JUEGOS_POR_PAGINA = 15
 
@@ -18,6 +21,14 @@ const nombre = ref('')
 const genero = ref('')
 const plataforma = ref('')
 const ordering = ref('-created_at')
+
+let searchTimer: ReturnType<typeof setTimeout>
+watch([nombre, genero, plataforma], () => {
+  clearTimeout(searchTimer)
+  searchTimer = setTimeout(() => {
+    cargarJuegos()
+  }, 350)
+})
 
 const totalPaginas = computed(() =>
     Math.max(1, Math.ceil(juegos.value.length / JUEGOS_POR_PAGINA))
@@ -118,8 +129,10 @@ async function handleSubmit(data: Partial<Juego>) {
     try {
         if (juegoEditando.value?.id) {
             await juegoService.update(juegoEditando.value.id, data)
+            addToast(`Juego "${data.nombre}" actualizado`, 'success', 'pencil')
         } else {
             await juegoService.create(data)
+            addToast(`Juego "${data.nombre}" agregado al catálogo`, 'success', 'plus')
         }
         cerrarFormModal()
         await cargarJuegos()
@@ -136,8 +149,10 @@ async function handleSubmit(data: Partial<Juego>) {
 
 async function eliminarJuego(id: number) {
     if (!confirm('¿Seguro que querés eliminar este juego del catálogo?')) return
+    const juego = juegos.value.find((j) => j.id === id)
     await juegoService.delete(id)
     juegos.value = juegos.value.filter((j) => j.id !== id)
+    if (juego) addToast(`Juego "${juego.nombre}" eliminado`, 'error', 'trash2')
 }
 
 onMounted(cargarJuegos)
@@ -280,6 +295,35 @@ onMounted(cargarJuegos)
     border-radius: var(--radius-md);
     overflow: hidden;
     text-align: left;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    animation: fadeSlideUp 0.4s ease both;
+}
+
+.juego-card:nth-child(1) { animation-delay: 0.02s; }
+.juego-card:nth-child(2) { animation-delay: 0.04s; }
+.juego-card:nth-child(3) { animation-delay: 0.06s; }
+.juego-card:nth-child(4) { animation-delay: 0.08s; }
+.juego-card:nth-child(5) { animation-delay: 0.10s; }
+.juego-card:nth-child(6) { animation-delay: 0.12s; }
+.juego-card:nth-child(7) { animation-delay: 0.14s; }
+.juego-card:nth-child(8) { animation-delay: 0.16s; }
+.juego-card:nth-child(9) { animation-delay: 0.18s; }
+.juego-card:nth-child(10) { animation-delay: 0.20s; }
+
+.juego-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+}
+
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .portada {

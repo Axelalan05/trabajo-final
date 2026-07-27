@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ToastContainer from '@/components/ui/ToastContainer.vue';
 import AppFooter from '@/components/ui/AppFooter.vue';
 import AppHeader from '@/components/ui/AppHeader.vue';
 import BackToTop from '@/components/ui/BackToTop.vue';
@@ -12,6 +13,7 @@ import BackToTop from '@/components/ui/BackToTop.vue';
         </main>
         <AppFooter />
         <BackToTop />
+        <ToastContainer />
     </div>
 </template>
 

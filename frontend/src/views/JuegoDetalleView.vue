@@ -4,6 +4,7 @@ import AppSpinner from '@/components/ui/AppSpinner.vue'
 import { juegoService } from '@/services/juegoService'
 import { userJuegoService } from '@/services/userJuegoService'
 import { useAuthStore } from '@/stores/auth'
+import { useToast } from '@/stores/toast'
 import type { EstadoJuego, JuegoDetalleResponse } from '@/types'
 import { ArrowLeft } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
@@ -12,6 +13,7 @@ import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
+const { addToast } = useToast()
 
 const loading = ref(true)
 const detalle = ref<JuegoDetalleResponse | null>(null)
@@ -60,9 +62,9 @@ async function unirseAlJuego() {
             puntaje: miPuntaje.value,
             resenia: miResenia.value,
         })
-        // Actualizamos el detalle con la respuesta
         detalle.value.mi_user_juego = response.data
         mensaje.value = 'Juego agregado a tu colección ✅'
+        addToast(`"${detalle.value.juego.nombre}" agregado a tu colección`, 'success', 'userPlus')
     } catch (err: any) {
         const detail = err?.response?.data?.error?.details
         mensaje.value = detail && typeof detail === 'object'
@@ -85,6 +87,7 @@ async function actualizarMiJuego() {
         })
         detalle.value.mi_user_juego = response.data
         mensaje.value = 'Actualizado ✅'
+        addToast(`Progreso actualizado para "${detalle.value.juego.nombre}"`, 'success', 'pencil')
     } catch {
         mensaje.value = 'Error al actualizar.'
     } finally {

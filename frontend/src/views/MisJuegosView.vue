@@ -3,9 +3,12 @@ import AppPagination from '@/components/ui/AppPagination.vue'
 import AppSpinner from '@/components/ui/AppSpinner.vue'
 import ConfirmModal from '@/components/ui/ConfirmModal.vue'
 import { userJuegoService } from '@/services/userJuegoService'
+import { useToast } from '@/stores/toast'
 import type { EstadoJuego, UserJuego } from '@/types'
 import { Eye, Star, Trash2 } from 'lucide-vue-next'
 import { computed, onMounted, ref } from 'vue'
+
+const { addToast } = useToast()
 
 const JUEGOS_POR_PAGINA = 15
 
@@ -55,12 +58,14 @@ async function actualizarEstado(userJuego: UserJuego, estado: EstadoJuego) {
     const response = await userJuegoService.actualizar(userJuego.id, { estado })
     userJuego.estado = response.data.estado
     await cargarEstadisticas()
+    addToast(`"${userJuego.juego.nombre}" marcado como "${estado}"`, 'info', 'refreshCw')
 }
 
 async function actualizarPuntaje(userJuego: UserJuego, puntaje: number | null) {
     const response = await userJuegoService.actualizar(userJuego.id, { puntaje })
     userJuego.puntaje = response.data.puntaje
     await cargarEstadisticas()
+    addToast(`Puntaje de "${userJuego.juego.nombre}" actualizado a ${puntaje}/10`, 'success', 'star')
 }
 
 function claseEstado(estado: EstadoJuego): string {
@@ -75,11 +80,13 @@ function pedirSalir(userJuego: UserJuego) {
 
 async function confirmarSalir() {
     if (!juegoASalir.value) return
+    const nombre = juegoASalir.value.juego.nombre
     const id = juegoASalir.value.id
     await userJuegoService.salir(id)
     misJuegos.value = misJuegos.value.filter((uj) => uj.id !== id)
     await cargarEstadisticas()
     juegoASalir.value = null
+    addToast(`Saliste de "${nombre}"`, 'warning', 'logOut')
 }
 
 onMounted(async () => {
@@ -209,6 +216,12 @@ onMounted(async () => {
     text-align: center;
     min-width: 120px;
     flex: 1;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 .stat-numero {
@@ -241,6 +254,35 @@ onMounted(async () => {
     border-radius: var(--radius-md);
     overflow: hidden;
     text-align: left;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    animation: fadeSlideUp 0.4s ease both;
+}
+
+.juego-card:nth-child(1) { animation-delay: 0.02s; }
+.juego-card:nth-child(2) { animation-delay: 0.04s; }
+.juego-card:nth-child(3) { animation-delay: 0.06s; }
+.juego-card:nth-child(4) { animation-delay: 0.08s; }
+.juego-card:nth-child(5) { animation-delay: 0.10s; }
+.juego-card:nth-child(6) { animation-delay: 0.12s; }
+.juego-card:nth-child(7) { animation-delay: 0.14s; }
+.juego-card:nth-child(8) { animation-delay: 0.16s; }
+.juego-card:nth-child(9) { animation-delay: 0.18s; }
+.juego-card:nth-child(10) { animation-delay: 0.20s; }
+
+.juego-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+}
+
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .portada {
