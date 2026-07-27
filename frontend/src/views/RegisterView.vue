@@ -60,6 +60,13 @@ async function handleRegister() {
                 <div class="campo">
                     <label for="password">Contraseña</label>
                     <input id="password" v-model="password" type="password" required />
+                    <div class="campo">
+                        <label for="password">Contraseña</label>
+                        <input id="password" v-model="password" type="password" required />
+                        <p class="requisitos-password">
+                            Mínimo 8 caracteres, una mayúscula, un número y, opcionalmente, un símbolo.
+                        </p>
+                    </div>
                 </div>
                 <div class="campo">
                     <label for="password_confirm">Confirmar contraseña</label>
@@ -135,6 +142,13 @@ async function handleRegister() {
 
 .campo input::placeholder {
     color: var(--color-text-secondary);
+}
+
+.requisitos-password {
+    margin: var(--space-1) 0 0;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
+    line-height: 1.4;
 }
 
 .error {
