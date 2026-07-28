@@ -47,7 +47,7 @@ const router = createRouter({
       meta: { title: 'Detalle del juego' },
     },
     {
-      path: '/admin/juegos',
+      path: '/panel/juegos',
       name: 'admin-juegos',
       component: () => import('@/views/AdminJuegosView.vue'),
       meta: { requiresAuth: true, requiresAdmin: true, title: 'Administrar catálogo' },
@@ -77,7 +77,7 @@ const router = createRouter({
       meta: { title: 'Verificar email' },
     },
     {
-      path: '/admin/usuarios',
+      path: '/panel/usuarios',
       name: 'admin-usuarios',
       component: () => import('@/views/AdminUsuariosView.vue'),
       meta: { requiresAuth: true, requiresAdmin: true, title: 'Administrar usuarios' },

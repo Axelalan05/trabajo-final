@@ -78,8 +78,8 @@ onUnmounted(() => {
             <router-link to="/" class="nav-inicio">Inicio</router-link>
             <router-link to="/explorar">Explorar</router-link>
             <router-link v-if="authStore.isAuthenticated" to="/mis-juegos">Mi colección</router-link>
-            <router-link v-if="authStore.isAdmin" to="/admin/juegos">Administrar catálogo</router-link>
-            <router-link v-if="authStore.isAdmin" to="/admin/usuarios">Administrar usuarios</router-link>
+            <router-link v-if="authStore.isAdmin" to="/panel/juegos">Administrar catálogo</router-link>
+            <router-link v-if="authStore.isAdmin" to="/panel/usuarios">Administrar usuarios</router-link>
 
             <div v-if="authStore.isAuthenticated" class="perfil-menu" ref="menuRef">
                 <button class="perfil-btn" @click="toggleMenu">
@@ -118,9 +118,9 @@ onUnmounted(() => {
                 <router-link to="/explorar" class="mobile-item" @click="cerrarMobileMenu">Explorar</router-link>
                 <router-link v-if="authStore.isAuthenticated" to="/mis-juegos" class="mobile-item"
                     @click="cerrarMobileMenu">Mi colección</router-link>
-                <router-link v-if="authStore.isAdmin" to="/admin/juegos" class="mobile-item"
+                <router-link v-if="authStore.isAdmin" to="/panel/juegos" class="mobile-item"
                     @click="cerrarMobileMenu">Administrar catálogo</router-link>
-                <router-link v-if="authStore.isAdmin" to="/admin/usuarios" class="mobile-item"
+                <router-link v-if="authStore.isAdmin" to="/panel/usuarios" class="mobile-item"
                     @click="cerrarMobileMenu">Administrar usuarios</router-link>
 
                 <template v-if="authStore.isAuthenticated">
