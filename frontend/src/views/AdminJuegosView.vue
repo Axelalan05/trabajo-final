@@ -4,6 +4,7 @@ import AppButton from '@/components/ui/AppButton.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import AppPagination from '@/components/ui/AppPagination.vue'
 import AppSpinner from '@/components/ui/AppSpinner.vue'
+import ConfirmModal from '@/components/ui/ConfirmModal.vue'
 import { juegoService } from '@/services/juegoService'
 import { useToast } from '@/stores/toast'
 import type { Juego, RawgResultado } from '@/types'
@@ -24,10 +25,10 @@ const ordering = ref('-created_at')
 
 let searchTimer: ReturnType<typeof setTimeout>
 watch([nombre, genero, plataforma], () => {
-  clearTimeout(searchTimer)
-  searchTimer = setTimeout(() => {
-    cargarJuegos()
-  }, 350)
+    clearTimeout(searchTimer)
+    searchTimer = setTimeout(() => {
+        cargarJuegos()
+    }, 350)
 })
 
 const totalPaginas = computed(() =>
@@ -55,6 +56,9 @@ const errorBusqueda = ref('')
 const showFormModal = ref(false)
 const juegoEditando = ref<Partial<Juego> | null>(null)
 const errorSubmit = ref('')
+
+// Modal 3: confirmar eliminación
+const juegoAEliminar = ref<Juego | null>(null)
 
 async function cargarJuegos() {
     loading.value = true
@@ -147,12 +151,17 @@ async function handleSubmit(data: Partial<Juego>) {
     }
 }
 
-async function eliminarJuego(id: number) {
-    if (!confirm('¿Seguro que querés eliminar este juego del catálogo?')) return
-    const juego = juegos.value.find((j) => j.id === id)
-    await juegoService.delete(id)
-    juegos.value = juegos.value.filter((j) => j.id !== id)
-    if (juego) addToast(`Juego "${juego.nombre}" eliminado`, 'error', 'trash2')
+function pedirEliminar(juego: Juego) {
+    juegoAEliminar.value = juego
+}
+
+async function confirmarEliminar() {
+    if (!juegoAEliminar.value) return
+    const juego = juegoAEliminar.value
+    await juegoService.delete(juego.id)
+    juegos.value = juegos.value.filter((j) => j.id !== juego.id)
+    addToast(`Juego "${juego.nombre}" eliminado`, 'error', 'trash2')
+    juegoAEliminar.value = null
 }
 
 onMounted(cargarJuegos)
@@ -195,7 +204,7 @@ onMounted(cargarJuegos)
                             <button class="icon-btn" @click="abrirModalEditar(juego)">
                                 <Pencil :size="18" />
                             </button>
-                            <button class="icon-btn icon-btn-danger" @click="eliminarJuego(juego.id)">
+                            <button class="icon-btn icon-btn-danger" @click="pedirEliminar(juego)">
                                 <Trash2 :size="18" />
                             </button>
                         </div>
@@ -240,6 +249,12 @@ onMounted(cargarJuegos)
             <p v-if="errorSubmit" class="error-modal">{{ errorSubmit }}</p>
             <JuegoForm :juego="juegoEditando" @submit="handleSubmit" />
         </AppModal>
+
+        <!-- Modal 3: confirmar eliminación -->
+        <ConfirmModal :show="!!juegoAEliminar" title="Eliminar juego"
+            :mensaje="`¿Seguro que querés eliminar '${juegoAEliminar?.nombre}' del catálogo? Esta acción no se puede deshacer.`"
+            texto-confirmar="Eliminar" variant-confirmar="danger" @confirm="confirmarEliminar"
+            @close="juegoAEliminar = null" />
     </div>
 </template>
 
@@ -299,16 +314,45 @@ onMounted(cargarJuegos)
     animation: fadeSlideUp 0.4s ease both;
 }
 
-.juego-card:nth-child(1) { animation-delay: 0.02s; }
-.juego-card:nth-child(2) { animation-delay: 0.04s; }
-.juego-card:nth-child(3) { animation-delay: 0.06s; }
-.juego-card:nth-child(4) { animation-delay: 0.08s; }
-.juego-card:nth-child(5) { animation-delay: 0.10s; }
-.juego-card:nth-child(6) { animation-delay: 0.12s; }
-.juego-card:nth-child(7) { animation-delay: 0.14s; }
-.juego-card:nth-child(8) { animation-delay: 0.16s; }
-.juego-card:nth-child(9) { animation-delay: 0.18s; }
-.juego-card:nth-child(10) { animation-delay: 0.20s; }
+.juego-card:nth-child(1) {
+    animation-delay: 0.02s;
+}
+
+.juego-card:nth-child(2) {
+    animation-delay: 0.04s;
+}
+
+.juego-card:nth-child(3) {
+    animation-delay: 0.06s;
+}
+
+.juego-card:nth-child(4) {
+    animation-delay: 0.08s;
+}
+
+.juego-card:nth-child(5) {
+    animation-delay: 0.10s;
+}
+
+.juego-card:nth-child(6) {
+    animation-delay: 0.12s;
+}
+
+.juego-card:nth-child(7) {
+    animation-delay: 0.14s;
+}
+
+.juego-card:nth-child(8) {
+    animation-delay: 0.16s;
+}
+
+.juego-card:nth-child(9) {
+    animation-delay: 0.18s;
+}
+
+.juego-card:nth-child(10) {
+    animation-delay: 0.20s;
+}
 
 .juego-card:hover {
     transform: translateY(-4px);
@@ -320,6 +364,7 @@ onMounted(cargarJuegos)
         opacity: 0;
         transform: translateY(15px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
