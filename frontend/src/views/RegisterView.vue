@@ -61,8 +61,6 @@ async function handleRegister() {
                     <label for="password">Contraseña</label>
                     <input id="password" v-model="password" type="password" required />
                     <div class="campo">
-                        <label for="password">Contraseña</label>
-                        <input id="password" v-model="password" type="password" required />
                         <p class="requisitos-password">
                             Mínimo 8 caracteres, una mayúscula, un número y, opcionalmente, un símbolo.
                         </p>
