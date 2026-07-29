@@ -1,4 +1,4 @@
-import type { ApiResponse, Juego, JuegoDetalleResponse, RawgDetalle, RawgResultado } from '@/types'
+import type { ApiResponse, EstadoJuego, Juego, JuegoDetalleResponse, RawgDetalle, RawgResultado } from '@/types'
 import api from './api'
 
 
@@ -7,6 +7,19 @@ export interface JuegoFiltros {
   genero?: string
   plataforma?: string
   ordering?: string
+}
+
+export interface Jugador {
+  username: string
+  estado: EstadoJuego
+  puntaje: number | null
+}
+
+export interface JugadoresResponse {
+  jugadores: Jugador[]
+  total: number
+  page: number
+  total_pages: number
 }
 
 export const juegoService = {
@@ -56,8 +69,13 @@ export const juegoService = {
     return data
   },
 
-    async getDetalle(id: number): Promise<ApiResponse<JuegoDetalleResponse>> {
+  async getDetalle(id: number): Promise<ApiResponse<JuegoDetalleResponse>> {
     const { data } = await api.get<ApiResponse<JuegoDetalleResponse>>(`/juegos/${id}/detalle/`)
     return data
+  },
+
+  async listJugadores(id: number, params: { q?: string; page?: number }): Promise<JugadoresResponse> {
+    const response = await api.get(`/juegos/${id}/jugadores/`, { params })
+    return response.data.data
   },
 }

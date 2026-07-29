@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import AppButton from '@/components/ui/AppButton.vue'
+import AppPagination from '@/components/ui/AppPagination.vue'
 import AppSpinner from '@/components/ui/AppSpinner.vue'
-import { juegoService } from '@/services/juegoService'
+import { juegoService, type Jugador } from '@/services/juegoService'
 import { userJuegoService } from '@/services/userJuegoService'
 import { useAuthStore } from '@/stores/auth'
 import { useToast } from '@/stores/toast'
 import type { EstadoJuego, JuegoDetalleResponse } from '@/types'
-import { ArrowLeft } from 'lucide-vue-next'
-import { onMounted, ref } from 'vue'
+import { ArrowLeft, Eye, Search } from 'lucide-vue-next'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
@@ -25,6 +26,21 @@ const miPuntaje = ref<number | null>(null)
 const miResenia = ref('')
 const saving = ref(false)
 const mensaje = ref('')
+
+// Jugadores que tienen este juego en su colección (búsqueda en vivo + paginación)
+const jugadores = ref<Jugador[]>([])
+const loadingJugadores = ref(true)
+const busquedaJugadores = ref('')
+const paginaJugadores = ref(1)
+const totalPaginasJugadores = ref(1)
+const totalJugadores = ref(0)
+
+const ESTADO_LABELS: Record<EstadoJuego, string> = {
+    pendiente: 'Pendiente',
+    jugando: 'Jugando',
+    completado: 'Completado',
+    abandonado: 'Abandonado',
+}
 
 async function cargarDetalle() {
     loading.value = true
@@ -47,6 +63,38 @@ async function cargarDetalle() {
     }
 }
 
+async function cargarJugadores() {
+    loadingJugadores.value = true
+    try {
+        const juegoId = Number(route.params.id)
+        const response = await juegoService.listJugadores(juegoId, {
+            q: busquedaJugadores.value || undefined,
+            page: paginaJugadores.value,
+        })
+        jugadores.value = response.jugadores
+        totalPaginasJugadores.value = response.total_pages
+        totalJugadores.value = response.total
+    } catch {
+        jugadores.value = []
+    } finally {
+        loadingJugadores.value = false
+    }
+}
+
+let searchTimer: ReturnType<typeof setTimeout>
+watch(busquedaJugadores, () => {
+    clearTimeout(searchTimer)
+    searchTimer = setTimeout(() => {
+        paginaJugadores.value = 1
+        cargarJugadores()
+    }, 350)
+})
+
+function cambiarPaginaJugadores(pagina: number) {
+    paginaJugadores.value = pagina
+    cargarJugadores()
+}
+
 function volver() {
     router.back()
 }
@@ -65,6 +113,7 @@ async function unirseAlJuego() {
         detalle.value.mi_user_juego = response.data
         mensaje.value = 'Juego agregado a tu colección ✅'
         addToast(`"${detalle.value.juego.nombre}" agregado a tu colección`, 'success', 'userPlus')
+        cargarJugadores()
     } catch (err: any) {
         const detail = err?.response?.data?.error?.details
         mensaje.value = detail && typeof detail === 'object'
@@ -88,6 +137,7 @@ async function actualizarMiJuego() {
         detalle.value.mi_user_juego = response.data
         mensaje.value = 'Actualizado ✅'
         addToast(`Progreso actualizado para "${detalle.value.juego.nombre}"`, 'success', 'pencil')
+        cargarJugadores()
     } catch {
         mensaje.value = 'Error al actualizar.'
     } finally {
@@ -101,7 +151,10 @@ function renderEstrellas(puntaje: number | null): string {
     return '★'.repeat(llenas) + '☆'.repeat(5 - llenas)
 }
 
-onMounted(cargarDetalle)
+onMounted(() => {
+    cargarDetalle()
+    cargarJugadores()
+})
 </script>
 
 <template>
@@ -191,6 +244,42 @@ onMounted(cargarDetalle)
                 <p class="login-cta">
                     <router-link to="/login">Iniciá sesión</router-link> para agregar este juego a tu colección.
                 </p>
+            </section>
+
+            <!-- Quiénes lo tienen en su colección -->
+            <section class="seccion">
+                <h2>Jugadores ({{ totalJugadores }})</h2>
+
+                <div class="buscador-jugadores">
+                    <Search :size="16" class="icono-buscar" />
+                    <input v-model="busquedaJugadores" type="text" placeholder="Buscar por nombre de usuario..." />
+                </div>
+
+                <AppSpinner v-if="loadingJugadores" />
+
+                <div v-else-if="jugadores.length === 0" class="vacio-jugadores">
+                    <span v-if="busquedaJugadores">No hay usuarios que coincidan con "{{ busquedaJugadores }}".</span>
+                    <span v-else>Todavía nadie agregó este juego a su colección.</span>
+                </div>
+
+                <template v-else>
+                    <ul class="lista-jugadores">
+                        <li v-for="jugador in jugadores" :key="jugador.username" class="jugador-item">
+                            <span class="jugador-username">{{ jugador.username }}</span>
+                            <span class="jugador-estado" :class="`estado-${jugador.estado}`">
+                                {{ ESTADO_LABELS[jugador.estado] }}
+                            </span>
+                            <span class="jugador-puntaje">{{ jugador.puntaje ? `${jugador.puntaje}/10` : '—' }}</span>
+                            <router-link :to="`/usuarios/${jugador.username}`" class="btn-ojo"
+                                aria-label="Ver perfil público">
+                                <Eye :size="18" />
+                            </router-link>
+                        </li>
+                    </ul>
+
+                    <AppPagination :pagina-actual="paginaJugadores" :total-paginas="totalPaginasJugadores"
+                        @update:pagina-actual="cambiarPaginaJugadores" />
+                </template>
             </section>
         </template>
     </div>
@@ -362,6 +451,100 @@ onMounted(cargarDetalle)
     padding: var(--space-8);
 }
 
+.buscador-jugadores {
+    position: relative;
+    margin-bottom: var(--space-4);
+}
+
+.icono-buscar {
+    position: absolute;
+    left: var(--space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-secondary);
+    pointer-events: none;
+}
+
+.buscador-jugadores input {
+    width: 100%;
+    padding: var(--space-2) var(--space-2) var(--space-2) calc(var(--space-3) * 2 + 16px);
+    border-radius: var(--radius-sm);
+    border: none;
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    background: var(--color-bg);
+    color: var(--color-text);
+    box-sizing: border-box;
+}
+
+.vacio-jugadores {
+    color: var(--color-text-secondary);
+    text-align: center;
+    padding: var(--space-4) 0;
+}
+
+.lista-jugadores {
+    list-style: none;
+    margin: 0 0 var(--space-4);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.jugador-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-bg);
+    border-radius: var(--radius-sm);
+}
+
+.jugador-username {
+    font-weight: 600;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.jugador-estado {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+}
+
+.jugador-puntaje {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    min-width: 40px;
+    text-align: right;
+}
+
+.btn-ojo {
+    background: transparent;
+    border: 1px solid var(--color-text-secondary);
+    color: var(--color-text);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+    flex-shrink: 0;
+}
+
+.btn-ojo:hover {
+    transform: translateY(-1px);
+    border-color: var(--color-header-bg);
+    color: var(--color-header-bg);
+}
+
 @media (max-width: 600px) {
     .hero {
         flex-direction: column;
@@ -376,6 +559,14 @@ onMounted(cargarDetalle)
 
     .puntaje-promedio {
         justify-content: center;
+    }
+
+    .jugador-item {
+        flex-wrap: wrap;
+    }
+
+    .jugador-username {
+        width: 100%;
     }
 }
 </style>

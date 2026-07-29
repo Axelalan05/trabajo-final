@@ -11,5 +11,6 @@ urlpatterns = [
     path('rawg/buscar/', views.RawgBuscarView.as_view()),
     path('rawg/<int:rawg_id>/', views.RawgDetalleView.as_view()),
     path('<int:juego_id>/detalle/', views.JuegoDetalleView.as_view()),
+    path('<int:juego_id>/jugadores/', views.JuegoJugadoresView.as_view()),
     path('', include(router.urls)),
 ]

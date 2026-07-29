@@ -1,10 +1,12 @@
 from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
-from rest_framework.filters import OrderingFilter
+from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.views import APIView
 from apps.juegos.models import Juego, UserJuego
-from apps.juegos.serializers import JuegoSerializer, UserJuegoSerializer
+from apps.juegos.serializers import JuegoSerializer, UserJuegoSerializer, JugadorSerializer
 from apps.juegos.filters import JuegoFilter
 from core.response import ApiResponse
 from django_filters.rest_framework import DjangoFilterBackend
@@ -194,4 +196,47 @@ class JuegoDetalleView(APIView):
             'puntaje_promedio': round(stats['puntaje_promedio'], 1) if stats['puntaje_promedio'] else None,
             'total_resenias': stats['total_resenias'],
             'mi_user_juego': mi_user_juego,
+        })
+
+
+class JugadorPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 50
+
+class QSearchFilter(SearchFilter):
+    search_param = 'q'
+
+class JuegoJugadoresView(generics.ListAPIView):
+    """
+    Lista paginada (10 por página) de los usuarios que tienen este
+    juego en su colección, con búsqueda en vivo por username.
+    Es información pública, no requiere estar logueado.
+    """
+    serializer_class = JugadorSerializer
+    permission_classes = [AllowAny]
+    pagination_class = JugadorPagination
+    filter_backends = [QSearchFilter] 
+    search_fields = ['user__username']
+    
+    def get_queryset(self):
+        return UserJuego.objects.filter(
+            juego_id=self.kwargs['juego_id']
+        ).select_related('user').order_by('user__username')
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        serializer = self.get_serializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
+
+    def get_paginated_response(self, data):
+        return Response({
+            'success': True,
+            'data': {
+                'jugadores': data,
+                'total': self.paginator.page.paginator.count,
+                'page': self.paginator.page.number,
+                'total_pages': self.paginator.page.paginator.num_pages,
+            }
         })

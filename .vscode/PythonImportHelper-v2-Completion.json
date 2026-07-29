@@ -74,6 +74,30 @@
         "documentation": {}
     },
     {
+        "label": "User",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "BaseCommand",
+        "importPath": "django.core.management.base",
+        "description": "django.core.management.base",
+        "isExtraImport": true,
+        "detail": "django.core.management.base",
+        "documentation": {}
+    },
+    {
         "label": "BaseCommand",
         "importPath": "django.core.management.base",
         "description": "django.core.management.base",
@@ -203,6 +227,14 @@
     },
     {
         "label": "UserJuegoSerializer",
+        "importPath": "apps.juegos.serializers",
+        "description": "apps.juegos.serializers",
+        "isExtraImport": true,
+        "detail": "apps.juegos.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "JugadorSerializer",
         "importPath": "apps.juegos.serializers",
         "description": "apps.juegos.serializers",
         "isExtraImport": true,
@@ -606,6 +638,62 @@
         "documentation": {}
     },
     {
+        "label": "SearchFilter",
+        "importPath": "rest_framework.filters",
+        "description": "rest_framework.filters",
+        "isExtraImport": true,
+        "detail": "rest_framework.filters",
+        "documentation": {}
+    },
+    {
+        "label": "PageNumberPagination",
+        "importPath": "rest_framework.pagination",
+        "description": "rest_framework.pagination",
+        "isExtraImport": true,
+        "detail": "rest_framework.pagination",
+        "documentation": {}
+    },
+    {
+        "label": "PageNumberPagination",
+        "importPath": "rest_framework.pagination",
+        "description": "rest_framework.pagination",
+        "isExtraImport": true,
+        "detail": "rest_framework.pagination",
+        "documentation": {}
+    },
+    {
+        "label": "PageNumberPagination",
+        "importPath": "rest_framework.pagination",
+        "description": "rest_framework.pagination",
+        "isExtraImport": true,
+        "detail": "rest_framework.pagination",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
         "label": "action",
         "importPath": "rest_framework.decorators",
         "description": "rest_framework.decorators",
@@ -670,6 +758,62 @@
         "documentation": {}
     },
     {
+        "label": "Profile",
+        "importPath": "apps.users.models",
+        "description": "apps.users.models",
+        "isExtraImport": true,
+        "detail": "apps.users.models",
+        "documentation": {}
+    },
+    {
+        "label": "Profile",
+        "importPath": "apps.users.models",
+        "description": "apps.users.models",
+        "isExtraImport": true,
+        "detail": "apps.users.models",
+        "documentation": {}
+    },
+    {
+        "label": "PendingRegistration",
+        "importPath": "apps.users.models",
+        "description": "apps.users.models",
+        "isExtraImport": true,
+        "detail": "apps.users.models",
+        "documentation": {}
+    },
+    {
+        "label": "Profile",
+        "importPath": "apps.users.models",
+        "description": "apps.users.models",
+        "isExtraImport": true,
+        "detail": "apps.users.models",
+        "documentation": {}
+    },
+    {
+        "label": "Profile",
+        "importPath": "apps.users.models",
+        "description": "apps.users.models",
+        "isExtraImport": true,
+        "detail": "apps.users.models",
+        "documentation": {}
+    },
+    {
+        "label": "Profile",
+        "importPath": "apps.users.models",
+        "description": "apps.users.models",
+        "isExtraImport": true,
+        "detail": "apps.users.models",
+        "documentation": {}
+    },
+    {
+        "label": "PendingRegistration",
+        "importPath": "apps.users.models",
+        "description": "apps.users.models",
+        "isExtraImport": true,
+        "detail": "apps.users.models",
+        "documentation": {}
+    },
+    {
         "label": "PasswordResetTokenGenerator",
         "importPath": "django.contrib.auth.tokens",
         "description": "django.contrib.auth.tokens",
@@ -694,43 +838,19 @@
         "documentation": {}
     },
     {
-        "label": "Profile",
-        "importPath": "apps.users.models",
-        "description": "apps.users.models",
+        "label": "post_save",
+        "importPath": "django.db.models.signals",
+        "description": "django.db.models.signals",
         "isExtraImport": true,
-        "detail": "apps.users.models",
+        "detail": "django.db.models.signals",
         "documentation": {}
     },
     {
-        "label": "PendingRegistration",
-        "importPath": "apps.users.models",
-        "description": "apps.users.models",
+        "label": "receiver",
+        "importPath": "django.dispatch",
+        "description": "django.dispatch",
         "isExtraImport": true,
-        "detail": "apps.users.models",
-        "documentation": {}
-    },
-    {
-        "label": "Profile",
-        "importPath": "apps.users.models",
-        "description": "apps.users.models",
-        "isExtraImport": true,
-        "detail": "apps.users.models",
-        "documentation": {}
-    },
-    {
-        "label": "Profile",
-        "importPath": "apps.users.models",
-        "description": "apps.users.models",
-        "isExtraImport": true,
-        "detail": "apps.users.models",
-        "documentation": {}
-    },
-    {
-        "label": "PendingRegistration",
-        "importPath": "apps.users.models",
-        "description": "apps.users.models",
-        "isExtraImport": true,
-        "detail": "apps.users.models",
+        "detail": "django.dispatch",
         "documentation": {}
     },
     {
@@ -758,43 +878,11 @@
         "documentation": {}
     },
     {
-        "label": "Response",
-        "importPath": "rest_framework.response",
-        "description": "rest_framework.response",
-        "isExtraImport": true,
-        "detail": "rest_framework.response",
-        "documentation": {}
-    },
-    {
-        "label": "Response",
-        "importPath": "rest_framework.response",
-        "description": "rest_framework.response",
-        "isExtraImport": true,
-        "detail": "rest_framework.response",
-        "documentation": {}
-    },
-    {
         "label": "RefreshToken",
         "importPath": "rest_framework_simplejwt.tokens",
         "description": "rest_framework_simplejwt.tokens",
         "isExtraImport": true,
         "detail": "rest_framework_simplejwt.tokens",
-        "documentation": {}
-    },
-    {
-        "label": "PageNumberPagination",
-        "importPath": "rest_framework.pagination",
-        "description": "rest_framework.pagination",
-        "isExtraImport": true,
-        "detail": "rest_framework.pagination",
-        "documentation": {}
-    },
-    {
-        "label": "PageNumberPagination",
-        "importPath": "rest_framework.pagination",
-        "description": "rest_framework.pagination",
-        "isExtraImport": true,
-        "detail": "rest_framework.pagination",
         "documentation": {}
     },
     {
@@ -1163,6 +1251,15 @@
         "documentation": {}
     },
     {
+        "label": "JugadorSerializer",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.serializers",
+        "description": "backend.apps.juegos.serializers",
+        "peekOfCode": "class JugadorSerializer(serializers.ModelSerializer):\n    \"\"\"\n    Se usa en la lista de \"quién tiene este juego en su colección\"\n    dentro del detalle de un juego. Expone solo lo público:\n    username, estado y puntaje — nada de email ni datos sensibles.\n    \"\"\"\n    username = serializers.CharField(source='user.username', read_only=True)\n    class Meta:\n        model = UserJuego\n        fields = ('username', 'estado', 'puntaje')",
+        "detail": "backend.apps.juegos.serializers",
+        "documentation": {}
+    },
+    {
         "label": "JuegoValidacionTests",
         "kind": 6,
         "importPath": "backend.apps.juegos.tests",
@@ -1194,7 +1291,7 @@
         "kind": 5,
         "importPath": "backend.apps.juegos.urls",
         "description": "backend.apps.juegos.urls",
-        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'mis-juegos', views.UserJuegoViewSet, basename='userjuego')\nrouter.register(r'', views.JuegoViewSet, basename='juego')\nurlpatterns = [\n    path('publico/', views.JuegoPublicoListView.as_view()),\n    path('rawg/buscar/', views.RawgBuscarView.as_view()),\n    path('rawg/<int:rawg_id>/', views.RawgDetalleView.as_view()),\n    path('<int:juego_id>/detalle/', views.JuegoDetalleView.as_view()),\n    path('', include(router.urls)),\n]",
+        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'mis-juegos', views.UserJuegoViewSet, basename='userjuego')\nrouter.register(r'', views.JuegoViewSet, basename='juego')\nurlpatterns = [\n    path('publico/', views.JuegoPublicoListView.as_view()),\n    path('rawg/buscar/', views.RawgBuscarView.as_view()),\n    path('rawg/<int:rawg_id>/', views.RawgDetalleView.as_view()),\n    path('<int:juego_id>/detalle/', views.JuegoDetalleView.as_view()),\n    path('<int:juego_id>/jugadores/', views.JuegoJugadoresView.as_view()),\n    path('', include(router.urls)),",
         "detail": "backend.apps.juegos.urls",
         "documentation": {}
     },
@@ -1203,7 +1300,7 @@
         "kind": 5,
         "importPath": "backend.apps.juegos.urls",
         "description": "backend.apps.juegos.urls",
-        "peekOfCode": "urlpatterns = [\n    path('publico/', views.JuegoPublicoListView.as_view()),\n    path('rawg/buscar/', views.RawgBuscarView.as_view()),\n    path('rawg/<int:rawg_id>/', views.RawgDetalleView.as_view()),\n    path('<int:juego_id>/detalle/', views.JuegoDetalleView.as_view()),\n    path('', include(router.urls)),\n]",
+        "peekOfCode": "urlpatterns = [\n    path('publico/', views.JuegoPublicoListView.as_view()),\n    path('rawg/buscar/', views.RawgBuscarView.as_view()),\n    path('rawg/<int:rawg_id>/', views.RawgDetalleView.as_view()),\n    path('<int:juego_id>/detalle/', views.JuegoDetalleView.as_view()),\n    path('<int:juego_id>/jugadores/', views.JuegoJugadoresView.as_view()),\n    path('', include(router.urls)),\n]",
         "detail": "backend.apps.juegos.urls",
         "documentation": {}
     },
@@ -1262,6 +1359,42 @@
         "documentation": {}
     },
     {
+        "label": "JugadorPagination",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.views",
+        "description": "backend.apps.juegos.views",
+        "peekOfCode": "class JugadorPagination(PageNumberPagination):\n    page_size = 10\n    page_size_query_param = 'page_size'\n    max_page_size = 50\nclass QSearchFilter(SearchFilter):\n    search_param = 'q'\nclass JuegoJugadoresView(generics.ListAPIView):\n    \"\"\"\n    Lista paginada (10 por página) de los usuarios que tienen este\n    juego en su colección, con búsqueda en vivo por username.",
+        "detail": "backend.apps.juegos.views",
+        "documentation": {}
+    },
+    {
+        "label": "QSearchFilter",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.views",
+        "description": "backend.apps.juegos.views",
+        "peekOfCode": "class QSearchFilter(SearchFilter):\n    search_param = 'q'\nclass JuegoJugadoresView(generics.ListAPIView):\n    \"\"\"\n    Lista paginada (10 por página) de los usuarios que tienen este\n    juego en su colección, con búsqueda en vivo por username.\n    Es información pública, no requiere estar logueado.\n    \"\"\"\n    serializer_class = JugadorSerializer\n    permission_classes = [AllowAny]",
+        "detail": "backend.apps.juegos.views",
+        "documentation": {}
+    },
+    {
+        "label": "JuegoJugadoresView",
+        "kind": 6,
+        "importPath": "backend.apps.juegos.views",
+        "description": "backend.apps.juegos.views",
+        "peekOfCode": "class JuegoJugadoresView(generics.ListAPIView):\n    \"\"\"\n    Lista paginada (10 por página) de los usuarios que tienen este\n    juego en su colección, con búsqueda en vivo por username.\n    Es información pública, no requiere estar logueado.\n    \"\"\"\n    serializer_class = JugadorSerializer\n    permission_classes = [AllowAny]\n    pagination_class = JugadorPagination\n    filter_backends = [QSearchFilter] ",
+        "detail": "backend.apps.juegos.views",
+        "documentation": {}
+    },
+    {
+        "label": "Command",
+        "kind": 6,
+        "importPath": "backend.apps.users.management.commands.backfill_profiles",
+        "description": "backend.apps.users.management.commands.backfill_profiles",
+        "peekOfCode": "class Command(BaseCommand):\n    help = 'Crea el Profile faltante para los usuarios que no lo tienen todavía.'\n    def handle(self, *args, **options):\n        creados = 0\n        for user in User.objects.all():\n            _, created = Profile.objects.get_or_create(user=user)\n            if created:\n                creados += 1\n        total = User.objects.count()\n        self.stdout.write(self.style.SUCCESS(",
+        "detail": "backend.apps.users.management.commands.backfill_profiles",
+        "documentation": {}
+    },
+    {
         "label": "Migration",
         "kind": 6,
         "importPath": "backend.apps.users.migrations.0001_initial",
@@ -1284,7 +1417,7 @@
         "kind": 6,
         "importPath": "backend.apps.users.apps",
         "description": "backend.apps.users.apps",
-        "peekOfCode": "class UsersConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'apps.users'",
+        "peekOfCode": "class UsersConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'apps.users'\n    def ready(self):\n        import apps.users.signals  # noqa: F401  (registra el receiver del post_save)",
         "detail": "backend.apps.users.apps",
         "documentation": {}
     },
@@ -1430,6 +1563,15 @@
         "description": "backend.apps.users.serializers",
         "peekOfCode": "class AdminUserDetailSerializer(serializers.ModelSerializer):\n    \"\"\"Para mostrar datos del usuario + sus juegos\"\"\"\n    juegos = serializers.SerializerMethodField()\n    class Meta:\n        model = User\n        fields = ('id', 'username', 'email', 'date_joined', 'is_staff', 'is_active', 'juegos')\n    def get_juegos(self, obj):\n        from apps.juegos.models import UserJuego\n        user_juegos = UserJuego.objects.filter(user=obj).select_related('juego')\n        return [",
         "detail": "backend.apps.users.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "crear_perfil_automaticamente",
+        "kind": 2,
+        "importPath": "backend.apps.users.signals",
+        "description": "backend.apps.users.signals",
+        "peekOfCode": "def crear_perfil_automaticamente(sender, instance, created, **kwargs):\n    \"\"\"\n    Cada vez que se crea un User (registro normal, verificación de\n    email, createsuperuser, Django admin, seed_data, etc.) le creamos\n    su Profile en el mismo momento. Así evitamos que el perfil público\n    de un usuario tire 404 solo porque todavía no visitó \"Mi perfil\".\n    \"\"\"\n    if created:\n        Profile.objects.get_or_create(user=instance)",
+        "detail": "backend.apps.users.signals",
         "documentation": {}
     },
     {

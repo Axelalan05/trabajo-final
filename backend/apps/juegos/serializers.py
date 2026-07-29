@@ -56,3 +56,16 @@ class UserJuegoSerializer(serializers.ModelSerializer):
         if request and not self.instance and UserJuego.objects.filter(user=request.user, juego=juego).exists():
             raise serializers.ValidationError('Ya estás en este juego.')
         return attrs
+
+
+class JugadorSerializer(serializers.ModelSerializer):
+    """
+    Se usa en la lista de "quién tiene este juego en su colección"
+    dentro del detalle de un juego. Expone solo lo público:
+    username, estado y puntaje — nada de email ni datos sensibles.
+    """
+    username = serializers.CharField(source='user.username', read_only=True)
+
+    class Meta:
+        model = UserJuego
+        fields = ('username', 'estado', 'puntaje')
