@@ -20,5 +20,8 @@ fi
 echo "=== Cargando juegos y usuarios de prueba ==="
 docker compose exec backend python manage.py seed_data
 
+echo "=== Verificando que todos tengan perfil ==="
+docker compose exec backend python manage.py backfill_profiles
+
 echo ""
 echo "Listo. Podes entrar como cualquier jugador1..jugador50 con password: seed12345"
