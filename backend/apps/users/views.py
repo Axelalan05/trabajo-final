@@ -2,6 +2,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from django.conf import settings
@@ -11,7 +12,7 @@ from apps.users.serializers import (
     RegisterSerializer, UserSerializer, ProfileSerializer,
     ProfilePublicoSerializer, RequestPasswordResetSerializer,
     ResetPasswordSerializer, VerifyEmailSerializer,
-    AdminUserListSerializer, AdminUserDetailSerializer  # ← AGREGAR ESTOS
+    AdminUserListSerializer, AdminUserDetailSerializer
 )
 from apps.users.models import Profile, PendingRegistration
 from core.response import ApiResponse
@@ -75,6 +76,15 @@ class RegisterView(generics.GenericAPIView):
             },
             status=201
         )
+
+
+class LoginView(TokenObtainPairView):
+    permission_classes = [AllowAny]
+
+
+class RefreshView(TokenRefreshView):
+    permission_classes = [AllowAny]
+
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
