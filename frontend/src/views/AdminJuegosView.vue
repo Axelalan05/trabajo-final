@@ -312,6 +312,8 @@ onMounted(cargarJuegos)
     text-align: left;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
     animation: fadeSlideUp 0.4s ease both;
+    display: flex;
+    flex-direction: column;
 }
 
 .juego-card:nth-child(1) {
@@ -380,6 +382,9 @@ onMounted(cargarJuegos)
 
 .juego-card-body {
     padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .detalle {
@@ -390,7 +395,8 @@ onMounted(cargarJuegos)
 .acciones {
     display: flex;
     gap: var(--space-2);
-    margin-top: var(--space-4);
+    margin-top: auto;
+    padding-top: var(--space-4);
 }
 
 .icon-btn {

@@ -1,19 +1,25 @@
 #!/bin/bash
-# Levanta el proyecto completo desde cero (primera vez o después de mucho tiempo sin tocarlo)
+# Primera vez que se levanta el proyecto en esta máquina.
 set -e
 
-echo "=== Levantando contenedores ==="
-docker compose up -d
+echo "=== Dando permisos de ejecución a los scripts ==="
+chmod +x scripts/*.sh
 
-echo "=== Esperando a que la base de datos este lista ==="
-until docker compose exec db pg_isready -U postgres > /dev/null 2>&1; do
-  echo "Esperando a Postgres..."
-  sleep 1
-done
-
-echo "=== Aplicando migraciones ==="
-docker compose exec backend python manage.py migrate
+echo "=== Levantando y construyendo contenedores (las migraciones corren solas) ==="
+docker compose up -d --build
 
 echo ""
-echo "Todo listo. Si necesitas un superusuario, corre:"
-echo "  docker compose exec backend python manage.py createsuperuser"
+read -p "¿Crear un superusuario para entrar al panel de Django (/admin)? (s/n) " crear_su
+if [ "$crear_su" = "s" ]; then
+  docker compose exec backend python manage.py createsuperuser
+fi
+
+echo ""
+read -p "¿Sembrar datos de prueba (15 juegos + 50 usuarios)? (s/n) " sembrar
+if [ "$sembrar" = "s" ]; then
+  ./scripts/seed_data.sh
+fi
+
+echo ""
+echo "Listo. De acá en adelante, para levantar el proyecto alcanza con:"
+echo "  docker compose up -d"

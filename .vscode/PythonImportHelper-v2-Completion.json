@@ -854,11 +854,11 @@
         "documentation": {}
     },
     {
-        "label": "RegisterView",
-        "importPath": "apps.users.views",
-        "description": "apps.users.views",
+        "label": "RefreshToken",
+        "importPath": "rest_framework_simplejwt.tokens",
+        "description": "rest_framework_simplejwt.tokens",
         "isExtraImport": true,
-        "detail": "apps.users.views",
+        "detail": "rest_framework_simplejwt.tokens",
         "documentation": {}
     },
     {
@@ -875,14 +875,6 @@
         "description": "rest_framework_simplejwt.views",
         "isExtraImport": true,
         "detail": "rest_framework_simplejwt.views",
-        "documentation": {}
-    },
-    {
-        "label": "RefreshToken",
-        "importPath": "rest_framework_simplejwt.tokens",
-        "description": "rest_framework_simplejwt.tokens",
-        "isExtraImport": true,
-        "detail": "rest_framework_simplejwt.tokens",
         "documentation": {}
     },
     {
@@ -950,7 +942,7 @@
         "documentation": {}
     },
     {
-        "label": "AdminUserDetailSerializer  # ← AGREGAR ESTOS",
+        "label": "AdminUserDetailSerializer",
         "importPath": "apps.users.serializers",
         "description": "apps.users.serializers",
         "isExtraImport": true,
@@ -1597,7 +1589,7 @@
         "kind": 5,
         "importPath": "backend.apps.users.urls",
         "description": "backend.apps.users.urls",
-        "peekOfCode": "urlpatterns = [\n    path('register/', views.RegisterView.as_view()),\n    path('login/', TokenObtainPairView.as_view()),\n    path('token/refresh/', TokenRefreshView.as_view()),\n    path('logout/', views.LogoutView.as_view()),\n    path('profile/', views.ProfileView.as_view()),\n    path('me/', views.MeView.as_view()),\n    path('users/<str:username>/', views.ProfilePublicoView.as_view()),\n    # Password reset\n    path('password-reset/', views.RequestPasswordResetView.as_view(), name='password-reset'),",
+        "peekOfCode": "urlpatterns = [\n    path('register/', views.RegisterView.as_view()),\n    path('login/', views.LoginView.as_view()),\n    path('token/refresh/', views.RefreshView.as_view()),\n    path('logout/', views.LogoutView.as_view()),\n    path('profile/', views.ProfileView.as_view()),\n    path('me/', views.MeView.as_view()),\n    path('users/<str:username>/', views.ProfilePublicoView.as_view()),\n    path('password-reset/', views.RequestPasswordResetView.as_view(), name='password-reset'),\n    path('password-reset/confirm/', views.ResetPasswordView.as_view(), name='password-reset-confirm'),",
         "detail": "backend.apps.users.urls",
         "documentation": {}
     },
@@ -1607,6 +1599,24 @@
         "importPath": "backend.apps.users.views",
         "description": "backend.apps.users.views",
         "peekOfCode": "class RegisterView(generics.GenericAPIView):\n    serializer_class = RegisterSerializer\n    permission_classes = [AllowAny]\n    def post(self, request):\n        serializer = self.get_serializer(data=request.data)\n        if not serializer.is_valid():\n            return ApiResponse.error(\n                code=\"validation_error\",\n                message=\"Invalidad data\",\n                details=serializer.errors,",
+        "detail": "backend.apps.users.views",
+        "documentation": {}
+    },
+    {
+        "label": "LoginView",
+        "kind": 6,
+        "importPath": "backend.apps.users.views",
+        "description": "backend.apps.users.views",
+        "peekOfCode": "class LoginView(TokenObtainPairView):\n    permission_classes = [AllowAny]\nclass RefreshView(TokenRefreshView):\n    permission_classes = [AllowAny]\nclass LogoutView(APIView):\n    permission_classes = [IsAuthenticated]\n    def post(self, request):\n        try:\n            refresh_token = request.data['refresh']\n            token = RefreshToken(refresh_token)",
+        "detail": "backend.apps.users.views",
+        "documentation": {}
+    },
+    {
+        "label": "RefreshView",
+        "kind": 6,
+        "importPath": "backend.apps.users.views",
+        "description": "backend.apps.users.views",
+        "peekOfCode": "class RefreshView(TokenRefreshView):\n    permission_classes = [AllowAny]\nclass LogoutView(APIView):\n    permission_classes = [IsAuthenticated]\n    def post(self, request):\n        try:\n            refresh_token = request.data['refresh']\n            token = RefreshToken(refresh_token)\n            token.blacklist()\n            return ApiResponse.success(status=204)",
         "detail": "backend.apps.users.views",
         "documentation": {}
     },
@@ -1894,7 +1904,7 @@
         "kind": 5,
         "importPath": "backend.config.settings",
         "description": "backend.config.settings",
-        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\n# Django REST Framework\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': [\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ],\n    'DEFAULT_PERMISSION_CLASSES': [\n        'rest_framework.permissions.AllowAny',  # para el endpoint de registro\n    ],\n    'EXCEPTION_HANDLER': 'core.exceptions.custom_exception_handler',",
+        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\n# Django REST Framework\nREST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': [\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ],\n    'DEFAULT_PERMISSION_CLASSES': [\n        'rest_framework.permissions.IsAuthenticated',\n    ],\n    'EXCEPTION_HANDLER': 'core.exceptions.custom_exception_handler',",
         "detail": "backend.config.settings",
         "documentation": {}
     },
@@ -1903,7 +1913,7 @@
         "kind": 5,
         "importPath": "backend.config.settings",
         "description": "backend.config.settings",
-        "peekOfCode": "REST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': [\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ],\n    'DEFAULT_PERMISSION_CLASSES': [\n        'rest_framework.permissions.AllowAny',  # para el endpoint de registro\n    ],\n    'EXCEPTION_HANDLER': 'core.exceptions.custom_exception_handler',\n    'DEFAULT_FILTER_BACKENDS': [\n        'django_filters.rest_framework.DjangoFilterBackend'",
+        "peekOfCode": "REST_FRAMEWORK = {\n    'DEFAULT_AUTHENTICATION_CLASSES': [\n        'rest_framework_simplejwt.authentication.JWTAuthentication',\n    ],\n    'DEFAULT_PERMISSION_CLASSES': [\n        'rest_framework.permissions.IsAuthenticated',\n    ],\n    'EXCEPTION_HANDLER': 'core.exceptions.custom_exception_handler',\n    'DEFAULT_FILTER_BACKENDS': [\n        'django_filters.rest_framework.DjangoFilterBackend'",
         "detail": "backend.config.settings",
         "documentation": {}
     },

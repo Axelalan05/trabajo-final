@@ -28,10 +28,10 @@ const paginaActual = ref(1)
 
 let searchTimer: ReturnType<typeof setTimeout>
 watch([nombre, genero, plataforma], () => {
-  clearTimeout(searchTimer)
-  searchTimer = setTimeout(() => {
-    cargarJuegos()
-  }, 350)
+    clearTimeout(searchTimer)
+    searchTimer = setTimeout(() => {
+        cargarJuegos()
+    }, 350)
 })
 
 const juegoDetalle = ref<Juego | null>(null)
@@ -238,18 +238,49 @@ onMounted(async () => {
     cursor: pointer;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
     animation: fadeSlideUp 0.4s ease both;
+    display: flex;
+    flex-direction: column;
 }
 
-.juego-card:nth-child(1) { animation-delay: 0.02s; }
-.juego-card:nth-child(2) { animation-delay: 0.04s; }
-.juego-card:nth-child(3) { animation-delay: 0.06s; }
-.juego-card:nth-child(4) { animation-delay: 0.08s; }
-.juego-card:nth-child(5) { animation-delay: 0.10s; }
-.juego-card:nth-child(6) { animation-delay: 0.12s; }
-.juego-card:nth-child(7) { animation-delay: 0.14s; }
-.juego-card:nth-child(8) { animation-delay: 0.16s; }
-.juego-card:nth-child(9) { animation-delay: 0.18s; }
-.juego-card:nth-child(10) { animation-delay: 0.20s; }
+.juego-card:nth-child(1) {
+    animation-delay: 0.02s;
+}
+
+.juego-card:nth-child(2) {
+    animation-delay: 0.04s;
+}
+
+.juego-card:nth-child(3) {
+    animation-delay: 0.06s;
+}
+
+.juego-card:nth-child(4) {
+    animation-delay: 0.08s;
+}
+
+.juego-card:nth-child(5) {
+    animation-delay: 0.10s;
+}
+
+.juego-card:nth-child(6) {
+    animation-delay: 0.12s;
+}
+
+.juego-card:nth-child(7) {
+    animation-delay: 0.14s;
+}
+
+.juego-card:nth-child(8) {
+    animation-delay: 0.16s;
+}
+
+.juego-card:nth-child(9) {
+    animation-delay: 0.18s;
+}
+
+.juego-card:nth-child(10) {
+    animation-delay: 0.20s;
+}
 
 .juego-card:hover {
     transform: translateY(-4px);
@@ -261,6 +292,7 @@ onMounted(async () => {
         opacity: 0;
         transform: translateY(15px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -276,6 +308,9 @@ onMounted(async () => {
 
 .juego-card-body {
     padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .detalle {
@@ -324,7 +359,8 @@ onMounted(async () => {
     display: flex;
     align-items: center;
     gap: var(--space-2);
-    margin-top: var(--space-3);
+    margin-top: auto;
+    padding-top: var(--space-3);
 }
 
 .btn-ojo {

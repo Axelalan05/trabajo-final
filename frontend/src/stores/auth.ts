@@ -39,6 +39,8 @@ export const useAuthStore = defineStore('auth', () => {
   async function logout() {
     try {
       await api.post('/auth/logout/', { refresh: refreshToken.value })
+    } catch (error) {
+      console.error('No se pudo notificar el logout al backend:', error)
     } finally {
       accessToken.value = null
       refreshToken.value = null

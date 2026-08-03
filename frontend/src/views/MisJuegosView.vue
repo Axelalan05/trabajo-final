@@ -163,6 +163,7 @@ onMounted(async () => {
                             <label>Puntaje (1-10)</label>
                             <input type="number" min="1" max="10" :value="userJuego.puntaje"
                                 @change="actualizarPuntaje(userJuego, ($event.target as HTMLInputElement).valueAsNumber || null)" />
+                            <small class="ayuda-campo">Se guarda al salir del campo</small>
                         </div>
 
                         <p v-if="userJuego.puntaje" class="puntaje">
@@ -243,6 +244,13 @@ onMounted(async () => {
     margin-top: var(--space-8);
 }
 
+.ayuda-campo {
+    display: block;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
+    margin-top: var(--space-1);
+}
+
 .lista-juegos {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -258,16 +266,45 @@ onMounted(async () => {
     animation: fadeSlideUp 0.4s ease both;
 }
 
-.juego-card:nth-child(1) { animation-delay: 0.02s; }
-.juego-card:nth-child(2) { animation-delay: 0.04s; }
-.juego-card:nth-child(3) { animation-delay: 0.06s; }
-.juego-card:nth-child(4) { animation-delay: 0.08s; }
-.juego-card:nth-child(5) { animation-delay: 0.10s; }
-.juego-card:nth-child(6) { animation-delay: 0.12s; }
-.juego-card:nth-child(7) { animation-delay: 0.14s; }
-.juego-card:nth-child(8) { animation-delay: 0.16s; }
-.juego-card:nth-child(9) { animation-delay: 0.18s; }
-.juego-card:nth-child(10) { animation-delay: 0.20s; }
+.juego-card:nth-child(1) {
+    animation-delay: 0.02s;
+}
+
+.juego-card:nth-child(2) {
+    animation-delay: 0.04s;
+}
+
+.juego-card:nth-child(3) {
+    animation-delay: 0.06s;
+}
+
+.juego-card:nth-child(4) {
+    animation-delay: 0.08s;
+}
+
+.juego-card:nth-child(5) {
+    animation-delay: 0.10s;
+}
+
+.juego-card:nth-child(6) {
+    animation-delay: 0.12s;
+}
+
+.juego-card:nth-child(7) {
+    animation-delay: 0.14s;
+}
+
+.juego-card:nth-child(8) {
+    animation-delay: 0.16s;
+}
+
+.juego-card:nth-child(9) {
+    animation-delay: 0.18s;
+}
+
+.juego-card:nth-child(10) {
+    animation-delay: 0.20s;
+}
 
 .juego-card:hover {
     transform: translateY(-4px);
@@ -279,6 +316,7 @@ onMounted(async () => {
         opacity: 0;
         transform: translateY(15px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -305,12 +343,23 @@ onMounted(async () => {
 
 .card-top h3 {
     margin: 0;
+    /* reserva altura para 2 líneas siempre, aunque el título sea corto */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.3em;
+    min-height: 2.6em;
 }
 
 .detalle {
     color: var(--color-text-secondary);
     font-size: var(--font-size-sm);
     margin-bottom: var(--space-2);
+    /* una sola línea siempre, con "..." si el género/plataforma es largo */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .campo {

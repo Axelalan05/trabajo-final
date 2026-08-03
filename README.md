@@ -34,7 +34,7 @@ Es mi proyecto final para la materia **Trabajo Final**, en la Universidad Nacion
 
 ### Testing / desarrollo
 
-- Comando de gestión `seed_data` (Django) que carga un catálogo de prueba real vía RAWG y usuarios de prueba, reutilizando las mismas validaciones que la API pública
+- Comando de gestión `seed_data` (Django) que carga un catálogo de prueba (desde `fixtures/juegos_seed.json`, resuelto contra RAWG) y usuarios de prueba, reutilizando las mismas validaciones que la API pública
 - Scripts de `curl` para probar los endpoints de punta a punta sin necesidad de una herramienta externa
 
 ---
@@ -104,18 +104,20 @@ La app se sirve en `https://gamevault.local`. Esto requiere generar un certifica
 1. Descargar el ejecutable desde [github.com/FiloSottile/mkcert/releases/latest](https://github.com/FiloSottile/mkcert/releases/latest), el archivo que dice `windows-amd64` (ej. `mkcert-v1.4.4-windows-amd64.exe`).
 2. Crear la carpeta `C:\mkcert`, mover el archivo descargado ahí adentro, y renombrarlo a `mkcert.exe`.
 3. Abrir **PowerShell como Administrador** (menú inicio → buscar "PowerShell" → click derecho → "Ejecutar como administrador") y correr:
-   ```powershell
+
+```powershell
    cd C:\mkcert
    .\mkcert.exe -install
    .\mkcert.exe gamevault.local
-   ```
-   Esto crea `gamevault.local.pem` y `gamevault.local-key.pem` en `C:\mkcert`.
-4. Copiar esos dos archivos al proyecto, desde la terminal de **WSL**:
-   ```bash
+```
+
+Esto crea `gamevault.local.pem` y `gamevault.local-key.pem` en `C:\mkcert`. 4. Copiar esos dos archivos al proyecto, desde la terminal de **WSL**:
+
+```bash
    mkdir -p ~/trabajo-final/nginx/certs
    cp /mnt/c/mkcert/gamevault.local.pem ~/trabajo-final/nginx/certs/
    cp /mnt/c/mkcert/gamevault.local-key.pem ~/trabajo-final/nginx/certs/
-   ```
+```
 
 #### En Linux
 
@@ -142,19 +144,21 @@ También es un paso único por máquina: le dice al sistema operativo que `gamev
 
 1. Abrir el Bloc de notas **como Administrador** (buscarlo en el menú inicio → click derecho → "Ejecutar como administrador").
 2. `Archivo → Abrir`, pegar esta ruta en el campo de nombre de archivo (cambiando el filtro a "Todos los archivos" si hace falta):
-   ```
-   C:\Windows\System32\drivers\etc\hosts
-   ```
+
+C:\Windows\System32\drivers\etc\hosts
+
 3. Al final del archivo, agregar:
-   ```
+
    127.0.0.1 gamevault.local
-   ```
+
 4. Guardar con `Ctrl+S`.
 5. Verificar desde cualquier terminal:
-   ```bash
+
+```bash
    ping gamevault.local
-   ```
-   Debe resolver a `127.0.0.1`.
+```
+
+Debe resolver a `127.0.0.1`.
 
 **Linux:**
 
@@ -164,20 +168,28 @@ sudo nano /etc/hosts
 
 Agregar la misma línea al final (`127.0.0.1 gamevault.local`), guardar con `Ctrl+O`, `Enter`, y salir con `Ctrl+X`.
 
-### 4. Levantar los contenedores
+### 4. Levantar el proyecto
+
+**Primera vez en esta máquina:**
 
 ```bash
-docker compose down
-docker compose up -d --build
-docker compose exec backend python manage.py migrate
-docker compose exec backend python manage.py createsuperuser
+./scripts/setup.sh
 ```
 
-Opcional, para tener un catálogo de prueba con 15 juegos reales (vía RAWG) y 50 usuarios ya cargados:
+Este script:
+
+- Da permisos de ejecución a todos los scripts de `scripts/`
+- Construye y levanta los 4 contenedores (las migraciones se aplican solas al arrancar el backend)
+- Pregunta si querés crear un superusuario (para entrar al panel de Django en `/admin` y gestionar usuarios/juegos sin pasar por la API pública)
+- Pregunta si querés sembrar datos de prueba: 15 juegos y 50 usuarios (`jugador1`...`jugador50`, contraseña `seed12345`)
+
+**Para desarrollar día a día** (una vez hecho el setup inicial):
 
 ```bash
-bash scripts/seed_data.sh
+docker compose up -d
 ```
+
+Nada más — las migraciones se aplican automáticamente en cada arranque si hay pendientes.
 
 ### 5. Verificar que todo esté arriba
 
